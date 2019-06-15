@@ -40,6 +40,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Buddy.Core.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Buddy.Core", "src\Auction.Buddy.Core\Auction.Buddy.Core.csproj", "{37D7B659-BBA4-4D80-A497-2AF3601E589A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E7C38DF1-DE65-43BA-8564-A4D0384B62AE}"
+ProjectSection(SolutionItems) = preProject
+	scripts\start-sql-server.sh = scripts\start-sql-server.sh
+	scripts\process_helpers.js = scripts\process_helpers.js
+	scripts\acceptance_tests.js = scripts\acceptance_tests.js
+	scripts\build_solution.js = scripts\build_solution.js
+	scripts\unit_tests.js = scripts\unit_tests.js
+	scripts\logging_helpers.js = scripts\logging_helpers.js
+	scripts\paths.js = scripts\paths.js
+	scripts\clean.js = scripts\clean.js
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
