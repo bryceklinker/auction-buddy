@@ -1,0 +1,14 @@
+name: 'Auction Buddy'
+variables:
+  BUILD_CONFIGURATION: 'Release'
+jobs:
+- job:
+  dispalyName: 'Auction Buddy CI'
+  pool:
+    vmImage: 'macOS-10.14'
+  workspace:
+    clean: 'all'
+  steps:
+  - script: npm install --global yarn
+  - script: yarn install
+  - script: yarn ci

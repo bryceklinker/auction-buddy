@@ -29,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{920167
 		gulpfile.js = gulpfile.js
 		package.json = package.json
 		yarn.lock = yarn.lock
+		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{2F10BBA3-6279-41BE-89EA-B46D2F7E9FEE}"
@@ -50,6 +51,7 @@ ProjectSection(SolutionItems) = preProject
 	scripts\logging_helpers.js = scripts\logging_helpers.js
 	scripts\paths.js = scripts\paths.js
 	scripts\clean.js = scripts\clean.js
+	scripts\variables.js = scripts\variables.js
 EndProjectSection
 EndProject
 Global
