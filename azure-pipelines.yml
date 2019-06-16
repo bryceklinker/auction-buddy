@@ -13,8 +13,16 @@ resources:
       MSSQL_SA_PASSWORD: 'ThisIsAStrongPassword!'
       
 jobs:
-- job:
+- job: 1
+  displayName: 'Install docker'
+  steps:
+  - task: DockerInstaller@0
+    inputs:
+      dockerVersion: '17.09.0-ce'
+
+- job: 2
   displayName: 'Auction Buddy CI'
+  dependsOn: 1
   pool:
     vmImage: 'macOS-10.14'
 
