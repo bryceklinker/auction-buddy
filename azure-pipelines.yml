@@ -1,4 +1,4 @@
-name: 'Auction Buddy'
+name: 'Auction Buddy $(Build.BuildId)'
 variables:
   BUILD_CONFIGURATION: 'Release'
 jobs:
@@ -10,5 +10,8 @@ jobs:
     clean: 'all'
   steps:
   - script: npm install --global yarn
+    displayName: 'Install Yarn'
   - script: yarn install
+    displayName: 'Install dependencies'
   - script: yarn ci
+    displayName: 'Run CI'
