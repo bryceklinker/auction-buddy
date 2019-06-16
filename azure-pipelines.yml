@@ -5,8 +5,12 @@ variables:
 resources:
   containers:
   - container: sql_server
-    image: 'microsoft/mssql-server-linux:latest'
-    options: '-e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=ThisIsAStrongPassword!" -p 1401:1433'
+    image: 'microsoft/mssql-server-linux'
+    ports:
+    - 1401:1433
+    env:
+      ACCEPT_EULA: 'Y'
+      MSSQL_SA_PASSWORD: 'ThisIsAStrongPassword!'
       
 jobs:
 - job:
