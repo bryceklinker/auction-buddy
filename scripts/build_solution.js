@@ -5,7 +5,7 @@ const { build_configuration } = require('./variables');
 
 function build_solution(cb) {
     log_header('BUILDING SOLUTION');
-    execute_command('msbuild', [solution, '/t:Rebuild', `/p:Configuration=${build_configuration}`])
+    execute_command('msbuild', [solution, '/t:Build', `/p:Configuration=${build_configuration}`])
         .then(() => cb())
         .catch(cb);
 }
