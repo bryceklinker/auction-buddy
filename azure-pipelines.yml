@@ -1,4 +1,4 @@
-name: 'Auction Buddy $(Build.BuildId)'
+name: '$(Build.BuildId)'
 variables:
   BUILD_CONFIGURATION: 'Release'
 jobs:

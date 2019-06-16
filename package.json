@@ -13,6 +13,7 @@
     "gulp-exec": "3.0.2"
   },
   "scripts": {
+    "postinstall": "gulp restore",
     "unit_tests": "gulp unit_tests",
     "acceptance_tests": "gulp acceptance_tests",
     "ci": "gulp"

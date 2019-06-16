@@ -52,6 +52,7 @@ ProjectSection(SolutionItems) = preProject
 	scripts\paths.js = scripts\paths.js
 	scripts\clean.js = scripts\clean.js
 	scripts\variables.js = scripts\variables.js
+	scripts\restore.js = scripts\restore.js
 EndProjectSection
 EndProject
 Global
