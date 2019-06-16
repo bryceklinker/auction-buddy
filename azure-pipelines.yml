@@ -2,6 +2,12 @@ name: '$(Build.BuildId)'
 variables:
   BUILD_CONFIGURATION: 'Release'
 
+resources:
+  containers:
+  - container: sql_server
+    image: 'microsoft/mssql-server-linux:latest'
+    options: '-e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=ThisIsAStrongPassword!" -p 1401:1433'
+      
 jobs:
 - job:
   displayName: 'Auction Buddy CI'
@@ -10,12 +16,6 @@ jobs:
 
   workspace:
     clean: 'all'
-
-  resources:
-    containers:
-    - container: sql_server
-      image: 'microsoft/mssql-server-linux:latest'
-      options: '-e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=ThisIsAStrongPassword!" -p 1401:1433'
 
   services:
     sql_server: sql_server
