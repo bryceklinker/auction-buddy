@@ -2,37 +2,20 @@ name: '$(Build.BuildId)'
 variables:
   BUILD_CONFIGURATION: 'Release'
 
-resources:
-  containers:
-  - container: sql_server
-    image: 'microsoft/mssql-server-linux'
-    ports:
-    - 1401:1433
-    env:
-      ACCEPT_EULA: 'Y'
-      MSSQL_SA_PASSWORD: 'ThisIsAStrongPassword!'
-      
 jobs:
-- job: one
-  displayName: 'Install docker'
-  steps:
-  - task: DockerInstaller@0
-    inputs:
-      dockerVersion: '17.09.0-ce'
-
-- job: two
+- job:
   displayName: 'Auction Buddy CI'
-  dependsOn: one
   pool:
     vmImage: 'macOS-10.14'
 
   workspace:
     clean: 'all'
 
-  services:
-    sql_server: sql_server
-
   steps:
+  - task: DockerInstaller@0
+    inputs:
+      dockerVersion: '17.09.0-ce'
+  
   - task: NodeTool@0
     displayName: 'Install Node 10'
     inputs:
@@ -44,8 +27,14 @@ jobs:
   - script: npm install --global azure-functions-core-tools@2.7.1158
     displayName: 'Install Azure Functions Core Tools'
 
+  - script: ./scripts/start-sql-server.sh
+    displayName: 'Start SQL Server Container'
+
   - script: yarn install
     displayName: 'Install dependencies'
 
   - script: yarn ci
     displayName: 'Run CI'
+    
+  - script: ./scripts/stop-sql-server.sh
+    displayName: 'Stop SQL Server Container'

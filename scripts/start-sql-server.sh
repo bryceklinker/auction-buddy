@@ -3,7 +3,7 @@
 SQL_SERVER_PASSWORD="ThisIsAStrongPassword!"
 CONTAINER_IMAGE_VERSION="latest"
 CONTAINER_IMAGE_NAME="microsoft/mssql-server-linux"
-CONTAINER_NAME="confideresearchsql"
+CONTAINER_NAME="auction_buddy_database"
 CONTAINER_IMAGE_FULL_NAME="${CONTAINER_IMAGE_NAME}:${CONTAINER_IMAGE_VERSION}"
 
 docker image ls | grep -i "${CONTAINER_IMAGE_NAME}"
