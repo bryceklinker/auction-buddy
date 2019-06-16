@@ -1,27 +1,39 @@
 name: '$(Build.BuildId)'
 variables:
   BUILD_CONFIGURATION: 'Release'
+
 jobs:
 - job:
   displayName: 'Auction Buddy CI'
   pool:
     vmImage: 'macOS-10.14'
+
   workspace:
     clean: 'all'
+
+  resources:
+    containers:
+    - container: sql_server
+      image: 'microsoft/mssql-server-linux:latest'
+      options: '-e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=ThisIsAStrongPassword!" -p 1401:1433'
+
+  services:
+    sql_server: sql_server
+
   steps:
   - task: NodeTool@0
     displayName: 'Install Node 10'
     inputs:
       versionSpec: 10.x
-      
+
   - script: npm install --global yarn@1.16.0
     displayName: 'Install Yarn'
-    
+
   - script: npm install --global azure-functions-core-tools@2.7.1158
     displayName: 'Install Azure Functions Core Tools'
-    
+
   - script: yarn install
     displayName: 'Install dependencies'
-    
+
   - script: yarn ci
     displayName: 'Run CI'
