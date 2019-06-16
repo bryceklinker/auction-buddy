@@ -1,4 +1,5 @@
 const {series} = require('gulp');
+const paths = require('./paths');
 
 const { log_header } = require('./logging_helpers');
 const {execute_command} = require("./process_helpers");
