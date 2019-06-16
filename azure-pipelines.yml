@@ -10,8 +10,9 @@ jobs:
     clean: 'all'
   steps:
   - task: NodeTool@0
-      inputs:
-        versionSpec: 10.x
+    displayName: 'Install Node 10'
+    inputs:
+      versionSpec: 10.x
   - script: npm install --global yarn@1.16.0
     displayName: 'Install Yarn'
   - script: yarn install
