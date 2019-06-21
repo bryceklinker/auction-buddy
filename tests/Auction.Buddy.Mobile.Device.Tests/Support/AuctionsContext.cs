@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Xamarin.UITest;
 
 namespace Auction.Buddy.Mobile.Device.Tests.Support
 {
@@ -11,21 +10,19 @@ namespace Auction.Buddy.Mobile.Device.Tests.Support
         private const string BaseUrl = "http://localhost:7071";
         private readonly HttpClient _client;
 
-        public IApp App => AppManager.Instance.App;
-
         public AuctionsContext()
         {
             _client = new HttpClient();
         }
 
-        public async Task AddAuction(DateTime auctionDate)
+        public async Task CreateAuction(string name, DateTime auctionDate)
         {
-            await PostAsync("/auctions", new { auctionDate });
+            await PostAsync("/auctions", new { name, auctionDate });
         }
 
         private async Task PostAsync(string path, object data)
         {
-            var response = await _client.PostAsJsonAsync($"{BaseUrl}{path}", data);
+            var response = await _client.PostAsJsonAsync($"{BaseUrl}/api{path}", data);
             response.IsSuccessStatusCode.Should().BeTrue($"POST to {BaseUrl}{path} should respond successfully, but responded with {response.StatusCode}");
         }
     }

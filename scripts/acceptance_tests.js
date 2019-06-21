@@ -17,7 +17,14 @@ function acceptance_tests(cb) {
 
 function start_function() {
     log_header('STARTING FUNCTION');
-    return start_process('func', ['start', '--build'], {cwd: paths.function});
+    const options = {
+        cwd: paths.function,
+        env: {
+            ...process.env,
+            USE_IN_MEMORY_DATABASE: 'true'
+        }
+    };
+    return start_process('func', ['start', '--build'], options);
 }
 
 function when_function_ready(process) {

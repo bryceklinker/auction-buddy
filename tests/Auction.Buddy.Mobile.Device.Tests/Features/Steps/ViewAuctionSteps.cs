@@ -20,9 +20,9 @@ namespace Auction.Buddy.Mobile.Device.Tests.Features.Steps
         [Given("I have auctions")]
         public async Task GivenIHaveAnAuctionOnAsync()
         {
-            await _context.AddAuction(new DateTime(2019, 02, 01));
-            await _context.AddAuction(new DateTime(2019, 01, 01));
-            await _context.AddAuction(new DateTime(2019, 03, 01));
+            await _context.CreateAuction("Harvest Home", new DateTime(2019, 02, 01));
+            await _context.CreateAuction("Harvest Home", new DateTime(2019, 01, 01));
+            await _context.CreateAuction("Harvest Home", new DateTime(2019, 03, 01));
         }
 
         [When("I log into the application")]
@@ -37,6 +37,7 @@ namespace Auction.Buddy.Mobile.Device.Tests.Features.Steps
             var page = new AuctionDetailPage();
             page.IsDisplayed().Should().BeTrue();
             page.GetAuctionDate().Should().Contain("March 29, 2019");
+            page.GetAuctionName().Should().Contain("Harvest Home");
         }
     }
 }

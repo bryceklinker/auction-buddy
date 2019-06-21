@@ -14,6 +14,7 @@
     "postinstall": "gulp restore",
     "unit_tests": "gulp unit_tests",
     "acceptance_tests": "gulp acceptance_tests",
+    "start:function": "cd ./src/Auction.Buddy.Function && func start",
     "ci": "gulp"
   }
 }

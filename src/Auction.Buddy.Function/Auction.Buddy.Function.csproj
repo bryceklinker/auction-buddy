@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.28" />
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
@@ -15,5 +16,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Never</CopyToPublishDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Auction.Buddy.Core\Auction.Buddy.Core.csproj" />
   </ItemGroup>
 </Project>

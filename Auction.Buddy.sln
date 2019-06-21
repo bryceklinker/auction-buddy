@@ -53,6 +53,7 @@ ProjectSection(SolutionItems) = preProject
 	scripts\clean.js = scripts\clean.js
 	scripts\variables.js = scripts\variables.js
 	scripts\restore.js = scripts\restore.js
+	scripts\stop-sql-server.sh = scripts\stop-sql-server.sh
 EndProjectSection
 EndProject
 Global

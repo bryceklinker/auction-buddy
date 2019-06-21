@@ -12,10 +12,6 @@ jobs:
     clean: 'all'
 
   steps:
-  - task: DockerInstaller@0
-    inputs:
-      dockerVersion: '17.09.0-ce'
-  
   - task: NodeTool@0
     displayName: 'Install Node 10'
     inputs:
@@ -27,14 +23,8 @@ jobs:
   - script: npm install --global azure-functions-core-tools@2.7.1158
     displayName: 'Install Azure Functions Core Tools'
 
-  - script: ./scripts/start-sql-server.sh
-    displayName: 'Start SQL Server Container'
-
   - script: yarn install
-    displayName: 'Install dependencies'
+    displayName: 'Install Dependencies'
 
   - script: yarn ci
     displayName: 'Run CI'
-    
-  - script: ./scripts/stop-sql-server.sh
-    displayName: 'Stop SQL Server Container'
