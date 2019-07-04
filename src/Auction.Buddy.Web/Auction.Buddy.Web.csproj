@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="dist\web.config" />
+    <_ContentIncludedByDefault Remove="dist\appsettings.Acceptance.json" />
+    <_ContentIncludedByDefault Remove="dist\appsettings.Development.json" />
+    <_ContentIncludedByDefault Remove="dist\appsettings.json" />
+    <_ContentIncludedByDefault Remove="dist\Auction.Buddy.Web.deps.json" />
+    <_ContentIncludedByDefault Remove="dist\Auction.Buddy.Web.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Acceptance.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Auction.Buddy.Core\Auction.Buddy.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="client-app\app-state.ts" />
+    <TypeScriptCompile Include="client-app\common\store\configure-store.ts" />
+    <TypeScriptCompile Include="client-app\common\store\create-root-reducer.ts" />
+    <TypeScriptCompile Include="client-app\common\store\create-root-saga.ts" />
+    <TypeScriptCompile Include="client-app\login\components\Login.tsx" />
+    <TypeScriptCompile Include="client-app\shell\components\Header.tsx" />
+    <TypeScriptCompile Include="client-app\shell\components\MainContent.tsx" />
+    <TypeScriptCompile Include="client-app\shell\components\Shell.tsx" />
+  </ItemGroup>
+  
+  <Target Name="BundleSpa" AfterTargets="Compile">
+    <Exec Command="yarn bundle" Condition="'$(Configuration)' == 'Release'" />
+  </Target>
+</Project>

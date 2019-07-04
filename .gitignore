@@ -331,3 +331,7 @@ ASALocalRun/
 
 # Mac
 **/.DS_Store
+
+**/testsettings.json
+
+wwwroot/
