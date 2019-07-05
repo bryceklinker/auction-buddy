@@ -16,5 +16,8 @@
     "react":  {
       "version":  "detect"
     }
+  },
+  "rules": {
+    "explicit-function-return-type": { "allowHigherOrderFunctions": true }
   }
 }

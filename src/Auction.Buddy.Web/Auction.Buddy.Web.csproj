@@ -41,19 +41,26 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="client-app\app-state.ts" />
+    <TypeScriptCompile Include="client-app\common\services\api-service.ts" />
+    <TypeScriptCompile Include="client-app\common\store\actions\init-actions.ts" />
+    <TypeScriptCompile Include="client-app\common\store\actions\user-actions.ts" />
     <TypeScriptCompile Include="client-app\common\store\configure-store.ts" />
     <TypeScriptCompile Include="client-app\common\store\create-root-reducer.ts" />
-    <TypeScriptCompile Include="client-app\common\store\create-root-saga.ts" />
-    <TypeScriptCompile Include="client-app\login\actions\index.ts" />
+    <TypeScriptCompile Include="client-app\common\store\dtos\authentication-result-dto.ts" />
+    <TypeScriptCompile Include="client-app\common\store\dtos\credentials-dto.ts" />
+    <TypeScriptCompile Include="client-app\common\store\reducers\userReducer.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\store\reducers\userReducer.ts" />
+    <TypeScriptCompile Include="client-app\common\store\sagas\login-saga.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\store\sagas\login-saga.ts" />
     <TypeScriptCompile Include="client-app\login\components\Login.tsx" />
-    <TypeScriptCompile Include="client-app\login\dtos\authentication-result-dto.ts" />
-    <TypeScriptCompile Include="client-app\login\dtos\credentials-dto.ts" />
-    <TypeScriptCompile Include="client-app\login\sagas\login-saga.spec.ts" />
-    <TypeScriptCompile Include="client-app\login\sagas\login-saga.ts" />
+    <TypeScriptCompile Include="client-app\login\containers\LoginContainer.spec.tsx" />
+    <TypeScriptCompile Include="client-app\login\containers\LoginContainer.ts" />
     <TypeScriptCompile Include="client-app\shell\components\Header.tsx" />
     <TypeScriptCompile Include="client-app\shell\components\MainContent.tsx" />
     <TypeScriptCompile Include="client-app\shell\components\Shell.tsx" />
     <TypeScriptCompile Include="client-app\testing\jest.setup.ts" />
+    <TypeScriptCompile Include="client-app\testing\render-with-provider.ts" />
+    <TypeScriptCompile Include="client-app\testing\testing-store.ts" />
   </ItemGroup>
   
   <Target Name="BundleSpa" AfterTargets="Compile">

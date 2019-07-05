@@ -20,6 +20,7 @@ namespace Auction.Buddy.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSpaStaticFiles(opts => opts.RootPath = "wwwroot");
             services.AddNodeServices();
             services.AddMvc();
             services.AddAuctionBuddy();
@@ -62,7 +63,7 @@ namespace Auction.Buddy.Web
         private void ConfigureProduction(IApplicationBuilder app)
         {
             ConfigureBase(app)
-                .UseStaticFiles();
+                .UseSpaStaticFiles();
         }
 
         private IApplicationBuilder ConfigureBase(IApplicationBuilder app)

@@ -1,3 +1,5 @@
+import {UserState} from "./common/store/reducers/userReducer";
+
 export interface AppState {
-    data: Record<string, any>;
+    user: UserState
 }
