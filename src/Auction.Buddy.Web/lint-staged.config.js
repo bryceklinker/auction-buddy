@@ -1,4 +1,3 @@
 module.exports = {
-    "*.ts": "yarn lint",
-    "*.tsx": "yarn lint"
+    "./client-app/**/*.{ts,tsx,js,jsx}": "yarn lint"
 };
