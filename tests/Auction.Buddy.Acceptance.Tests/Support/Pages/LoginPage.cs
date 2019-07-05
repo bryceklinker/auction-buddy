@@ -11,9 +11,9 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public void Login(string username, string password)
         {
-            Driver.FindElement(By.Id("usernameInput")).SendKeys(username);
-            Driver.FindElement(By.Id("passwordInput")).SendKeys(password);
-            Driver.FindElement(By.Id("loginButton")).Click();
+            Driver.FindElement(CssSelector.TestId("username-input")).SendKeys(username);
+            Driver.FindElement(CssSelector.TestId("password-input")).SendKeys(password);
+            Driver.FindElement(CssSelector.TestId("login-button")).Click();
         }
     }
 }

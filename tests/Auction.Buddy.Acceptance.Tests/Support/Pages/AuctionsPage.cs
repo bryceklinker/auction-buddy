@@ -17,7 +17,7 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public bool IsListVisible()
         {
-            return Driver.FindElements(By.CssSelector("[data-auction-list]")).Any();
+            return Driver.FindElements(CssSelector.TestId("auction-list")).Any();
         } 
     }
 }

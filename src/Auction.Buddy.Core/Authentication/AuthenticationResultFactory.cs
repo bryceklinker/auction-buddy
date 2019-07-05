@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Authentication.Dtos;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
 namespace Auction.Buddy.Core.Authentication
@@ -12,11 +13,18 @@ namespace Auction.Buddy.Core.Authentication
 
     public class AuthenticationResultFactory : IAuthenticationResultFactory
     {
+        private readonly ILogger _logger;
+
+        public AuthenticationResultFactory(ILoggerFactory loggerFactory)
+        {
+            _logger = loggerFactory.CreateLogger<AuthenticationResultFactory>();
+        }
+        
         public async Task<AuthenticationResultDto> CreateResult(HttpResponseMessage response)
         {
             return response.IsSuccessStatusCode
                 ? await CreateSuccessfulResult(response)
-                : CreateFailedResult();
+                : await CreateFailedResult(response);
         }
 
         private static async Task<AuthenticationResultDto> CreateSuccessfulResult(HttpResponseMessage response)
@@ -31,8 +39,10 @@ namespace Auction.Buddy.Core.Authentication
             };
         }
 
-        private static AuthenticationResultDto CreateFailedResult()
+        private async Task<AuthenticationResultDto> CreateFailedResult(HttpResponseMessage response)
         {
+            var content = await response.Content.ReadAsStringAsync();
+            _logger.LogError("Login Failed: {content}", content);
             return new AuthenticationResultDto
             {
                 IsSuccess = false

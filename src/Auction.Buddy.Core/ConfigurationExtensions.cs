@@ -14,6 +14,11 @@ namespace Auction.Buddy.Core
             return config["Identity:Audience"];
         }
 
+        public static string IdentityTokenEndpoint(this IConfiguration config)
+        {
+            return config["Identity:TokenEndpoint"];
+        }
+
         public static string IdentityClientId(this IConfiguration config)
         {
             return config["Identity:ClientId"];

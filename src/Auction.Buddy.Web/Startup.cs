@@ -1,4 +1,5 @@
-﻿using Auction.Buddy.Core;
+﻿using System.IO;
+using Auction.Buddy.Core;
 using Auction.Buddy.Web.Common.Npm;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -20,7 +21,6 @@ namespace Auction.Buddy.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSpaStaticFiles(opts => opts.RootPath = "wwwroot");
             services.AddNodeServices();
             services.AddMvc();
             services.AddAuctionBuddy();
@@ -44,7 +44,7 @@ namespace Auction.Buddy.Web
             if (env.IsDevelopment())
                 ConfigureDevelopment(app, loggerFactory);
             else
-                ConfigureProduction(app);
+                ConfigureProduction(app, env);
         }
 
         private void ConfigureDevelopment(IApplicationBuilder app, ILoggerFactory loggerFactory)
@@ -60,10 +60,11 @@ namespace Auction.Buddy.Web
                 });
         }
 
-        private void ConfigureProduction(IApplicationBuilder app)
+        private void ConfigureProduction(IApplicationBuilder app, IHostingEnvironment env)
         {
             ConfigureBase(app)
-                .UseSpaStaticFiles();
+                .UseDefaultFiles()
+                .UseStaticFiles();
         }
 
         private IApplicationBuilder ConfigureBase(IApplicationBuilder app)

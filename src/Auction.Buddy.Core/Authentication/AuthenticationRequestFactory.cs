@@ -15,7 +15,9 @@ namespace Auction.Buddy.Core.Authentication
     {
         private readonly IConfiguration _configuration;
 
+        private string Audience => _configuration.IdentityAudience();
         private string Authority => _configuration.IdentityAuthority();
+        private string TokenEndpoint => _configuration.IdentityTokenEndpoint();
         private string Scope => _configuration.IdentityScope();
         private string ClientId => _configuration.IdentityClientId();
         private string ClientSecret => _configuration.IdentityClientSecret();
@@ -30,7 +32,7 @@ namespace Auction.Buddy.Core.Authentication
             if (credentials == null)
                 throw new ArgumentNullException(nameof(credentials));
 
-            var tokenUrl = new Uri($"{Authority}/connect/token");
+            var tokenUrl = new Uri($"{Authority}/{TokenEndpoint}");
             return new HttpRequestMessage(HttpMethod.Post, tokenUrl)
             {
                 Content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
@@ -39,8 +41,9 @@ namespace Auction.Buddy.Core.Authentication
                     new KeyValuePair<string, string>("client_id", ClientId),
                     new KeyValuePair<string, string>("client_secret", ClientSecret),
                     new KeyValuePair<string, string>("scope", $"openid profile {Scope}"),
-                    new KeyValuePair<string, string>("username", credentials?.Username),
-                    new KeyValuePair<string, string>("password", credentials?.Password)
+                    new KeyValuePair<string, string>("username", credentials.Username),
+                    new KeyValuePair<string, string>("password", credentials.Password),
+                    new KeyValuePair<string, string>("audience", Audience)
                 })
             };
         }

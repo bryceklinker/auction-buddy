@@ -21,9 +21,11 @@ namespace Auction.Buddy.Unit.Tests.Authentication
                 .AddInMemoryCollection(new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("Identity:Authority", "https://hello.com"),
+                    new KeyValuePair<string, string>("Identity:TokenEndpoint", "connect/token"),
                     new KeyValuePair<string, string>("Identity:ClientId", "auction.buddy"),
                     new KeyValuePair<string, string>("Identity:ClientSecret", "auction.buddy.secret"),
                     new KeyValuePair<string, string>("Identity:Scope", "admin"),
+                    new KeyValuePair<string, string>("Identity:Audience", "https://somewhere.com"),
                 })
                 .Build();
             
@@ -65,6 +67,7 @@ namespace Auction.Buddy.Unit.Tests.Authentication
             formData["client_id"].Should().Be("auction.buddy");
             formData["client_secret"].Should().Be("auction.buddy.secret");
             formData["scope"].Should().ContainAll("admin", "openid", "profile");
+            formData["audience"].Should().ContainAll("https://somewhere.com");
         }
 
         [Fact]

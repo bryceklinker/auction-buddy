@@ -72,7 +72,11 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         private async Task WaitForWebApplicationToBeReady()
         {
             while (!HasExited && !HasStarted)
+            {
+                Output?.WriteLine($"Waiting for {Name} to start...");
                 await Task.Delay(200);
+            }
+            Output?.WriteLine($"{Name} has started.");
         }
     }
 }

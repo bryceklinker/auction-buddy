@@ -9,9 +9,10 @@ namespace Auction.Buddy.Acceptance.Tests.Support
     public static class DotnetCli
     {
         private static ITestOutputHelper Output => OutputHelper.GetOutput();
+        
         public static string Build(string name, string sourceCodeDirectory)
         {
-            var publishDirectory = Path.Combine(Directory.GetCurrentDirectory(), name);
+            var publishDirectory = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), name));
             var startInfo = new ProcessStartInfo
             {
                 FileName = "/bin/bash",
@@ -22,8 +23,11 @@ namespace Auction.Buddy.Acceptance.Tests.Support
                 RedirectStandardOutput = true,
                 UseShellExecute = false
             };
+            
+            Output?.WriteLine($"Building {name} in directory {sourceCodeDirectory}...");
             var process = Process.Start(startInfo);
             process.WaitForExit();
+            Output?.WriteLine($"Built {name} in directory {sourceCodeDirectory}.");
 
             var buildOutput = process.StandardOutput.ReadToEnd();
             Output?.WriteLine($"{name} Build Output: {buildOutput}");

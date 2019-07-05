@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Authentication;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Auction.Buddy.Unit.Tests.Authentication
@@ -20,7 +21,7 @@ namespace Auction.Buddy.Unit.Tests.Authentication
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
-            _authenticationResultFactory = new AuthenticationResultFactory();
+            _authenticationResultFactory = new AuthenticationResultFactory(new NullLoggerFactory());
         }
 
         [Fact]

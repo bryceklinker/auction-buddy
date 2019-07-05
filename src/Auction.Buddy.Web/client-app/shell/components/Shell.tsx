@@ -7,6 +7,7 @@ import {AppState} from "../../app-state";
 import {Header} from "./Header";
 import {MainContent} from "./MainContent";
 import {LoginContainer} from "../../login/containers/LoginContainer";
+import {AuctionsListContainer} from "../../auctions/containers/AuctionsListContainer";
 
 interface Props {
     store: Store<AppState>;
@@ -20,6 +21,7 @@ export function Shell({store}: Props) {
                 <MainContent>
                     <BrowserRouter>
                         <Route exact path={'/'} component={LoginContainer} />
+                        <Route path={'/auctions'} component={AuctionsListContainer} />
                     </BrowserRouter>
                 </MainContent>
             </div>

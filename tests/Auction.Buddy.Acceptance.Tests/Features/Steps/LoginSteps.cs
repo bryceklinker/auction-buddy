@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Auction.Buddy.Acceptance.Tests.Support;
 using Auction.Buddy.Acceptance.Tests.Support.Pages;
 using FluentAssertions;
@@ -29,7 +30,8 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
         [Given("I have valid credentials")]
         public void GivenIHaveValidCredentials()
         {
-            _loginPage.Login(TestSettings.Username, TestSettings.Password);
+            _username = Credentials.AdminCredentials.Username;
+            _password = Credentials.AdminCredentials.Password;
         }
 
         [When("I login")]
@@ -45,9 +47,10 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
         }
 
         [Then("I should see auctions")]
-        public void ThenIShouldSeeAuctions()
+        public async Task ThenIShouldSeeAuctions()
         {
-            _auctionsPage.IsListVisible().Should().BeTrue();
+            await Eventually.Do(() => { _auctionsPage.IsListVisible().Should().BeTrue(); });
+
         }
     }
 }
