@@ -1,3 +1,3 @@
 module.exports = {
-    "./client-app/**/*.{ts,tsx,js,jsx}": "yarn lint"
+    "**/*.{ts,tsx,js,jsx}": "yarn lint"
 };
