@@ -40,10 +40,10 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
             _loginPage.Login(_username, _password);
         }
 
-        [Then("I should see unauthorized")]
-        public void ThenIShouldSeeUnauthorized()
+        [Then("I should see invalid credentials")]
+        public async Task ThenIShouldSeeInvalidCredentials()
         {
-            _auctionsPage.IsListVisible().Should().BeFalse();
+            await Eventually.Do(() => _loginPage.GetErrorText().Should().Contain("Invalid"));
         }
 
         [Then("I should see auctions")]

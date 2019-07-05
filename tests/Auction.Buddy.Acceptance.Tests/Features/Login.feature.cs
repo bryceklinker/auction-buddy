@@ -76,40 +76,40 @@ namespace Auction.Buddy.Acceptance.Tests.Features
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Successful Login")]
-        [Xunit.TraitAttribute("FeatureTitle", "Login")]
-        [Xunit.TraitAttribute("Description", "Successful Login")]
-        public virtual void SuccessfulLogin()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful Login", null, ((string[])(null)));
-#line 3
-  this.ScenarioInitialize(scenarioInfo);
-            this.ScenarioStart();
-#line 4
-    testRunner.Given("I have valid credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
-    testRunner.When("I login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 6
-    testRunner.Then("I should see auctions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
         [Xunit.FactAttribute(DisplayName="Failed Login")]
         [Xunit.TraitAttribute("FeatureTitle", "Login")]
         [Xunit.TraitAttribute("Description", "Failed Login")]
         public virtual void FailedLogin()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Failed Login", null, ((string[])(null)));
+#line 3
+  this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 4
+    testRunner.Given("I have invalid credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+    testRunner.When("I login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 6
+    testRunner.Then("I should see invalid credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Successful Login")]
+        [Xunit.TraitAttribute("FeatureTitle", "Login")]
+        [Xunit.TraitAttribute("Description", "Successful Login")]
+        public virtual void SuccessfulLogin()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful Login", null, ((string[])(null)));
 #line 8
   this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 9
-    testRunner.Given("I have invalid credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("I have valid credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
     testRunner.When("I login", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
-    testRunner.Then("I should see unauthorized", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+    testRunner.Then("I should see auctions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

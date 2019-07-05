@@ -1,3 +1,4 @@
+using System;
 using TechTalk.SpecFlow;
 using Xunit.Abstractions;
 
@@ -8,7 +9,15 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         public static ITestOutputHelper GetOutput()
         {
 #pragma warning disable 618
-            return (ITestOutputHelper) ScenarioContext.Current.GetBindingInstance(typeof(ITestOutputHelper));
+            try
+            {
+                return (ITestOutputHelper) ScenarioContext.Current.GetBindingInstance(typeof(ITestOutputHelper));
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
 #pragma warning restore 618
         }
     }

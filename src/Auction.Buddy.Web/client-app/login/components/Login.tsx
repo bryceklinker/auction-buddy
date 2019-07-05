@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useState } from 'react';
 import {History} from "history";
-
-import {CredentialsDto} from "../dtos/credentials-dto";
+import {CredentialsDto} from "../../common/store/dtos/credentials-dto";
 
 interface Props {
     history: History;

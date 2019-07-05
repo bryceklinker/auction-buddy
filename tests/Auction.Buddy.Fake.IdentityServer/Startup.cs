@@ -16,7 +16,8 @@ namespace Auction.Buddy.Fake.IdentityServer
                 .AddInMemoryApiResources(ApiResourcesFactory.Create())
                 .AddInMemoryClients(ClientsFactory.Create())
                 .AddTestUsers(TestUsersFactory.Create())
-                .AddInMemoryIdentityResources(IdentityResourcesFactory.Create());
+                .AddInMemoryIdentityResources(IdentityResourcesFactory.Create())
+                .AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

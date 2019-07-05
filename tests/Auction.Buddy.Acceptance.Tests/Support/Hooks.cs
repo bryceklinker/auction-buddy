@@ -15,16 +15,16 @@ namespace Auction.Buddy.Acceptance.Tests.Support
 
         private static FakeIdentityServerApplication IdentityApplication => LazyIdentityApplication.Value;
         private static AuctionBuddyWebApplication AuctionBuddyApplication => LazyAuctionBuddyApplication.Value;
-        
+
         [BeforeScenario]
-        public async Task BeforeScenario()
+        public static async Task BeforeScenario()
         {
             await IdentityApplication.StartAsync();
             await AuctionBuddyApplication.StartAsync();
         }
 
         [AfterTestRun]
-        public static async Task AfterTestRun()
+        public static async Task AfterScenario()
         {
             await IdentityApplication.StopAsync();
             await AuctionBuddyApplication.StopAsync();

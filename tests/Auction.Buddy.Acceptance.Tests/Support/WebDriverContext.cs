@@ -18,5 +18,10 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         {
             Driver.Dispose();
         }
+
+        public void Reset()
+        {
+            Driver.Navigate().GoToUrl("https://localhost:5001");
+        }
     }
 }
