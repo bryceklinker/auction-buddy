@@ -6,13 +6,10 @@ namespace Auction.Buddy.Acceptance.Tests.Support
 {
     public static class Eventually
     {
-        private const int DefaultWaitMilliseconds = 5000;
-        private const int DefaultDelayMilliseconds = 100;
-
         public static async Task Do(
             Action action, 
-            int waitMilliseconds = DefaultWaitMilliseconds,
-            int delayMilliseconds = DefaultDelayMilliseconds)
+            int waitMilliseconds = Timeouts.DefaultWaitMilliseconds,
+            int delayMilliseconds = Timeouts.DefaultDelayMilliseconds)
         {
             var endWaitingTime = DateTime.UtcNow.AddMilliseconds(waitMilliseconds);
             Exception lastException = null;
@@ -37,8 +34,8 @@ namespace Auction.Buddy.Acceptance.Tests.Support
 
         public static async Task DoAsync(
             Func<Task> func,
-            int waitMilliseconds = DefaultWaitMilliseconds,
-            int delayMilliseconds = DefaultDelayMilliseconds)
+            int waitMilliseconds = Timeouts.DefaultWaitMilliseconds,
+            int delayMilliseconds = Timeouts.DefaultDelayMilliseconds)
         {
             var endWaitingTime = DateTime.UtcNow.AddMilliseconds(waitMilliseconds);
             Exception lastException = null;

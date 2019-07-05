@@ -33,7 +33,7 @@ function LoginForm({ onLogin, hasLoginFailed }: Props) {
         <div>
             {hasLoginFailed ? <LoginErrorMessage /> : null}
             <input data-testid="username-input" value={username} onChange={t => setUsername(t.target.value)} />
-            <input data-testid="password-input" value={password} onChange={t => setPassword(t.target.value)} />
+            <input data-testid="password-input" type={'password'} value={password} onChange={t => setPassword(t.target.value)} />
             <button data-testid="login-button" onClick={handleLoginButtonClick}>Login</button>
         </div>
     )

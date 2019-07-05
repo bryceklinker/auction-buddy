@@ -1,4 +1,4 @@
-import {userReducer} from "./userReducer";
+import {userReducer} from "./user-reducer";
 import {loginFailedAction, loginRequestAction, loginSuccessAction} from "../actions/user-actions";
 
 

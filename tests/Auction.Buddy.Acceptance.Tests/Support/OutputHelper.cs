@@ -8,17 +8,16 @@ namespace Auction.Buddy.Acceptance.Tests.Support
     {
         public static ITestOutputHelper GetOutput()
         {
-#pragma warning disable 618
             try
             {
+#pragma warning disable 618
                 return (ITestOutputHelper) ScenarioContext.Current.GetBindingInstance(typeof(ITestOutputHelper));
+#pragma warning restore 618
             }
             catch (Exception e)
             {
                 return null;
             }
-            
-#pragma warning restore 618
         }
     }
 }

@@ -6,7 +6,11 @@ async function post<TBody, TResult>(url: string, data: TBody): Promise<TResult> 
             'Content-Type': 'application/json'
         }
     });
-    return await response.json();
+    if (response.ok) {
+        return await response.json();
+    }
+    
+    throw new Error(await response.text());
 }
 
 async function get<TResult>(url: string): Promise<TResult> {

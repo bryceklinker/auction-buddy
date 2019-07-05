@@ -11,14 +11,14 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public void Login(string username, string password)
         {
-            Driver.FindElement(CssSelector.TestId("username-input")).SendKeys(username);
-            Driver.FindElement(CssSelector.TestId("password-input")).SendKeys(password);
-            Driver.FindElement(CssSelector.TestId("login-button")).Click();
+            Driver.FindElementByTestId("username-input").SendKeys(username);
+            Driver.FindElementByTestId("password-input").SendKeys(password);
+            Driver.FindElementByTestId("login-button").Click();
         }
 
         public string GetErrorText()
         {
-            return Driver.FindElement(CssSelector.TestId("login-error")).Text;
+            return Driver.FindElementByTestId("login-error").Text;
         }
     }
 }

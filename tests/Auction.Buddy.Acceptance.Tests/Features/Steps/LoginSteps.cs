@@ -34,6 +34,13 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
             _password = Credentials.AdminCredentials.Password;
         }
 
+        [Given("I have logged in")]
+        public async Task GivenIHaveLoggedIn()
+        {
+            _loginPage.Login(Credentials.AdminCredentials.Username, Credentials.AdminCredentials.Password);
+            await Eventually.Do(() => _auctionsPage.IsListVisible().Should().BeTrue());
+        }
+
         [When("I login")]
         public void WhenILogin()
         {
@@ -49,7 +56,7 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
         [Then("I should see auctions")]
         public async Task ThenIShouldSeeAuctions()
         {
-            await Eventually.Do(() => { _auctionsPage.IsListVisible().Should().BeTrue(); });
+            await Eventually.Do(() => _auctionsPage.IsListVisible().Should().BeTrue());
 
         }
     }

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Features\Auctions.feature" />
     <Content Include="Features\Login.feature" />
   </ItemGroup>
 

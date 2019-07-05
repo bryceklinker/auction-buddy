@@ -36,7 +36,18 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="client-app\auctions\components\AuctionsList.tsx" />
+    <TypeScriptCompile Include="client-app\auctions\components\CreateAuction.tsx" />
+    <TypeScriptCompile Include="client-app\auctions\containers\AuctionsListContainer.spec.tsx" />
     <TypeScriptCompile Include="client-app\auctions\containers\AuctionsListContainer.ts" />
+    <TypeScriptCompile Include="client-app\auctions\containers\CreateAuctionContainer.spec.tsx" />
+    <TypeScriptCompile Include="client-app\auctions\containers\CreateAuctionContainer.ts" />
+    <TypeScriptCompile Include="client-app\common\store\actions\auction-actions.ts" />
+    <TypeScriptCompile Include="client-app\common\store\dtos\auction-dto.ts" />
+    <TypeScriptCompile Include="client-app\common\store\dtos\validation-result-dto.ts" />
+    <TypeScriptCompile Include="client-app\common\store\reducers\auctions-reducer.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\store\reducers\auctions-reducer.ts" />
+    <TypeScriptCompile Include="client-app\common\store\sagas\create-auction-saga.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\store\sagas\create-auction-saga.ts" />
   </ItemGroup>
   
   <Target Name="BundleSpa" BeforeTargets="Compile">

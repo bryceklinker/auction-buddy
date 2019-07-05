@@ -8,6 +8,7 @@ import {Header} from "./Header";
 import {MainContent} from "./MainContent";
 import {LoginContainer} from "../../login/containers/LoginContainer";
 import {AuctionsListContainer} from "../../auctions/containers/AuctionsListContainer";
+import {CreateAuctionContainer} from "../../auctions/containers/CreateAuctionContainer";
 
 interface Props {
     store: Store<AppState>;
@@ -22,6 +23,7 @@ export function Shell({store}: Props) {
                     <BrowserRouter>
                         <Route exact path={'/'} component={LoginContainer} />
                         <Route path={'/auctions'} component={AuctionsListContainer} />
+                        <Route path={'/create-auction'} component={CreateAuctionContainer} />
                     </BrowserRouter>
                 </MainContent>
             </div>

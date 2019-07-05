@@ -1,5 +1,4 @@
 using System.Linq;
-using OpenQA.Selenium;
 
 namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 {
@@ -17,7 +16,12 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public bool IsListVisible()
         {
-            return Driver.FindElements(CssSelector.TestId("auction-list")).Any();
-        } 
+            return Driver.FindElementsByTestId("auction-list").Any();
+        }
+
+        public void GoToCreateAuction()
+        {
+            Driver.FindElementByTestId("create-auction-button").Click();
+        }
     }
 }

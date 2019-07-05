@@ -1,10 +1,11 @@
 import {connect} from "react-redux";
-import {Login} from "../components/Login";
 import {Action, Dispatch} from "redux";
+
+import {Login} from "../components/Login";
 import {AppState} from "../../app-state";
-import {hasLoginFailedSelector, isUserLoggedInSelector} from "../../common/store/reducers/userReducer";
 import {CredentialsDto} from "../../common/store/dtos/credentials-dto";
 import {loginRequestAction} from "../../common/store/actions/user-actions";
+import {hasLoginFailedSelector, isUserLoggedInSelector} from "../../common/store/reducers/user-reducer";
 
 function mapStateToProps(state: AppState) {
     return {

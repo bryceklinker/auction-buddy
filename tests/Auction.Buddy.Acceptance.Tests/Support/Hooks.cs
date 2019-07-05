@@ -23,8 +23,8 @@ namespace Auction.Buddy.Acceptance.Tests.Support
             await AuctionBuddyApplication.StartAsync();
         }
 
-        [AfterTestRun]
-        public static async Task AfterScenario()
+        [AfterScenario]
+        public async Task AfterScenario()
         {
             await IdentityApplication.StopAsync();
             await AuctionBuddyApplication.StopAsync();
