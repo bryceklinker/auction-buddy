@@ -1,7 +1,7 @@
 import {takeEvery, put, call} from 'redux-saga/effects';
 import {PayloadAction} from "typesafe-actions";
 import {CredentialsDto} from "../dtos/credentials-dto";
-import {api} from "../../services/api-service";
+import {api} from "../../services/api";
 import {loginFailedAction, loginSuccessAction, UserActionTypes} from "../actions/user-actions";
 import {AuthenticationResultDto} from "../dtos/authentication-result-dto";
 

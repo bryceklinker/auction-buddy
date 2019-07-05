@@ -6,7 +6,7 @@ import {BrowserRouter, Route} from "react-router-dom";
 import {AppState} from "../../app-state";
 import {Header} from "./Header";
 import {MainContent} from "./MainContent";
-import {Login} from "../../login/components/Login";
+import {LoginContainer} from "../../login/containers/LoginContainer";
 
 interface Props {
     store: Store<AppState>;
@@ -19,7 +19,7 @@ export function Shell({store}: Props) {
                 <Header />
                 <MainContent>
                     <BrowserRouter>
-                        <Route exact path={'/'} component={Login} />
+                        <Route exact path={'/'} component={LoginContainer} />
                     </BrowserRouter>
                 </MainContent>
             </div>

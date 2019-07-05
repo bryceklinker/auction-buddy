@@ -7,7 +7,9 @@ namespace Auction.Buddy.Core
     {
         public static IServiceCollection AddAuctionBuddy(this IServiceCollection services)
         {
-            return services.AddTransient<IAuthenticationRequestFactory, AuthenticationRequestFactory>()
+            return services
+                .AddHttpClient()
+                .AddTransient<IAuthenticationRequestFactory, AuthenticationRequestFactory>()
                 .AddTransient<IAuthenticationResultFactory, AuthenticationResultFactory>()
                 .AddTransient<IAuthenticator, Authenticator>();
         }

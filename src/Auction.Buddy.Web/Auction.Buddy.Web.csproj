@@ -41,7 +41,8 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="client-app\app-state.ts" />
-    <TypeScriptCompile Include="client-app\common\services\api-service.ts" />
+    <TypeScriptCompile Include="client-app\common\services\api.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\services\api.ts" />
     <TypeScriptCompile Include="client-app\common\store\actions\init-actions.ts" />
     <TypeScriptCompile Include="client-app\common\store\actions\user-actions.ts" />
     <TypeScriptCompile Include="client-app\common\store\configure-store.ts" />
