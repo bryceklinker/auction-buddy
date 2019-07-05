@@ -10,7 +10,8 @@
     "test": "jest",
     "test:watch": "yarn test --watch",
     "start": "webpack-dev-server --config ./webpack.config.js --progress --hot --inline --mode development",
-    "bundle": "webpack --config ./webpack.prod.js --progress --mode production"
+    "bundle": "webpack --config ./webpack.prod.js --progress --mode production",
+    "lint": "eslint ./client-app/**/*.* --fix"
   },
   "dependencies": {
     "react": "16.8.6",
@@ -36,18 +37,30 @@
     "@types/react-router": "5.0.3",
     "@types/react-router-dom": "4.3.4",
     "@types/redux-saga": "0.10.5",
+    "@typescript-eslint/eslint-plugin": "1.11.0",
+    "@typescript-eslint/parser": "1.11.0",
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.6",
     "css-loader": "3.0.0",
+    "eslint": "5.16.0",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-react": "7.14.2",
     "file-loader": "4.0.0",
     "html-webpack-plugin": "3.2.0",
     "jest": "24.8.0",
+    "lint-staged": "9.0.2",
     "node-sass": "4.12.0",
+    "prettier": "1.18.2",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
     "typescript": "3.5.2",
     "webpack": "4.35.2",
     "webpack-cli": "3.3.5",
     "webpack-dev-server": "3.7.2"
+  },
+  "lint-staged": {
+    "*.ts": ["yarn lint"],
+    "*.tsx": ["yarn lint"]
   }
 }

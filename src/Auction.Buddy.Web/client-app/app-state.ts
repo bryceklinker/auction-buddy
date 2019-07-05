@@ -1,3 +1,3 @@
 export interface AppState {
-    data: any;
+    data: Record<string, any>;
 }

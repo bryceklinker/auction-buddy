@@ -45,6 +45,8 @@
     <TypeScriptCompile Include="client-app\common\store\create-root-reducer.ts" />
     <TypeScriptCompile Include="client-app\common\store\create-root-saga.ts" />
     <TypeScriptCompile Include="client-app\login\components\Login.tsx" />
+    <TypeScriptCompile Include="client-app\login\sagas\login-saga.spec.ts" />
+    <TypeScriptCompile Include="client-app\login\sagas\login-saga.ts" />
     <TypeScriptCompile Include="client-app\shell\components\Header.tsx" />
     <TypeScriptCompile Include="client-app\shell\components\MainContent.tsx" />
     <TypeScriptCompile Include="client-app\shell\components\Shell.tsx" />
