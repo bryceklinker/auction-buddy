@@ -50,6 +50,7 @@
     <TypeScriptCompile Include="client-app\shell\components\Header.tsx" />
     <TypeScriptCompile Include="client-app\shell\components\MainContent.tsx" />
     <TypeScriptCompile Include="client-app\shell\components\Shell.tsx" />
+    <TypeScriptCompile Include="client-app\testing\saga-recorder.ts" />
   </ItemGroup>
   
   <Target Name="BundleSpa" AfterTargets="Compile">
