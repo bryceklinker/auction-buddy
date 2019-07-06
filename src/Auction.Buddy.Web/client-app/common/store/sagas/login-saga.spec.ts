@@ -3,6 +3,7 @@ import SagaTester from 'redux-saga-tester';
 import {loginSaga} from "./login-saga";
 import {loginFailedAction, loginRequestAction, loginSuccessAction, UserActionTypes} from "../actions/user-actions";
 import {AppState} from "../../../app-state";
+import {CALL_HISTORY_METHOD, push} from "connected-react-router";
 
 describe('loginSaga', () => {
     let tester: SagaTester<AppState>;
@@ -33,6 +34,15 @@ describe('loginSaga', () => {
         expect(tester.getCalledActions()).toContainEqual(loginSuccessAction({ isSuccess: true }))
     });
     
+    it('should dispatch navigate to auctions', async () => {
+        fetchMock.mockResponse(JSON.stringify({ isSuccess: true }));
+        
+        tester.dispatch(loginRequestAction({username: 'one', password: 'one' }));
+        await tester.waitFor(CALL_HISTORY_METHOD);
+       
+        expect(tester.getCalledActions()).toContainEqual(push('/auctions'));
+    });
+    
     it('should dispatch login failed action', async () => {
         fetchMock.mockResponse(JSON.stringify({ isSuccess: false }));
 
@@ -40,5 +50,5 @@ describe('loginSaga', () => {
         await tester.waitFor(UserActionTypes.LOGIN_FAILED);
 
         expect(tester.getCalledActions()).toContainEqual(loginFailedAction({ isSuccess: false }))
-    })
+    });
 });

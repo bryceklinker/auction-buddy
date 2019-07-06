@@ -3,10 +3,11 @@ import {useState} from "react";
 import {CreateAuctionDto} from "../../common/store/dtos/auction-dto";
 
 interface Props {
+    isCreating: boolean;
     onSave: (dto: CreateAuctionDto) => void;
 }
 
-export function CreateAuction({onSave}: Props) {
+export function CreateAuction({onSave, isCreating}: Props) {
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
     
@@ -17,7 +18,7 @@ export function CreateAuction({onSave}: Props) {
         <div data-testid="create-auction">
             <input data-testid="create-auction-name-input" value={name} onChange={t => setName(t.target.value)} />
             <input data-testid="create-auction-date-input" value={date} onChange={t => setDate(t.target.value)} />
-            <button data-testid="create-auction-save-button" onClick={handleSave} />
+            <button data-testid="create-auction-save-button" disabled={isCreating} onClick={handleSave} >Save</button>
         </div>
     )
 }

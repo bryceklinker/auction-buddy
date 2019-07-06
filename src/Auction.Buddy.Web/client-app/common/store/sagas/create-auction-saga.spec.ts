@@ -8,6 +8,7 @@ import {
     createAuctionSuccessAction
 } from "../actions/auction-actions";
 import {AuctionDto} from "../dtos/auction-dto";
+import {CALL_HISTORY_METHOD, push} from "connected-react-router";
 
 describe('createAuctionSaga', () => {
     let tester: SagaTester<AppState>;
@@ -26,6 +27,15 @@ describe('createAuctionSaga', () => {
         const expectedAuction: AuctionDto = {id: 5, name: 'three', auctionDate: '2019-03-04'};
         expect(tester.getCalledActions()).toContainEqual(createAuctionSuccessAction(expectedAuction));
     });
+    
+    it('should navigate to auction detail', async () => {
+        fetchMock.mockResponse(JSON.stringify({id: 5, name: 'three', auctionDate: '2019-03-04'}));
+
+        tester.dispatch(createAuctionRequestAction({name: 'three', auctionDate: '03/04/2019'}));
+        await tester.waitFor(CALL_HISTORY_METHOD);
+        
+        expect(tester.getCalledActions()).toContainEqual(push('/auction-detail/5'));
+    })
     
     it('should post data to api', async () => {
         fetchMock.mockResponse(JSON.stringify({id: 5, name: 'three', auctionDate: '2019-03-04'}));

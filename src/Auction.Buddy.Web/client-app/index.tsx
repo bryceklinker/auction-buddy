@@ -3,9 +3,11 @@ import { render } from 'react-dom';
 
 import {Shell} from './shell/components/Shell';
 import {configureStore} from "./common/store/configure-store";
+import {createBrowserHistory} from "history";
 
-const store = configureStore();
+const history = createBrowserHistory();
+const store = configureStore(history);
 render(
-    <Shell store={store} />,
+    <Shell store={store} history={history }/>,
     document.getElementById("root")
 );

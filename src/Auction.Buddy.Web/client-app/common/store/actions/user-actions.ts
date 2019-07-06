@@ -3,9 +3,9 @@ import {CredentialsDto} from "../dtos/credentials-dto";
 import {AuthenticationResultDto} from "../dtos/authentication-result-dto";
 
 export const UserActionTypes = {
-    LOGIN_REQUEST: '[User] Request',
-    LOGIN_SUCCESS: '[User] Success',
-    LOGIN_FAILED: '[User] Failed'
+    LOGIN_REQUEST: '[User] Login Request',
+    LOGIN_SUCCESS: '[User] Login Success',
+    LOGIN_FAILED: '[User] Login Failed'
 };
 
 export function loginRequestAction(dto: CredentialsDto): PayloadAction<string, CredentialsDto> {

@@ -3,7 +3,7 @@ import {cleanup, fireEvent} from '@testing-library/react';
 import {createMemoryHistory, MemoryHistory} from "history";
 
 import {LoginContainer} from "./LoginContainer";
-import {loginFailedAction, loginRequestAction, loginSuccessAction} from "../../common/store/actions/user-actions";
+import {loginFailedAction, loginRequestAction} from "../../common/store/actions/user-actions";
 import {createTestingStore} from "../../testing/testing-store";
 import {renderWithStore} from "../../testing/render-with-store";
 
@@ -17,24 +17,24 @@ describe('LoginContainer', () => {
 
     it('should log user in', () => {
         const store = createTestingStore();
-        const {getByTestId} = renderWithStore(<LoginContainer history={history}/>, store);
+        const {getByTestId} = renderWithStore(<LoginContainer/>, store);
         login(getByTestId, 'bob', 'jack');
 
         expect(store.getActions()).toContainEqual(loginRequestAction({username: 'bob', password: 'jack'}));
     });
+    
+    it('should disable login button when logging in', () => {
+        const store = createTestingStore(history, loginRequestAction({username: 'bob', password: 'three' }));
+        const {getByTestId} = renderWithStore(<LoginContainer />, store);
+        
+        expect(getByTestId('login-button')).toBeDisabled();
+    })
 
     it('should show error when login has failed', () => {
-        const store = createTestingStore(loginFailedAction({isSuccess: false}));
-        const {getByTestId} = renderWithStore(<LoginContainer history={history}/>, store);
+        const store = createTestingStore(history, loginFailedAction({isSuccess: false}));
+        const {getByTestId} = renderWithStore(<LoginContainer />, store);
         
         expect(getByTestId('login-error').textContent).toContain('Invalid username or password');
-    });
-
-    it('should navigate to auctions', () => {
-        const store = createTestingStore(loginSuccessAction({isSuccess: true}));
-        renderWithStore(<LoginContainer history={history}/>, store);
-
-        expect(history.entries).toContainEqual(expect.objectContaining({pathname: '/auctions'}));
     });
 
     afterEach(() => cleanup());

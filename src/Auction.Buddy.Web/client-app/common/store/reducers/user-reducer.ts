@@ -38,5 +38,5 @@ function selectUserState(state: AppState): UserState {
     return state.user;
 }
 
-export const isUserLoggedInSelector = createSelector(selectUserState, s => s.isSuccess);
 export const hasLoginFailedSelector = createSelector(selectUserState, s => s.hasFailed);
+export const isLoggingInSelector = createSelector(selectUserState, s => s.isLoggingIn);

@@ -4,6 +4,7 @@ using Auction.Buddy.Web.Common.Npm;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,10 +24,11 @@ namespace Auction.Buddy.Web
         {
             services.AddNodeServices();
             services.AddMvc();
-            services.AddAuctionBuddy();
+            services.AddAuctionBuddy(
+                dbOptions => dbOptions.UseInMemoryDatabase("AuctionsDb")
+            );
             services.AddAuthentication(opts =>
                 {
-                    
                     opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
