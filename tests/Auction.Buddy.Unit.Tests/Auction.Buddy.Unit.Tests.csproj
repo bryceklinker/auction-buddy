@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="FluentAssertions" Version="5.7.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.2.4" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Auction.Buddy.Core\Auction.Buddy.Core.csproj" />
+    <ProjectReference Include="..\..\src\Auction.Buddy.Web\Auction.Buddy.Web.csproj" />
   </ItemGroup>
 
 </Project>

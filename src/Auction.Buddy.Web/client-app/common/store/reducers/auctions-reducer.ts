@@ -10,31 +10,35 @@ import {createSelector} from "reselect";
 export interface AuctionsState {
     auctions: AuctionDto[];
     isCreating: boolean;
-    createError: ValidationResultDto | null;
+    validationResult: ValidationResultDto | null;
 }
 
 const initialState: AuctionsState = {
     auctions: [],
     isCreating: false,
-    createError: null
+    validationResult: null
 };
 
 export function auctionsReducer(state: AuctionsState = initialState, action: Action = initAction()): AuctionsState {
     switch (action.type) {
         case AuctionActionTypes.CREATE_REQUEST:
-            return {...state, isCreating: true };
+            return {
+                ...state, 
+                isCreating: true,
+                validationResult: null
+            };
         
         case AuctionActionTypes.CREATE_SUCCESS:
             return {
                 ...state, 
                 auctions: [...state.auctions, (action as PayloadAction<string, AuctionDto>).payload], 
-                isCreating: false 
+                isCreating: false
             };
             
         case AuctionActionTypes.CREATE_FAILED:
             return {
                 ...state,
-                createError: (action as PayloadAction<string, ValidationResultDto>).payload,
+                validationResult: (action as PayloadAction<string, ValidationResultDto>).payload,
                 isCreating: false
             };
             
@@ -54,3 +58,4 @@ function selectAuctionId(_: AppState, id: string): number {
 export const isCreatingAuctionSelector = createSelector(selectAuctionsState, s => s.isCreating);
 export const auctionsSelector = createSelector(selectAuctionsState, s => s.auctions);
 export const auctionDetailSelector = createSelector([auctionsSelector, selectAuctionId], (auctions: AuctionDto[], id: number) => auctions.find(a => a.id === id));
+export const auctionsValidationResultSelector = createSelector(selectAuctionsState, s => s.validationResult);

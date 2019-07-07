@@ -10,6 +10,7 @@ describe('auctionsReducer', () => {
         const state = auctionsReducer();
         expect(state.auctions).toEqual([]);
         expect(state.isCreating).toEqual(false);
+        expect(state.validationResult).toBeNull();
     });
 
     it('should be creating auction', () => {
@@ -34,7 +35,17 @@ describe('auctionsReducer', () => {
         state = auctionsReducer(state, createAuctionRequestAction({name: 'bak', auctionDate: 'three'}));
 
         state = auctionsReducer(state, createAuctionFailedAction({isValid: false}));
-        expect(state.createError).toEqual({isValid: false});
+        expect(state.validationResult).toEqual({isValid: false});
         expect(state.isCreating).toEqual(false);
+    });
+    
+    it('should clear validation result when create requested', () => {
+        let state = auctionsReducer();
+        state = auctionsReducer(state, createAuctionRequestAction({name: 'bak', auctionDate: 'three'}));
+        state = auctionsReducer(state, createAuctionFailedAction({isValid: false}));
+        
+        state = auctionsReducer(state, createAuctionRequestAction({name: 'bak', auctionDate: 'three'}));
+        
+        expect(state.validationResult).toBeNull();
     })
 });

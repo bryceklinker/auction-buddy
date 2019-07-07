@@ -3,7 +3,7 @@ import {cleanup, fireEvent} from '@testing-library/react';
 
 import {createTestingStore} from "../../testing/testing-store";
 import {renderWithStore} from "../../testing/render-with-store";
-import {createAuctionRequestAction} from "../../common/store/actions/auction-actions";
+import {createAuctionFailedAction, createAuctionRequestAction} from "../../common/store/actions/auction-actions";
 import {CreateAuctionDto} from "../../common/store/dtos/auction-dto";
 import {CreateAuctionContainer} from "./CreateAuctionContainer";
 import {createMemoryHistory} from "history";
@@ -26,6 +26,20 @@ describe('CreateAuctionContainer', () => {
         const {getByTestId} = renderWithStore(<CreateAuctionContainer/>, store);
         
         expect(getByTestId('create-auction-save-button')).toBeDisabled()
+    });
+    
+    it('should show validation errors', () => {
+       const store = createTestingStore(createMemoryHistory(), createAuctionFailedAction({ isValid: false }));
+       const {getByTestId} = renderWithStore(<CreateAuctionContainer/>, store);
+       
+       expect(getByTestId('validation-errors')).toBeVisible();
+    });
+    
+    it('should hide validation errors', () => {
+        const store = createTestingStore();
+        const {queryAllByTestId} = renderWithStore(<CreateAuctionContainer/>, store);
+        
+        expect(queryAllByTestId('validation-errors')).toHaveLength(0)
     });
     
     afterEach(() => cleanup())

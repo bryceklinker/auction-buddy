@@ -84,21 +84,40 @@ namespace Auction.Buddy.Acceptance.Tests.Features
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Create Auction")]
+        [Xunit.FactAttribute(DisplayName="Create Auction Successful")]
         [Xunit.TraitAttribute("FeatureTitle", "Auctions")]
-        [Xunit.TraitAttribute("Description", "Create Auction")]
-        public virtual void CreateAuction()
+        [Xunit.TraitAttribute("Description", "Create Auction Successful")]
+        public virtual void CreateAuctionSuccessful()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Auction", null, ((string[])(null)));
-#line 6
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Auction Successful", null, ((string[])(null)));
+#line 5
   this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 2
   this.FeatureBackground();
-#line 7
+#line 6
     testRunner.When("I create an auction", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
+#line 7
     testRunner.Then("I should see the new auction", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Create Auction Failure")]
+        [Xunit.TraitAttribute("FeatureTitle", "Auctions")]
+        [Xunit.TraitAttribute("Description", "Create Auction Failure")]
+        public virtual void CreateAuctionFailure()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Auction Failure", null, ((string[])(null)));
+#line 9
+  this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 2
+  this.FeatureBackground();
+#line 10
+    testRunner.When("I create an invalid auction", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 11
+    testRunner.Then("I should see validation errors", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

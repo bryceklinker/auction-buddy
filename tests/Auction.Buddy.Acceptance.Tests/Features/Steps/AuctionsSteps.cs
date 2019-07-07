@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Auction.Buddy.Acceptance.Tests.Support;
 using Auction.Buddy.Acceptance.Tests.Support.Pages;
@@ -34,12 +35,25 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
             await _createAuctionPage.CreateAuction(_auctionName, _auctionDate);
         }
 
+        [When("I create an invalid auction")]
+        public async Task WhenICreateAnInvalidAuction()
+        {
+            _auctionsPage.GoToCreateAuction();
+            await _createAuctionPage.CreateAuction("", DateTime.MinValue);
+        }
+
         [Then("I should see the new auction")]
         public async Task ThenIShouldSeeTheNewAuction()
         {
             await _auctionDetailPage.WaitToBeVisible();
             _auctionDetailPage.GetAuctionDate().Should().Contain(_auctionDate.ToString("MM/dd/yyyy"));
             _auctionDetailPage.GetAuctionName().Should().Contain(_auctionName);
+        }
+
+        [Then("I should see validation errors")]
+        public async Task ThenIShouldSeeValidationErrors()
+        {
+            await Eventually.Do(() => _createAuctionPage.HasValidationErrors().Should().BeTrue());
         }
     }
 }

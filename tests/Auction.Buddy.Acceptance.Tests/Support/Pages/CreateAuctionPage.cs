@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Auction.Buddy.Acceptance.Tests.Support.Pages
@@ -16,6 +17,11 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
             Driver.FindElementByTestId("create-auction-name-input").SendKeys(name);
             Driver.FindElementByTestId("create-auction-date-input").SendKeys(auctionDate.ToString("MM/dd/yyyy"));
             Driver.FindElementByTestId("create-auction-save-button").Click();
+        }
+
+        public bool HasValidationErrors()
+        {
+            return Driver.FindElementsByTestId("validation-errors").Any();
         }
     }
 }

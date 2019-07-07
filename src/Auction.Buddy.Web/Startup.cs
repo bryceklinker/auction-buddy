@@ -1,6 +1,9 @@
 ﻿using System.IO;
 using Auction.Buddy.Core;
+using Auction.Buddy.Core.Auctions.Validators;
 using Auction.Buddy.Web.Common.Npm;
+using Auction.Buddy.Web.Common.Validation;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,10 +26,13 @@ namespace Auction.Buddy.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddNodeServices();
-            services.AddMvc();
+            services.AddMvc()
+                .AddMvcOptions(opts => opts.Filters.Add<ValidationExceptionFilter>());
+            
             services.AddAuctionBuddy(
                 dbOptions => dbOptions.UseInMemoryDatabase("AuctionsDb")
             );
+
             services.AddAuthentication(opts =>
                 {
                     opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

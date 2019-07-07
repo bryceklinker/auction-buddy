@@ -5,11 +5,15 @@ import {Action, Dispatch} from "redux";
 import {createAuctionRequestAction} from "../../common/store/actions/auction-actions";
 import {CreateAuctionDto} from "../../common/store/dtos/auction-dto";
 import {AppState} from "../../app-state";
-import {isCreatingAuctionSelector} from "../../common/store/reducers/auctions-reducer";
+import {
+    auctionsValidationResultSelector,
+    isCreatingAuctionSelector
+} from "../../common/store/reducers/auctions-reducer";
 
 function mapStateToProps(state: AppState) {
     return {
-        isCreating: isCreatingAuctionSelector(state)
+        isCreating: isCreatingAuctionSelector(state),
+        validationResult: auctionsValidationResultSelector(state)
     }
 }
 
