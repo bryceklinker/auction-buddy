@@ -11,7 +11,7 @@ stages:
       - script: dotnet restore
         displayName: Restore NuGet Packages
 
-      - task: NodeTool@10
+      - task: UseNode@1
         displayName: Install Node 10
         inputs:
           versionSpec: 10.x
@@ -36,7 +36,7 @@ stages:
       - script: dotnet restore
         displayName: Restore NuGet Packages
 
-      - task: NodeTool@10
+      - task: UseNode@1
         displayName: Install Node 10
         inputs:
           versionSpec: 10.x
