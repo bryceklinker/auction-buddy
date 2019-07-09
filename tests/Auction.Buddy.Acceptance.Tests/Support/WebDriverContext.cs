@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using OpenQA.Selenium.Chrome;
 
 namespace Auction.Buddy.Acceptance.Tests.Support
@@ -8,10 +9,17 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         public ChromeDriver Driver { get; }
         public WebDriverContext()
         {
-            Driver = new ChromeDriver
+            Driver = new ChromeDriver(CreateChromeOptions())
             {
                 Url = "https://localhost:5001"
             };
+        }
+
+        private static ChromeOptions CreateChromeOptions()
+        {
+            var options = new ChromeOptions();
+            options.AddArgument("--headless");
+            return options;
         }
 
         public void Dispose()
