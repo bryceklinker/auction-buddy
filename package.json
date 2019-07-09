@@ -6,6 +6,9 @@
   "author": "Bryce Klinker <bryce.klinker@gmail.com>",
   "license": "MIT",
   "private": true,
+  "workspaces": [
+    "src/Auction.Buddy.Web"
+  ],
   "scripts": {
     "clean:identity": "rimraf ./dist/IdentityServer",
     "prepublish:identity": "yarn clean:identity",
@@ -25,7 +28,10 @@
     "wait_for_services": "concurrently \"yarn wait:web\" \"yarn wait:identity\"",
     "acceptance_tests": "cd ./tests/Auction.Buddy.Acceptance.Tests && dotnet test",
     "kill_services": "concurrently \"yarn kill:web\" \"yarn kill:identity\"",
-    "test:acceptance": "concurrently \"yarn start:identity\" \"yarn start:web\" \"yarn wait_for_services && yarn acceptance_tests && yarn kill_services || (yarn kill_services && false)\""
+    "test:acceptance": "concurrently \"yarn start:identity\" \"yarn start:web\" \"yarn wait_for_services && yarn acceptance_tests && yarn kill_services || (yarn kill_services && false)\"",
+    "run:web": "cd ./src/Auction.Buddy.Web && dotnet run",
+    "test:unit": "cd ./tests/Auction.Buddy.Unit.Tests && dotnet test",
+    "ci": "yarn test:unit && yarn test:acceptance"
   },
   "devDependencies": {
     "concurrently": "4.1.1",

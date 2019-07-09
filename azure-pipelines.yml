@@ -1,0 +1,17 @@
+name: $(Build.BuildId)
+stages:
+  - stage: build_and_test
+    displayName: Build and Test
+    jobs:
+      - job: ci
+        displayName: Continuous Integration
+        pool:
+          vmImage: 'ubuntu-16.04'
+        steps:
+          - task: NodeTool@10
+            displayName: Install Node 10
+            inputs:
+              versionSpec: 10.x
+          - script: npm install -g yarn
+          - script: 
+        
