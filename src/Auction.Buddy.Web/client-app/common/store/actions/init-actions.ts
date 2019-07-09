@@ -1,9 +1,15 @@
-import {action} from "typesafe-actions";
+import {action, PayloadAction} from "typesafe-actions";
 
 export const InitActionTypes = {
     INIT: '@@init'
 };
 
-export function initAction() {
-    return action(InitActionTypes.INIT);
+export interface InitAction extends PayloadAction<string, null> {
+    type: typeof InitActionTypes.INIT;
 }
+
+export function initAction(): InitAction {
+    return action(InitActionTypes.INIT, null);
+}
+
+export type InitActions = InitAction;

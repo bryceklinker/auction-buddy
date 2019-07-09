@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Authentication;
 using Auction.Buddy.Core.Authentication.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auction.Buddy.Web.Authentication
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("authentication")]
     public class AuthenticationController : ControllerBase
     {

@@ -1,8 +1,11 @@
-import {Action} from "redux";
 import {AuctionDto} from "../dtos/auction-dto";
 import {initAction} from "../actions/init-actions";
-import {AuctionActionTypes} from "../actions/auction-actions";
-import {PayloadAction} from "typesafe-actions";
+import {
+    AuctionActions,
+    AuctionActionTypes,
+    CreateAuctionFailedAction,
+    CreateAuctionSuccessAction
+} from "../actions/auction-actions";
 import {ValidationResultDto} from "../dtos/validation-result-dto";
 import {AppState} from "../../../app-state";
 import {createSelector} from "reselect";
@@ -19,7 +22,7 @@ const initialState: AuctionsState = {
     validationResult: null
 };
 
-export function auctionsReducer(state: AuctionsState = initialState, action: Action = initAction()): AuctionsState {
+export function auctionsReducer(state: AuctionsState = initialState, action: AuctionActions = initAction()): AuctionsState {
     switch (action.type) {
         case AuctionActionTypes.CREATE_REQUEST:
             return {
@@ -31,14 +34,14 @@ export function auctionsReducer(state: AuctionsState = initialState, action: Act
         case AuctionActionTypes.CREATE_SUCCESS:
             return {
                 ...state, 
-                auctions: [...state.auctions, (action as PayloadAction<string, AuctionDto>).payload], 
+                auctions: [...state.auctions, (action as CreateAuctionSuccessAction).payload], 
                 isCreating: false
             };
             
         case AuctionActionTypes.CREATE_FAILED:
             return {
                 ...state,
-                validationResult: (action as PayloadAction<string, ValidationResultDto>).payload,
+                validationResult: (action as CreateAuctionFailedAction).payload,
                 isCreating: false
             };
             

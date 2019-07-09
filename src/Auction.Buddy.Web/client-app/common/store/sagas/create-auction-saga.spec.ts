@@ -9,12 +9,24 @@ import {
 } from "../actions/auction-actions";
 import {AuctionDto} from "../dtos/auction-dto";
 import {CALL_HISTORY_METHOD, push} from "connected-react-router";
+import {createState} from "../../../testing/testing-store";
+import {createMemoryHistory} from "history";
+import {AuthenticationResultDto} from "../dtos/authentication-result-dto";
+import {loginSuccessAction} from "../actions/user-actions";
 
 describe('createAuctionSaga', () => {
     let tester: SagaTester<AppState>;
+    let authResult: AuthenticationResultDto;
 
     beforeEach(() => {
-        tester = new SagaTester<AppState>();
+        authResult = {
+            isSuccess: true,
+            tokenType: 'Bearer',
+            accessToken: 'header.payload.signature'
+        };
+        tester = new SagaTester<AppState>({
+            initialState: createState(createMemoryHistory(), loginSuccessAction(authResult))
+        });
         tester.start(createAuctionSaga);
     });
 
@@ -45,7 +57,10 @@ describe('createAuctionSaga', () => {
         
         expect(fetch).toHaveBeenCalledWith('/api/auctions', expect.objectContaining({
             method: 'POST',
-            body: JSON.stringify({name: 'three', auctionDate: '03/04/2019' })
+            body: JSON.stringify({name: 'three', auctionDate: '03/04/2019' }),
+            headers: expect.objectContaining({
+                Authorization: 'Bearer header.payload.signature'
+            })
         }));
     });
     
