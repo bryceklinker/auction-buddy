@@ -6,7 +6,7 @@ stages:
   - job: ci
     displayName: Continuous Integration
     pool:
-      vmImage: 'vs2017-win2016'
+      vmImage: 'windows-2019'
     steps:
       - script: dotnet restore
         displayName: Restore NuGet Packages

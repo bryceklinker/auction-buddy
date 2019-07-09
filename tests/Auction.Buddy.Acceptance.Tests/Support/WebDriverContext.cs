@@ -9,18 +9,9 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         public ChromeDriver Driver { get; }
         public WebDriverContext()
         {
-            Driver = new ChromeDriver(CreateChromeOptions())
-            {
-                Url = "https://localhost:5001"
-            };
+            Driver = CreateChromeDriver();
         }
 
-        private static ChromeOptions CreateChromeOptions()
-        {
-            var options = new ChromeOptions();
-            options.AddArgument("--headless");
-            return options;
-        }
 
         public void Dispose()
         {
@@ -30,6 +21,24 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         public void Reset()
         {
             Driver.Navigate().GoToUrl("https://localhost:5001");
+        }
+
+        private static ChromeDriver CreateChromeDriver()
+        {
+            return new ChromeDriver(CreateChromeOptions())
+            {
+                Url = "https://localhost:5001"
+            };
+        }
+
+        private static ChromeOptions CreateChromeOptions()
+        {
+            var options = new ChromeOptions
+            {
+                BinaryLocation = Environment.GetEnvironmentVariable("ChromeWebDriver")
+            };
+            options.AddArgument("--headless");
+            return options;
         }
     }
 }
