@@ -1,52 +1,52 @@
 name: $(Build.BuildId)
 stages:
-  - stage: build_and_test
-    displayName: Build and Test
-    jobs:
-      - job: ci
-        displayName: Continuous Integration
-        pool:
-          vmImage: 'ubuntu-16.04'
-        steps:
-          - script: dotnet restore
-            displayName: Restore NuGet Packages
+- stage: build_and_test
+  displayName: Build and Test
+  jobs:
+  - job: ci
+    displayName: Continuous Integration
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+      - script: dotnet restore
+        displayName: Restore NuGet Packages
 
-          - task: NodeTool@10
-            displayName: Install Node 10
-            inputs:
-              versionSpec: 10.x
+      - task: NodeTool@10
+        displayName: Install Node 10
+        inputs:
+          versionSpec: 10.x
 
-          - script: npm install -g yarn
-            displayName: Install Yarn
+      - script: npm install -g yarn
+        displayName: Install Yarn
 
-          - script: yarn
-            displayName: Install Node packages
+      - script: yarn
+        displayName: Install Node packages
 
-          - script: yarn ci
-            displayName: Run Tests
+      - script: yarn ci
+        displayName: Run Tests
 
-  - stage: deploy_app
-    displayName: Deploy Auction Buddy
-    jobs:
-      - job: deploy
-        displayName: Deploy
-        pool:
-          vmImage: 'ubuntu-16.04'
-        steps:
-          - script: dotnet restore
-            displayName: Restore NuGet Packages
+- stage: deploy_app
+  displayName: Deploy Auction Buddy
+  jobs:
+  - job: deploy
+    displayName: Deploy
+    pool:
+      vmImage: 'ubuntu-16.04'
+    steps:
+      - script: dotnet restore
+        displayName: Restore NuGet Packages
 
-          - task: NodeTool@10
-            displayName: Install Node 10
-            inputs:
-              versionSpec: 10.x
+      - task: NodeTool@10
+        displayName: Install Node 10
+        inputs:
+          versionSpec: 10.x
 
-          - script: npm install -g yarn
-            displayName: Install Yarn
+      - script: npm install -g yarn
+        displayName: Install Yarn
 
-          - script: yarn
-            displayName: Install Node packages
+      - script: yarn
+        displayName: Install Node packages
 
-          - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/auciton-buddy
-            displayName: Publish Auction Buddy
-            workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Web
+      - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/auciton-buddy
+        displayName: Publish Auction Buddy
+        workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Web
