@@ -28,9 +28,11 @@
     "wait_for_services": "concurrently \"yarn wait:web\" \"yarn wait:identity\"",
     "acceptance_tests": "cd ./tests/Auction.Buddy.Acceptance.Tests && dotnet test",
     "kill_services": "concurrently \"yarn kill:web\" \"yarn kill:identity\"",
-    "test:acceptance": "concurrently \"yarn start:identity\" \"yarn start:web\" \"yarn wait_for_services && yarn acceptance_tests && yarn kill_services || (yarn kill_services && false)\"",
     "run:web": "cd ./src/Auction.Buddy.Web && dotnet run",
-    "test:unit": "cd ./tests/Auction.Buddy.Unit.Tests && dotnet test",
+    "test:acceptance": "concurrently \"yarn start:identity\" \"yarn start:web\" \"yarn wait_for_services && yarn acceptance_tests && yarn kill_services || (yarn kill_services && false)\"",
+    "test:dotnet:unit": "cd ./tests/Auction.Buddy.Unit.Tests && dotnet test",
+    "test:js:unit": "cd ./src/Auction.Buddy.Web && yarn test",
+    "test:unit": "yarn test:dotnet:unit && yarn test:js:unit",
     "ci": "yarn test:unit && yarn test:acceptance"
   },
   "devDependencies": {
