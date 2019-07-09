@@ -6,8 +6,11 @@ stages:
   - job: ci
     displayName: Continuous Integration
     pool:
-      vmImage: 'windows-2019'
+      vmImage: 'macOS-10.14'
     steps:
+      - script: brew tap caskroom/cask && brew cask install chromedriver
+        displayName: Install Chromedriver
+
       - script: dotnet restore
         displayName: Restore NuGet Packages
 
@@ -24,6 +27,8 @@ stages:
 
       - script: yarn ci
         displayName: Run Tests
+        env:
+          CHROME_DRIVER: '/usr/local/bin/chromedriver' 
 
 - stage: deploy_app
   displayName: Deploy Auction Buddy

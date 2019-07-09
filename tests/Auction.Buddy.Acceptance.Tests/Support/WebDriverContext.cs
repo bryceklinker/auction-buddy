@@ -37,13 +37,10 @@ namespace Auction.Buddy.Acceptance.Tests.Support
         {
             var options = new ChromeOptions
             {
-                BinaryLocation = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "chromedriver.exe"))
-                    : null
+                BinaryLocation = Environment.GetEnvironmentVariable("CHROME_DRIVER")
             };
             options.AddArgument("--headless");
             options.AddArgument("--verbose");
-            options.AddArgument($"--log-path={Path.Combine(Path.Combine(Directory.GetCurrentDirectory(), "chromedriver.log"))}");
             return options;
         }
     }
