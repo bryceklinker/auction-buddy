@@ -9,7 +9,7 @@ stages:
       vmImage: 'macOS-10.14'
     steps:
       - script: brew tap caskroom/cask && brew cask install chromedriver
-        displayName: Installing Chromedriver
+        displayName: Install Chromedriver
 
       - script: dotnet restore
         displayName: Restore NuGet Packages
