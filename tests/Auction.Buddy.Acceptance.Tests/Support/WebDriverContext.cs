@@ -35,12 +35,8 @@ namespace Auction.Buddy.Acceptance.Tests.Support
 
         private static ChromeOptions CreateChromeOptions()
         {
-            var options = new ChromeOptions
-            {
-                BinaryLocation = Environment.GetEnvironmentVariable("CHROME_DRIVER")
-            };
+            var options = new ChromeOptions();
             options.AddArgument("--headless");
-            options.AddArgument("--verbose");
             return options;
         }
     }
