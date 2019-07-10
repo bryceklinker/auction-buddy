@@ -8,9 +8,11 @@ namespace Auction.Buddy.Acceptance.Tests.Support
 {
     public class WebDriverContext : IDisposable
     {
+        public string BaseUrl { get; }
         public ChromeDriver Driver { get; }
         public WebDriverContext()
         {
+            BaseUrl = "https://localhost:5001";
             Driver = CreateChromeDriver();
         }
 
@@ -22,14 +24,14 @@ namespace Auction.Buddy.Acceptance.Tests.Support
 
         public void Reset()
         {
-            Driver.Navigate().GoToUrl("https://localhost:5001");
+            Driver.Navigate().GoToUrl(BaseUrl);
         }
 
-        private static ChromeDriver CreateChromeDriver()
+        private ChromeDriver CreateChromeDriver()
         {
             return new ChromeDriver(CreateChromeOptions())
             {
-                Url = "https://localhost:5001"
+                Url = BaseUrl
             };
         }
 

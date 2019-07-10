@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +39,13 @@
     <TypeScriptCompile Include="client-app\auctions\containers\AuctionDetailContainer.spec.tsx" />
     <TypeScriptCompile Include="client-app\auctions\containers\AuctionDetailContainer.tsx" />
     <TypeScriptCompile Include="client-app\common\services\create-auth-api.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+    <_ContentIncludedByDefault Remove="wwwroot\main.8c5374833d60191e2e54.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\main.8c5374833d60191e2e54.js.map" />
   </ItemGroup>
 
   <Target Name="BundleSpa" BeforeTargets="Compile">

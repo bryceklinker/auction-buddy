@@ -122,6 +122,27 @@ namespace Auction.Buddy.Acceptance.Tests.Features
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="View Auctions List")]
+        [Xunit.TraitAttribute("FeatureTitle", "Auctions")]
+        [Xunit.TraitAttribute("Description", "View Auctions List")]
+        public virtual void ViewAuctionsList()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("View Auctions List", null, ((string[])(null)));
+#line 13
+  this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 2
+  this.FeatureBackground();
+#line 14
+    testRunner.Given("auctions already exist", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 15
+    testRunner.When("I view auctions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+    testRunner.Then("I should see all auctions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.0.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

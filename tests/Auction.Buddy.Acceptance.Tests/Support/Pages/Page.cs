@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using OpenQA.Selenium.Chrome;
 
 namespace Auction.Buddy.Acceptance.Tests.Support.Pages
@@ -7,6 +8,7 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
         private readonly WebDriverContext _context;
 
         protected ChromeDriver Driver => _context.Driver;
+        protected string BaseUrl => _context.BaseUrl;
         
         protected Page(WebDriverContext context)
         {

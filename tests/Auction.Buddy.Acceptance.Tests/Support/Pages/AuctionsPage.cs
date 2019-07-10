@@ -11,7 +11,7 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public void Navigate()
         {
-            Driver.Navigate().GoToUrl("https://localhost:5001/auctions");
+            Driver.Navigate().GoToUrl($"{BaseUrl}/auctions");
         }
 
         public bool IsListVisible()
@@ -22,6 +22,11 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
         public void GoToCreateAuction()
         {
             Driver.FindElementByTestId("create-auction-button").Click();
+        }
+
+        public int GetAuctionsCount()
+        {
+            return Driver.FindElementsByTestId("auction-item").Count;
         }
     }
 }

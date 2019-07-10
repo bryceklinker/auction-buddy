@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Serilog;
+using Serilog.Events;
 
 namespace Auction.Buddy.Web
 {
@@ -12,6 +14,13 @@ namespace Auction.Buddy.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSerilog((context, config) =>
+                {
+                    config.Enrich.FromLogContext()
+                        .WriteTo.Console()
+                        .MinimumLevel.Verbose()
+                        .MinimumLevel.Override("Microsoft", LogEventLevel.Warning);
+                })
                 .UseStartup<Startup>();
     }
 }

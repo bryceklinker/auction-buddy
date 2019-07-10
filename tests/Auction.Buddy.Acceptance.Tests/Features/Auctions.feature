@@ -9,3 +9,8 @@ Feature: Auctions
   Scenario: Create Auction Failure
     When I create an invalid auction
     Then I should see validation errors
+    
+  Scenario: View Auctions List
+    Given auctions already exist
+    When I view auctions
+    Then I should see all auctions

@@ -1,5 +1,3 @@
-using System.Threading.Tasks;
-
 namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 {
     public class AuctionDetailPage : Page
@@ -9,11 +7,6 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
         {
         }
 
-        public async Task WaitToBeVisible()
-        {
-            await Driver.WaitForElementByTestId("auction-detail");
-        }
-        
         public string GetAuctionName()
         {
             return Driver.FindElementByTestId("auction-name").Text;

@@ -9,7 +9,9 @@ namespace Auction.Buddy.Core
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddAuctionBuddy(this IServiceCollection services, Action<DbContextOptionsBuilder> configureDbContext)
+        public static IServiceCollection AddAuctionBuddy(
+            this IServiceCollection services, 
+            Action<DbContextOptionsBuilder> configureDbContext)
         {
             return services
                 .AddHttpClient()

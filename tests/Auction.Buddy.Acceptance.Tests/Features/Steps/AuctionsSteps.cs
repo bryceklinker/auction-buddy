@@ -25,6 +25,19 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
             _createAuctionPage = new CreateAuctionPage(context);
         }
 
+        [Given("auctions already exist")]
+        public async Task GivenAuctionsAlreadyExist()
+        {
+            _createAuctionPage.Navigate();
+            await _createAuctionPage.CreateAuction("One", DateTime.Today.AddDays(5));
+            
+            _createAuctionPage.Navigate();
+            await _createAuctionPage.CreateAuction("Two", DateTime.Today.AddDays(5));
+            
+            _createAuctionPage.Navigate();
+            await _createAuctionPage.CreateAuction("Three", DateTime.Today.AddDays(5));
+        }
+
         [When("I create an auction")]
         public async Task WhenICreateAnAuction()
         {
@@ -42,18 +55,33 @@ namespace Auction.Buddy.Acceptance.Tests.Features.Steps
             await _createAuctionPage.CreateAuction("", DateTime.MinValue);
         }
 
+        [When("I view auctions")]
+        public void WhenIViewAuctions()
+        {
+            _auctionsPage.Navigate();
+        }
+
         [Then("I should see the new auction")]
         public async Task ThenIShouldSeeTheNewAuction()
         {
-            await _auctionDetailPage.WaitToBeVisible();
-            _auctionDetailPage.GetAuctionDate().Should().Contain(_auctionDate.ToString("MM/dd/yyyy"));
-            _auctionDetailPage.GetAuctionName().Should().Contain(_auctionName);
+            await Eventually.Do(() =>
+            {
+                _auctionDetailPage.GetAuctionDate().Should().Contain(_auctionDate.ToString("MM/dd/yyyy"));
+                _auctionDetailPage.GetAuctionName().Should().Contain(_auctionName);
+            });
+
         }
 
         [Then("I should see validation errors")]
         public async Task ThenIShouldSeeValidationErrors()
         {
             await Eventually.Do(() => _createAuctionPage.HasValidationErrors().Should().BeTrue());
+        }
+
+        [Then("I should see all auctions")]
+        public async Task ThenIShouldSeeAllAuctions()
+        {
+            await Eventually.Do(() => _auctionsPage.GetAuctionsCount().Should().BeGreaterOrEqualTo(3));
         }
     }
 }
