@@ -36,7 +36,7 @@ namespace Auction.Buddy.Acceptance.Tests.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Login", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "LoginView", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -76,12 +76,12 @@ namespace Auction.Buddy.Acceptance.Tests.Features
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Failed Login")]
-        [Xunit.TraitAttribute("FeatureTitle", "Login")]
-        [Xunit.TraitAttribute("Description", "Failed Login")]
+        [Xunit.FactAttribute(DisplayName="Failed LoginView")]
+        [Xunit.TraitAttribute("FeatureTitle", "LoginView")]
+        [Xunit.TraitAttribute("Description", "Failed LoginView")]
         public virtual void FailedLogin()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Failed Login", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Failed LoginView", null, ((string[])(null)));
 #line 3
   this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -95,12 +95,12 @@ namespace Auction.Buddy.Acceptance.Tests.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Successful Login")]
-        [Xunit.TraitAttribute("FeatureTitle", "Login")]
-        [Xunit.TraitAttribute("Description", "Successful Login")]
+        [Xunit.FactAttribute(DisplayName="Successful LoginView")]
+        [Xunit.TraitAttribute("FeatureTitle", "LoginView")]
+        [Xunit.TraitAttribute("Description", "Successful LoginView")]
         public virtual void SuccessfulLogin()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful Login", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Successful LoginView", null, ((string[])(null)));
 #line 8
   this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();

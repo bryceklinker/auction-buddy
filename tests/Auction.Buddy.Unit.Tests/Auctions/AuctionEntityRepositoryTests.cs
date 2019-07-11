@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
+using Auction.Buddy.Core.Auctions.Dtos;
 using Auction.Buddy.Core.Auctions.Entities;
 using Auction.Buddy.Core.Common.Storage;
 using Auction.Buddy.Unit.Tests.Utilities;
@@ -33,6 +34,18 @@ namespace Auction.Buddy.Unit.Tests.Auctions
 
             await _repository.AddAsync(entity);
             _context.Set<AuctionEntity>().Should().HaveCount(1);
+        }
+
+        [Fact]
+        public async Task GivenAuctionsAreInTheDatabaseWhenGetAllThenAllAuctionsAreReturned()
+        {
+            _context.Add(new AuctionEntity("bob", DateTime.Today));
+            _context.Add(new AuctionEntity("three", DateTime.Today));
+            _context.Add(new AuctionEntity("four", DateTime.Today));
+            _context.SaveChanges();
+
+            var results = await _repository.GetAllDtosAsync();
+            results.Should().HaveCount(3);
         }
     }
 }

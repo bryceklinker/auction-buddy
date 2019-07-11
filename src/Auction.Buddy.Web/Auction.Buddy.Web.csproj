@@ -36,18 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="client-app\auctions\containers\AuctionDetailContainer.spec.tsx" />
-    <TypeScriptCompile Include="client-app\auctions\containers\AuctionDetailContainer.tsx" />
-    <TypeScriptCompile Include="client-app\common\services\create-auth-api.ts" />
+    <TypeScriptCompile Include="client-app\common\components\ValidationResult.tsx" />
+    <TypeScriptCompile Include="client-app\login\components\LoginRequiredRoute.spec.tsx" />
+    <TypeScriptCompile Include="client-app\login\components\LoginRequiredRoute.tsx" />
+    <TypeScriptCompile Include="client-app\testing\dto-factory.ts" />
   </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Index.cshtml" />
-    <_ContentIncludedByDefault Remove="wwwroot\index.html" />
-    <_ContentIncludedByDefault Remove="wwwroot\main.8c5374833d60191e2e54.js" />
-    <_ContentIncludedByDefault Remove="wwwroot\main.8c5374833d60191e2e54.js.map" />
-  </ItemGroup>
-
+  
   <Target Name="BundleSpa" BeforeTargets="Compile">
     <Exec Command="yarn bundle" Condition="'$(Configuration)' == 'Release'" />
   </Target>

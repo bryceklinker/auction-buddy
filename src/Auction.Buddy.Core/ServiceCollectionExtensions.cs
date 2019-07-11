@@ -21,7 +21,8 @@ namespace Auction.Buddy.Core
                 .AddTransient<IAuthenticator, Authenticator>()
                 .AddTransient<IAuctionEntityFactory, AuctionEntityFactory>()
                 .AddTransient<IAuctionEntityRepository, AuctionEntityRepository>()
-                .AddTransient<ICreateAuctionInteractor, CreateAuctionInteractor>();
+                .AddTransient<ICreateAuctionInteractor, CreateAuctionInteractor>()
+                .AddTransient<IGetAllAuctionsInteractor, GetAllAuctionsInteractor>();
         }
     }
 }

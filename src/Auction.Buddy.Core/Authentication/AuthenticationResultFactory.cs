@@ -42,7 +42,7 @@ namespace Auction.Buddy.Core.Authentication
         private async Task<AuthenticationResultDto> CreateFailedResult(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
-            _logger.LogError("Login Failed: {content}", content);
+            _logger.LogError("LoginView Failed: {content}", content);
             return new AuthenticationResultDto
             {
                 IsSuccess = false

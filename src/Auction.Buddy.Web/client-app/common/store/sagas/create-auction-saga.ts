@@ -1,15 +1,15 @@
 import { select } from 'redux-saga/effects';
-import {push} from "connected-react-router";
-import {takeEvery, put, call} from "redux-saga/effects";
+import { push } from 'connected-react-router';
+import { takeEvery, put, call } from 'redux-saga/effects';
 
 import {
     AuctionActionTypes,
     createAuctionFailedAction,
     CreateAuctionRequestAction,
-    createAuctionSuccessAction
-} from "../actions/auction-actions";
-import {createAuthApi} from "../../services/create-auth-api";
-import {authResultSelector} from "../reducers/user-reducer";
+    createAuctionSuccessAction,
+} from '../actions/auction-actions';
+import { createAuthApi } from '../../services/create-auth-api';
+import { authResultSelector } from '../reducers/user-reducer';
 
 function* performCreateAuction(action: CreateAuctionRequestAction) {
     try {

@@ -65,7 +65,6 @@ namespace Auction.Buddy.Web
             app.UseHsts()
                 .UseHttpsRedirection()
                 .UseAuthentication()
-                .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseSpaStaticFiles();
 

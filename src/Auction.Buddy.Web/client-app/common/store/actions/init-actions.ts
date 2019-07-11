@@ -1,7 +1,7 @@
-import {action, PayloadAction} from "typesafe-actions";
+import { action, PayloadAction } from 'typesafe-actions';
 
 export const InitActionTypes = {
-    INIT: '@@init'
+    INIT: '@@init',
 };
 
 export interface InitAction extends PayloadAction<string, null> {

@@ -10,12 +10,21 @@ namespace Auction.Buddy.Web.Auctions
     public class AuctionsController : ControllerBase
     {
         private readonly ICreateAuctionInteractor _createAuctionInteractor;
+        private readonly IGetAllAuctionsInteractor _getAllAuctionsInteractor;
 
-        public AuctionsController(ICreateAuctionInteractor createAuctionInteractor)
+        public AuctionsController(ICreateAuctionInteractor createAuctionInteractor, 
+            IGetAllAuctionsInteractor getAllAuctionsInteractor)
         {
             _createAuctionInteractor = createAuctionInteractor;
+            _getAllAuctionsInteractor = getAllAuctionsInteractor;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _getAllAuctionsInteractor.ExecuteAsync());
+        }
+        
         [HttpGet("{id:int}", Name = "GetAuctionById")]
         public Task<IActionResult> GetById([FromRoute] int id)
         {

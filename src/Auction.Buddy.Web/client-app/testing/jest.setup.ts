@@ -1,4 +1,4 @@
-import {GlobalWithFetchMock} from "jest-fetch-mock";
+import { GlobalWithFetchMock } from 'jest-fetch-mock';
 
 import 'jest-dom/extend-expect';
 

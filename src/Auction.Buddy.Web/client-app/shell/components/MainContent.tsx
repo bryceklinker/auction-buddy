@@ -1,13 +1,9 @@
-import * as React from "react";
+import * as React from 'react';
 
 interface Props {
-    children: any
+    children: JSX.Element | JSX.Element[];
 }
 
-export function MainContent({children}: Props) {
-    return (
-        <div>
-            {children}
-        </div>
-    )
+export function MainContent({ children }: Props) {
+    return <div>{children}</div>;
 }

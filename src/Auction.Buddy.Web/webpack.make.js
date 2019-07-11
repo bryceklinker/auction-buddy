@@ -39,7 +39,7 @@ module.exports = function make(env) {
                 filename: 'index.html'
             })
         ]
-    }
+    };
 };
 
 function isProduction(env) {
