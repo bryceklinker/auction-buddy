@@ -14,3 +14,8 @@ Feature: Auctions
     Given auctions already exist
     When I view auctions
     Then I should see all auctions
+    
+  Scenario: View Auction Detail
+    Given auctions already exist
+    When I select an auction
+    Then I should see the auction's details

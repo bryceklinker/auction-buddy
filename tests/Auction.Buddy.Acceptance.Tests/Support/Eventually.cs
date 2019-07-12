@@ -30,31 +30,5 @@ namespace Auction.Buddy.Acceptance.Tests.Support
             if (lastException != null)
                 throw lastException;
         }
-
-        public static async Task DoAsync(
-            Func<Task> func,
-            int waitMilliseconds = Timeouts.DefaultWaitMilliseconds,
-            int delayMilliseconds = Timeouts.DefaultDelayMilliseconds)
-        {
-            var endWaitingTime = DateTime.UtcNow.AddMilliseconds(waitMilliseconds);
-            Exception lastException = null;
-
-            while (endWaitingTime >= DateTime.UtcNow)
-            {
-                try
-                {
-                    await func();
-                    return;
-                }
-                catch (Exception e)
-                {
-                    lastException = e;
-                    await Task.Delay(delayMilliseconds);
-                }
-            }
-
-            if (lastException != null)
-                throw lastException;
-        }
     }
 }

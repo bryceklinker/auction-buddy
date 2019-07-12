@@ -28,5 +28,10 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
         {
             return Driver.FindElementsByTestId("auction-item").Count;
         }
+
+        public void SelectAuctionAtIndex(int index)
+        {
+            Driver.FindElementsByTestId("auction-item").ElementAt(index).Click();
+        }
     }
 }

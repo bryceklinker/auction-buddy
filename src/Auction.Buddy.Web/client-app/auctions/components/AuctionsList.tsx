@@ -20,11 +20,12 @@ const useStyles = makeStyles(theme => ({
 interface Props {
     auctions: AuctionDto[];
     onCreate: () => void;
+    onAuctionSelected: (auction: AuctionDto) => void;
 }
 
-function AuctionsListView({ auctions, onCreate }: Props) {
+function AuctionsListView({ auctions, onCreate, onAuctionSelected }: Props) {
     const classes = useStyles();
-    const items = auctions.map(a => <AuctionListItem auction={a} key={a.id} />);
+    const items = auctions.map(a => <AuctionListItem onSelected={onAuctionSelected} auction={a} key={a.id} />);
     return (
         <div className={classes.container} data-testid="auction-list">
             <List>{items}</List>
@@ -44,6 +45,7 @@ function mapStateToProps(state: AppState) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         onCreate: () => dispatch(push('/create-auction')),
+        onAuctionSelected: (auction: AuctionDto) => dispatch(push(`/auction-detail/${auction.id}`)),
     };
 }
 

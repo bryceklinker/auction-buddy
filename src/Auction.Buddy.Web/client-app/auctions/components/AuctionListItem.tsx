@@ -6,11 +6,12 @@ import { formatDate } from '../../common/services/date-formatter';
 
 interface Props {
     auction: AuctionDto;
+    onSelected: (auction: AuctionDto) => void;
 }
 
-export function AuctionListItem({ auction }: Props) {
+export function AuctionListItem({ auction, onSelected }: Props) {
     return (
-        <ListItem data-testid={'auction-item'}>
+        <ListItem button data-testid={'auction-item'} onClick={() => onSelected(auction)}>
             <ListItemText primary={auction.name} secondary={formatDate(auction.auctionDate)} />
         </ListItem>
     );

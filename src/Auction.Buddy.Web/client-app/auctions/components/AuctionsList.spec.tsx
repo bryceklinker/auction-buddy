@@ -39,5 +39,15 @@ describe('AuctionsListContainer', () => {
         expect(getByTestId('auction-item')).toHaveTextContent('09/23/2019');
     });
 
+    it('should go to auction details when auction selected', () => {
+        const dto = createAuctionDto();
+        const store = createTestingStore(getAllAuctionsSuccessAction([dto]));
+        const { getByTestId } = renderWithStore(<AuctionsList />, store);
+
+        fireEvent.click(getByTestId('auction-item'));
+
+        expect(store.getActions()).toContainEqual(push(`/auction-detail/${dto.id}`));
+    });
+
     afterEach(() => cleanup());
 });
