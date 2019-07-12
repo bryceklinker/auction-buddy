@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { format } from 'date-fns';
+import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 
 import { AuctionDto } from '../../common/store/dtos/auction-dto';
 import { AppState } from '../../app-state';
-import { RouteComponentProps } from 'react-router';
 import { auctionDetailSelector } from '../../common/store/reducers/auctions-reducer';
-import { connect } from 'react-redux';
+import { formatDate } from '../../common/services/date-formatter';
 
 interface Props {
     auction?: AuctionDto;
 }
 
 function AuctionDetailView({ auction }: Props) {
-    const auctionDate = auction ? format(auction.auctionDate, 'MM/DD/YYYY') : '';
+    const auctionDate = auction ? formatDate(auction.auctionDate) : '';
 
     return (
         <div>

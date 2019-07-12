@@ -39,6 +39,13 @@
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="client-app\common\store\auth-loader.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\store\auth-loader.ts" />
+    <TypeScriptCompile Include="client-app\common\store\auth-storage.spec.ts" />
+    <TypeScriptCompile Include="client-app\common\store\auth-storage.ts" />
+  </ItemGroup>
   
   <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="yarn bundle" Condition="'$(Configuration)' == 'Release'" />

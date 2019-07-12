@@ -12,6 +12,10 @@ export function createSuccessAuthenticationResultDto(): AuthenticationResultDto 
     };
 }
 
+export function createFailedAuthenticationResultDto(): AuthenticationResultDto {
+    return { isSuccess: false };
+}
+
 export function createAuctionDto(): AuctionDto {
     return {
         id: faker.random.number(),

@@ -4,6 +4,7 @@ import { loginSaga } from './login-saga';
 import { loginFailedAction, loginRequestAction, loginSuccessAction, UserActionTypes } from '../actions/user-actions';
 import { AppState } from '../../../app-state';
 import { CALL_HISTORY_METHOD, push } from 'connected-react-router';
+import { getAuth, saveAuth } from '../auth-storage';
 
 describe('loginSaga', () => {
     let tester: SagaTester<AppState>;
@@ -46,6 +47,26 @@ describe('loginSaga', () => {
         expect(tester.getCalledActions()).toContainEqual(push('/auctions'));
     });
 
+    it('should save auth when login successful', async () => {
+        fetchMock.mockResponse(JSON.stringify({ isSuccess: true }));
+
+        tester.dispatch(loginRequestAction({ username: 'one', password: 'one' }));
+        await tester.waitFor(UserActionTypes.LOGIN_SUCCESS);
+
+        expect(getAuth()).toEqual({ isSuccess: true });
+    });
+
+    it('should save auth when login fails', async () => {
+        saveAuth({ isSuccess: true });
+
+        fetchMock.mockResponse(JSON.stringify({ isSuccess: false }));
+
+        tester.dispatch(loginRequestAction({ username: 'one', password: 'one' }));
+        await tester.waitFor(UserActionTypes.LOGIN_FAILED);
+
+        expect(getAuth()).toEqual(null);
+    });
+
     it('should dispatch login failed action', async () => {
         fetchMock.mockResponse(JSON.stringify({ isSuccess: false }));
 
@@ -54,4 +75,6 @@ describe('loginSaga', () => {
 
         expect(tester.getCalledActions()).toContainEqual(loginFailedAction({ isSuccess: false }));
     });
+
+    afterEach(() => localStorage.clear());
 });
