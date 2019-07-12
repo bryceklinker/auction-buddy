@@ -1,14 +1,29 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
+import { Button, makeStyles, Typography } from '@material-ui/core';
+import { Action, Dispatch } from 'redux';
+import { connect } from 'react-redux';
+
 import { CreateAuctionDto } from '../../common/store/dtos/auction-dto';
 import { ValidationResultDto } from '../../common/store/dtos/validation-result-dto';
 import { AppState } from '../../app-state';
 import { isCreatingAuctionSelector } from '../../common/store/reducers/loading-reducer';
 import { auctionsValidationResultSelector } from '../../common/store/reducers/auctions-reducer';
-import { Action, Dispatch } from 'redux';
 import { createAuctionRequestAction } from '../../common/store/actions/auction-actions';
-import { connect } from 'react-redux';
 import { ValidationResult } from '../../common/components/ValidationResult';
+import { InputField } from '../../common/components/InputField';
+
+const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        margin: theme.spacing(1),
+    },
+    saveButton: {
+        marginTop: theme.spacing(2),
+        alignSelf: 'right',
+    },
+}));
 
 interface Props {
     isCreating: boolean;
@@ -19,19 +34,44 @@ interface Props {
 export function CreateAuctionView({ onSave, isCreating, validationResult }: Props) {
     const [name, setName] = useState('');
     const [date, setDate] = useState('');
+    const classes = useStyles();
 
-    const handleSave = () => {
+    const handleSave = (evt: FormEvent) => {
+        if (evt) {
+            evt.preventDefault();
+        }
+
         onSave({ name, auctionDate: date });
     };
     return (
-        <div data-testid="create-auction">
+        <form className={classes.container} data-testid="create-auction" onSubmit={handleSave}>
+            <Typography variant={'h6'}>Create Auction</Typography>
             <ValidationResult validationResult={validationResult} />
-            <input data-testid="create-auction-name-input" value={name} onChange={t => setName(t.target.value)} />
-            <input data-testid="create-auction-date-input" value={date} onChange={t => setDate(t.target.value)} />
-            <button data-testid="create-auction-save-button" disabled={isCreating} onClick={handleSave}>
+            <InputField
+                value={name}
+                autoFocus
+                label={'Name'}
+                onChange={t => setName(t.target.value)}
+                inputProps={{ 'data-testid': 'create-auction-name-input' }}
+                fullWidth
+            />
+            <InputField
+                value={date}
+                label={'Auction Date'}
+                onChange={t => setDate(t.target.value)}
+                inputProps={{ 'data-testid': 'create-auction-date-input' }}
+                fullWidth
+            />
+            <Button
+                className={classes.saveButton}
+                data-testid={'create-auction-save-button'}
+                type={'submit'}
+                onClick={handleSave}
+                disabled={isCreating}
+            >
                 Save
-            </button>
-        </div>
+            </Button>
+        </form>
     );
 }
 

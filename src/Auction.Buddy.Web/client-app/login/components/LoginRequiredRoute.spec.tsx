@@ -7,7 +7,7 @@ import {MemoryRouter, RouteComponentProps} from "react-router";
 import { LoginRequiredRoute } from './LoginRequiredRoute';
 import {push} from "connected-react-router";
 import {loginSuccessAction} from "../../common/store/actions/user-actions";
-import {createSuccessAuthenticationResult} from "../../testing/dto-factory";
+import {createSuccessAuthenticationResultDto} from "../../testing/dto-factory";
 
 describe('LoginRequiredRoute', () => {
     it('should navigate to login', () => {
@@ -19,7 +19,7 @@ describe('LoginRequiredRoute', () => {
     });
 
     it('should show component in route', () => {
-        const store = createTestingStore(loginSuccessAction(createSuccessAuthenticationResult()));
+        const store = createTestingStore(loginSuccessAction(createSuccessAuthenticationResultDto()));
         const { queryAllByTestId } = renderWithRouter(FakeComponent, store);
 
         expect(queryAllByTestId('bob')).toHaveLength(1);

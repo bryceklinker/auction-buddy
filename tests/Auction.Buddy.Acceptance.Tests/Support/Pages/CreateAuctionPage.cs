@@ -13,7 +13,7 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public void Navigate()
         {
-            Driver.Navigate().GoToUrl($"{BaseUrl}/create-auction");
+            Navigate("/create-auction");
         }
 
         public async Task CreateAuction(string name, DateTime auctionDate)

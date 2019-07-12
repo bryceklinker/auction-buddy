@@ -1,10 +1,13 @@
-﻿using Auction.Buddy.Core;
+﻿using System.IO;
+using Auction.Buddy.Core;
+using Auction.Buddy.Core.Common.Storage;
 using Auction.Buddy.Web.Common.Npm;
 using Auction.Buddy.Web.Common.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -25,7 +28,7 @@ namespace Auction.Buddy.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSpaStaticFiles(opts => opts.RootPath = "wwwroot");
+            services.AddSpaStaticFiles(opts => opts.RootPath = "client-app/dist");
             services.AddNodeServices();
             services.AddMvc()
                 .AddMvcOptions(opts =>
@@ -71,7 +74,7 @@ namespace Auction.Buddy.Web
             app.UseMvc()
                 .UseSpa(spa =>
                 {
-                    spa.Options.SourcePath = env.IsDevelopment() ? "client-app" : "wwwroot";
+                    spa.Options.SourcePath = "client-app";
                     if (!env.IsDevelopment()) 
                         return;
                     
@@ -79,6 +82,12 @@ namespace Auction.Buddy.Web
                     var scriptRunner = new NpmScriptRunner(loggerFactory, spa.Options);
                     scriptRunner.Execute("start");
                 });
+            
+            app.Run(async ctx =>
+            {
+                ctx.Response.ContentType = "text/html";
+                await ctx.Response.SendFileAsync(Path.Combine(env.ContentRootPath, "client-app", "dist", "index.html"));
+            });
         }
     }
 }

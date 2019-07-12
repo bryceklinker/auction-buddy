@@ -7,10 +7,13 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "clean": "rimraf ./client-app/dist",
     "test": "jest",
     "test:watch": "yarn test --watch",
     "start": "webpack-dev-server --config ./webpack.config.js --progress --hot --inline --mode development",
+    "prebundle": "yarn clean",
     "bundle": "webpack --config ./webpack.prod.js --mode production",
+    "prelint": "yarn clean",
     "lint": "eslint client-app/**/*.* --ext .ts,.tsx,.js --fix"
   },
   "dependencies": {
@@ -69,6 +72,7 @@
     "redux-mock-store": "1.5.3",
     "redux-saga-tester": "1.0.491",
     "reselect": "4.0.0",
+    "rimraf": "2.6.3",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.1",
     "typescript": "3.5.2",

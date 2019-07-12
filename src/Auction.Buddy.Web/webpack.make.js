@@ -9,9 +9,9 @@ module.exports = function make(env) {
             main: path.join(__dirname, 'client-app', 'index.tsx')
         },
         output: {
-            path: path.join(__dirname, 'wwwroot'),
+            path: path.join(__dirname, 'client-app', 'dist'),
             filename: isProd ? '[name].[hash].js' : '[name].js',
-            sourceMapFilename: '[file].map'
+            sourceMapFilename: '[file].map',
         },
         resolve: {
             extensions: ['.tsx', '.ts', '.jsx', '.js', '.css', '.scss', '.json']
@@ -38,7 +38,10 @@ module.exports = function make(env) {
                 template: path.join(__dirname, 'client-app', 'index.html'),
                 filename: 'index.html'
             })
-        ]
+        ],
+        devServer: {
+            historyApiFallback: true,
+        }
     };
 };
 

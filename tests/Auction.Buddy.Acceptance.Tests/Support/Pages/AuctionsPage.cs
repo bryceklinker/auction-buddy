@@ -11,7 +11,7 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
 
         public void Navigate()
         {
-            Driver.Navigate().GoToUrl($"{BaseUrl}/auctions");
+            Navigate("/auctions");
         }
 
         public bool IsListVisible()

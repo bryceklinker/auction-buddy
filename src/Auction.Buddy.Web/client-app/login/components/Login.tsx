@@ -48,6 +48,7 @@ function LoginView({ onLogin, hasLoginFailed, isLoggingIn }: Props) {
         <form className={classes.container} onSubmit={handleLoginButtonClick}>
             <LoginErrorMessage hasLoginFailed={hasLoginFailed} />
             <InputField
+                autoFocus
                 label={'Username'}
                 value={username}
                 onChange={t => setUsername(t.target.value)}

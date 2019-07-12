@@ -4,6 +4,9 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>client-app/</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)/node_modules/**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,10 +28,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="wwwroot/**">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -36,16 +35,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="client-app\common\components\InputField.tsx" />
-    <TypeScriptCompile Include="client-app\common\components\ValidationResult.tsx" />
-    <TypeScriptCompile Include="client-app\common\create-theme.ts" />
-    <TypeScriptCompile Include="client-app\login\components\LoginErrorMessage.tsx" />
-    <TypeScriptCompile Include="client-app\login\components\LoginRequiredRoute.spec.tsx" />
-    <TypeScriptCompile Include="client-app\login\components\LoginRequiredRoute.tsx" />
-    <TypeScriptCompile Include="client-app\testing\dto-factory.ts" />
+    <Content Remove="$(SpaRoot)**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
   
-  <Target Name="BundleSpa" BeforeTargets="Compile">
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
     <Exec Command="yarn bundle" Condition="'$(Configuration)' == 'Release'" />
+
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist/**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>  
+    </ItemGroup>
   </Target>
 </Project>

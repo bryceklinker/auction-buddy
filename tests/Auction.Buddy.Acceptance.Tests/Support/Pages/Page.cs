@@ -14,5 +14,10 @@ namespace Auction.Buddy.Acceptance.Tests.Support.Pages
         {
             _context = context;
         }
+
+        protected void Navigate(string path)
+        {
+            Driver.Navigate().GoToUrl($"{BaseUrl}{path}");
+        }
     }
 }

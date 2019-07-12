@@ -5,6 +5,17 @@ import { auctionsSelector } from '../../common/store/reducers/auctions-reducer';
 import { Dispatch } from 'redux';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
+import { Fab, List, makeStyles } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { AuctionListItem } from './AuctionListItem';
+
+const useStyles = makeStyles(theme => ({
+    container: {
+        display: 'flex',
+        margin: theme.spacing(1),
+        flexDirection: 'column',
+    },
+}));
 
 interface Props {
     auctions: AuctionDto[];
@@ -12,13 +23,14 @@ interface Props {
 }
 
 function AuctionsListView({ auctions, onCreate }: Props) {
-    const items = auctions.map(a => <li data-testid="auction-item" key={a.id}></li>);
+    const classes = useStyles();
+    const items = auctions.map(a => <AuctionListItem auction={a} key={a.id} />);
     return (
-        <div data-testid="auction-list">
-            <ul>{items}</ul>
-            <button data-testid="create-auction-button" onClick={onCreate}>
-                Create Auction
-            </button>
+        <div className={classes.container} data-testid="auction-list">
+            <List>{items}</List>
+            <Fab data-testid={'create-auction-button'} onClick={onCreate} color={'primary'}>
+                <AddIcon />
+            </Fab>
         </div>
     );
 }
