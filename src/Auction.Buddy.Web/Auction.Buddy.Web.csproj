@@ -36,7 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="client-app\common\components\InputField.tsx" />
     <TypeScriptCompile Include="client-app\common\components\ValidationResult.tsx" />
+    <TypeScriptCompile Include="client-app\common\create-theme.ts" />
+    <TypeScriptCompile Include="client-app\login\components\LoginErrorMessage.tsx" />
     <TypeScriptCompile Include="client-app\login\components\LoginRequiredRoute.spec.tsx" />
     <TypeScriptCompile Include="client-app\login\components\LoginRequiredRoute.tsx" />
     <TypeScriptCompile Include="client-app\testing\dto-factory.ts" />
