@@ -9,6 +9,7 @@ export function createSuccessAuthenticationResultDto(): AuthenticationResultDto 
         tokenType: 'Bearer',
         accessToken: `${faker.hacker.verb()}.${faker.hacker.noun()}.${faker.random.alphaNumeric(12)}`,
         expiresIn: faker.random.number(10000),
+        expiresAt: faker.date.future().toISOString(),
     };
 }
 

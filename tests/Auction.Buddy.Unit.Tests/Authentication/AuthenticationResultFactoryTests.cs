@@ -1,8 +1,10 @@
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Authentication;
+using Auction.Buddy.Unit.Tests.Utilities;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
@@ -13,6 +15,8 @@ namespace Auction.Buddy.Unit.Tests.Authentication
     {
         private readonly HttpResponseMessage _response;
         private readonly AuthenticationResultFactory _authenticationResultFactory;
+        private readonly DateTimeOffset _utcNow;
+        
 
         public AuthenticationResultFactoryTests()
         {
@@ -21,7 +25,13 @@ namespace Auction.Buddy.Unit.Tests.Authentication
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
-            _authenticationResultFactory = new AuthenticationResultFactory(new NullLoggerFactory());
+            
+            _utcNow = DateTimeOffset.UtcNow;
+            var clock = new StubSystemClock
+            {
+                UtcNow = _utcNow
+            };
+            _authenticationResultFactory = new AuthenticationResultFactory(new NullLoggerFactory(), clock);
         }
 
         [Fact]
@@ -47,6 +57,7 @@ namespace Auction.Buddy.Unit.Tests.Authentication
             result.AccessToken.Should().Be("header.payload.signature");
             result.ExpiresIn.Should().Be(2000);
             result.TokenType.Should().Be("Bearer");
+            result.ExpiresAt.Should().Be(_utcNow.AddSeconds(2000));
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Authentication.Dtos;
+using Auction.Buddy.Core.Common;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
@@ -13,10 +14,12 @@ namespace Auction.Buddy.Core.Authentication
 
     public class AuthenticationResultFactory : IAuthenticationResultFactory
     {
+        private readonly ISystemClock _clock;
         private readonly ILogger _logger;
 
-        public AuthenticationResultFactory(ILoggerFactory loggerFactory)
+        public AuthenticationResultFactory(ILoggerFactory loggerFactory, ISystemClock clock)
         {
+            _clock = clock;
             _logger = loggerFactory.CreateLogger<AuthenticationResultFactory>();
         }
         
@@ -27,14 +30,16 @@ namespace Auction.Buddy.Core.Authentication
                 : await CreateFailedResult(response);
         }
 
-        private static async Task<AuthenticationResultDto> CreateSuccessfulResult(HttpResponseMessage response)
+        private async Task<AuthenticationResultDto> CreateSuccessfulResult(HttpResponseMessage response)
         {
             var jObject = await response.Content.ReadAsAsync<JObject>();
+            var expiresIn = jObject.Value<int>("expires_in");
             return new AuthenticationResultDto
             {
                 IsSuccess = true,
                 AccessToken = jObject.Value<string>("access_token"),
-                ExpiresIn = jObject.Value<int>("expires_in"),
+                ExpiresIn = expiresIn,
+                ExpiresAt = _clock.UtcNow.AddSeconds(expiresIn),
                 TokenType = jObject.Value<string>("token_type")
             };
         }

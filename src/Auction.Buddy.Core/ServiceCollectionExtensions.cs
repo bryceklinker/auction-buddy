@@ -1,6 +1,7 @@
 using System;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Authentication;
+using Auction.Buddy.Core.Common;
 using Auction.Buddy.Core.Common.Storage;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ namespace Auction.Buddy.Core
         {
             return services
                 .AddHttpClient()
+                .AddTransient<ISystemClock, SystemClock>()
                 .AddDbContext<AuctionContext>(configureDbContext)
                 .AddTransient<IAuthenticationRequestFactory, AuthenticationRequestFactory>()
                 .AddTransient<IAuthenticationResultFactory, AuthenticationResultFactory>()
