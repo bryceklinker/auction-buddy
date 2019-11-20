@@ -335,3 +335,5 @@ ASALocalRun/
 dist/
 wwwroot/
 **/appsettings.Development.json
+screenshots/
+videos/

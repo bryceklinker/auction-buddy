@@ -1,0 +1,29 @@
+{
+  "name": "auction-buddy-acceptance",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "preapi:build": "rimraf ./dist",
+    "api:build": "cd ../../src/Auction.Buddy.Api && dotnet publish --configuration Release --output ../../tests/Auction.Buddy.Acceptance/dist/api",
+    "api:start": "cd ./dist/api && cross-env ASPNETCORE_ENVIRONMENT=Acceptance dotnet Auction.Buddy.Api.dll",
+    "api:stop": "kill -9 $(lsof -t -i:5001 -sTCP:LISTEN) || true",
+    "api:wait": "wait-on tcp:5001",
+    "cypress:run": "cypress run",
+    "pretest:dev": "yarn api:build",
+    "test:dev": "cypress open",
+    "pretest": "yarn api:build",
+    "test": "concurrently \"yarn api:start\" \"yarn api:wait && yarn cypress:run && yarn api:stop || (yarn api:stop && false)\""
+  },
+  "devDependencies": {
+    "concurrently": "5.0.0",
+    "cross-env": "6.0.3",
+    "cypress": "3.6.1",
+    "cypress-cucumber-preprocessor": "1.16.2",
+    "rimraf": "3.0.0",
+    "wait-on": "3.3.0"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+  }
+}
