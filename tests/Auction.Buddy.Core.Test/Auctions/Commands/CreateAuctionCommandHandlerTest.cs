@@ -43,7 +43,24 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
         {
             var result = await _handler.HandleAsync(new CreateAuctionCommand("idk", DateTimeOffset.UtcNow));
             
-            Assert.True(result.IsSuccessful);
+            Assert.True(result.WasSuccessful);
+        }
+
+        [Fact]
+        public async Task WhenCreateAuctionCommandIsHandledThenReturnsAuctionId()
+        {
+            var result = await _handler.HandleAsync(new CreateAuctionCommand("one", DateTimeOffset.UtcNow));
+
+            var auction = _gateway.Aggregates[0];
+            Assert.Equal(auction.Id, result.Result);
+        }
+
+        [Fact]
+        public async Task WhenCreateAuctionCommandIsInvalidThenReturnsFailedResult()
+        {
+            var result = await _handler.HandleAsync(new CreateAuctionCommand(null, DateTimeOffset.UtcNow));
+
+            Assert.False(result.WasSuccessful);
         }
     }
 }

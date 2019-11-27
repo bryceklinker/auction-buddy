@@ -28,5 +28,10 @@ namespace Auction.Buddy.Core.Test.Support.Gateways
             _aggregates.Add(aggregate);
             aggregate.Commit();
         }
+
+        public void Add(TAggregate aggregate)
+        {
+            _aggregates.Add(aggregate);
+        }
     }
 }

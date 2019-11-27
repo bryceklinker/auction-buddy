@@ -4,7 +4,7 @@ namespace Auction.Buddy.Core.Common.Commands
 {
     public class CommandResult
     {
-        public bool IsSuccessful => ValidationResult == null || ValidationResult.IsValid;
+        public bool WasSuccessful => ValidationResult == null || ValidationResult.IsValid;
         public ValidationResult ValidationResult { get; }
 
         public CommandResult()
