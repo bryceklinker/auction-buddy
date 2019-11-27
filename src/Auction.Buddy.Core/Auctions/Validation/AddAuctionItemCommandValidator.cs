@@ -12,9 +12,7 @@ namespace Auction.Buddy.Core.Auctions.Validation
                 .NotNull()
                 .SetValidator(new AuctionItemValidator());
 
-            RuleFor(c => c.AuctionId)
-                .NotNull()
-                .MustAsync(async (id, token) => await gateway.FindByIdAsync(id) != null);
+            RuleFor(c => c.AuctionId).MustExistAsync(gateway);
         }
     }
 }
