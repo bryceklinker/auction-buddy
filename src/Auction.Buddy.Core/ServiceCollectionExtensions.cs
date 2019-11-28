@@ -1,5 +1,6 @@
 using System;
 using Auction.Buddy.Core.Common.Commands;
+using Auction.Buddy.Core.Common.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Auction.Buddy.Core
@@ -12,7 +13,8 @@ namespace Auction.Buddy.Core
                 services.AddTransient(registration.InterfaceType, registration.ServiceType);
             
             return services
-                .AddTransient<CommandBus, ServiceProviderCommandBus>();
+                .AddTransient<CommandBus, ServiceProviderCommandBus>()
+                .AddTransient<DomainEventBus, ServiceProviderDomainEventBus>();
         }
     }
 }

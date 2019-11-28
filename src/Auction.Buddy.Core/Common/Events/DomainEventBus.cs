@@ -1,21 +1,32 @@
+using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Auction.Buddy.Core.Common.Events
 {
     public interface DomainEventBus
     {
-        Task PublishAsync<TAggregate, TId>(TAggregate aggregate, DomainEvent<TId> @event)
-            where TAggregate : AggregateRoot<TId>
+        Task PublishAsync<TEvent, TId>(TEvent @event)
+            where TEvent : DomainEvent<TId>
             where TId : Identity;
     }
-    
-    public class NullDomainEventBus : DomainEventBus
+
+    public class ServiceProviderDomainEventBus : DomainEventBus
     {
-        public Task PublishAsync<TAggregate, TId>(TAggregate aggregate, DomainEvent<TId> @event)
-            where TAggregate : AggregateRoot<TId>
+        private readonly IServiceProvider _provider;
+
+        public ServiceProviderDomainEventBus(IServiceProvider provider)
+        {
+            _provider = provider;
+        }
+
+        public async Task PublishAsync<TEvent, TId>(TEvent @event) 
+            where TEvent : DomainEvent<TId> 
             where TId : Identity
         {
-            return Task.CompletedTask;
+            var handlers = _provider.GetServices<DomainEventHandler<TEvent, TId>>();
+            foreach (var handler in handlers) 
+                await handler.Handle(@event).ConfigureAwait(false);
         }
     }
 }
