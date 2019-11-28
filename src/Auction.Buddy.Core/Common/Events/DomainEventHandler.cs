@@ -2,11 +2,10 @@ using System.Threading.Tasks;
 
 namespace Auction.Buddy.Core.Common.Events
 {
-    public interface DomainEventHandler<in TAggregate, TId, in TEvent>
-        where TAggregate : AggregateRoot<TId> 
+    public interface DomainEventHandler<TId, in TEvent> 
         where TId : Identity
         where TEvent : DomainEvent<TId>
     {
-        Task Handle(TAggregate aggregate, TEvent @event);
+        Task Handle(TEvent @event);
     }
 }
