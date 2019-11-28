@@ -1,5 +1,5 @@
 using Auction.Buddy.Core.Common;
-using Auction.Buddy.Core.Common.Gateways;
+using Auction.Buddy.Core.Common.Storage;
 using FluentValidation;
 
 namespace Auction.Buddy.Core
@@ -13,12 +13,12 @@ namespace Auction.Buddy.Core
 
         public static IRuleBuilderOptions<T, TId> MustExistAsync<T, TAggregate, TId>(
             this IRuleBuilder<T, TId> builder,
-            AggregateGateway<TAggregate, TId> gateway) 
+            EventStore eventStore) 
             where TAggregate : AggregateRoot<TId> 
             where TId : Identity
         {
             return builder.NotNull()
-                .MustAsync(async (id, token) => await gateway.FindByIdAsync(id) != null);
+                .MustAsync(async (id, token) => await eventStore.LoadAggregateAsync<TAggregate, TId>(id) != null);
         }
     }
 }

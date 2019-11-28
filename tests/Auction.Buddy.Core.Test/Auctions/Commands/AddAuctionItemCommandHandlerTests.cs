@@ -1,25 +1,26 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
-using Auction.Buddy.Core.Test.Support.Gateways;
+using Auction.Buddy.Core.Test.Support.Storage;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Commands
 {
     public class AddAuctionItemCommandHandlerTests
     {
-        private readonly InMemoryAggregateGateway<Core.Auctions.Auction, AuctionId> _gateway;
+        private readonly InMemoryEventStore _eventStore;
         private readonly Core.Auctions.Auction _auction;
         private readonly AddAuctionItemCommandHandler _handler;
 
         public AddAuctionItemCommandHandlerTests()
         {
             _auction = new AuctionAggregateFactory().Create("one", DateTimeOffset.UtcNow);
-            _gateway = new InMemoryAggregateGateway<Core.Auctions.Auction, AuctionId>();
-            _gateway.Add(_auction);
+            _eventStore = new InMemoryEventStore();
+            _eventStore.Commit(_auction.Id, _auction.Changes.ToArray());
             
-            _handler = new AddAuctionItemCommandHandler(_gateway);
+            _handler = new AddAuctionItemCommandHandler(_eventStore);
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             var auctionItem = new AuctionItem("one", "three");
             await _handler.HandleAsync(new AddAuctionItemCommand(_auction.Id, auctionItem));
 
-            var aggregate = await _gateway.FindByIdAsync(_auction.Id);
+            var aggregate = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(_auction.Id);
             Assert.Single(aggregate.Items);
         }
 

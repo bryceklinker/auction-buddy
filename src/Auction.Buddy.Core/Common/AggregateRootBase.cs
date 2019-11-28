@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Events;
+using Auction.Buddy.Core.Common.Storage;
 
 namespace Auction.Buddy.Core.Common
 {
@@ -7,9 +9,11 @@ namespace Auction.Buddy.Core.Common
         where TId : Identity
     {
         TId Id { get; }
-        IEnumerable<DomainEvent<TId>> Changes { get; }
+        DomainEvent<TId>[] Changes { get; }
 
-        void Commit();
+        Task CommitAsync(EventStore eventStore);
+
+        Task LoadAsync(EventStore eventStore);
     }
     
     public abstract class AggregateRootBase<TId> : AggregateRoot<TId>
@@ -18,7 +22,20 @@ namespace Auction.Buddy.Core.Common
         private readonly List<DomainEvent<TId>> _changes;
         public TId Id { get; }
 
-        public IEnumerable<DomainEvent<TId>> Changes => _changes;
+        public DomainEvent<TId>[] Changes => _changes.ToArray();
+
+        public async Task CommitAsync(EventStore eventStore)
+        {
+            await eventStore.CommitAsync(Id, Changes)
+                .ConfigureAwait(false);
+        }
+
+        public async Task LoadAsync(EventStore eventStore)
+        {
+            var events = await eventStore.GetEventsByIdAsync(Id);
+            foreach (var @event in events) 
+                Apply(@event);
+        }
 
         protected AggregateRootBase(TId id)
         {
@@ -32,11 +49,6 @@ namespace Auction.Buddy.Core.Common
             Apply(domainEvent);
         }
 
-        public void Commit()
-        {
-            _changes.Clear();
-        }
-        
         protected bool Equals(AggregateRootBase<TId> other)
         {
             return EqualityComparer<TId>.Default.Equals(Id, other.Id);

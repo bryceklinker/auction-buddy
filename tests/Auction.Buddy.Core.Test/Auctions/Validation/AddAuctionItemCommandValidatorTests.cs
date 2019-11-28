@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
 using Auction.Buddy.Core.Auctions.Validation;
-using Auction.Buddy.Core.Test.Support.Gateways;
+using Auction.Buddy.Core.Test.Support.Storage;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Validation
@@ -17,11 +17,11 @@ namespace Auction.Buddy.Core.Test.Auctions.Validation
         {
             var auction = new AuctionAggregateFactory().Create("some", DateTimeOffset.UtcNow);
             
-            var gateway = new InMemoryAggregateGateway<Core.Auctions.Auction, AuctionId>();
-            gateway.Add(auction);
+            var eventStore = new InMemoryEventStore();
+            
             _existingAuctionId = auction.Id;
             
-            _validator = new AddAuctionItemCommandValidator(gateway);
+            _validator = new AddAuctionItemCommandValidator(eventStore);
         }
 
         [Fact]

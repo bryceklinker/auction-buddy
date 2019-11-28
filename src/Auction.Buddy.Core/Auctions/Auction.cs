@@ -28,11 +28,9 @@ namespace Auction.Buddy.Core.Auctions
             Emit(new AuctionCreatedEvent(id, name, auctionDate));
         }
 
-        public Auction(AuctionId id, IEnumerable<DomainEvent<AuctionId>> domainEvents)
+        public Auction(AuctionId id)
             : base(id)
         {
-            foreach (var domainEvent in domainEvents) 
-                Apply(domainEvent);
         }
 
         public void UpdateAuction(string name = null, in DateTimeOffset? auctionDate = null)

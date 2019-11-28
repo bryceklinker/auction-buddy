@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions.Validation;
 using Auction.Buddy.Core.Common.Commands;
-using Auction.Buddy.Core.Common.Gateways;
+using Auction.Buddy.Core.Common.Storage;
 using FluentValidation;
 
 namespace Auction.Buddy.Core.Auctions.Commands
@@ -35,13 +34,13 @@ namespace Auction.Buddy.Core.Auctions.Commands
 
     public class UpdateAuctionItemCommandHandler : CommandHandler<UpdateAuctionItemCommand>
     {
-        private readonly AggregateGateway<Auction, AuctionId> _gateway;
+        private readonly EventStore _eventStore;
         private readonly IValidator<UpdateAuctionItemCommand> _validator;
 
-        public UpdateAuctionItemCommandHandler(AggregateGateway<Auction, AuctionId> gateway)
+        public UpdateAuctionItemCommandHandler(EventStore _eventStore)
         {
-            _gateway = gateway;
-            _validator = new UpdateAuctionItemCommandValidator(_gateway);
+            this._eventStore = _eventStore;
+            _validator = new UpdateAuctionItemCommandValidator(this._eventStore);
         }
 
         public async Task<CommandResult> HandleAsync(UpdateAuctionItemCommand command)
@@ -50,7 +49,7 @@ namespace Auction.Buddy.Core.Auctions.Commands
             if (validationResult.HasErrors())
                 return new CommandResult(validationResult);
             
-            var auction = await _gateway.FindByIdAsync(command.AuctionId);
+            var auction = await _eventStore.LoadAggregateAsync<Auction, AuctionId>(command.AuctionId);
             auction.UpdateAuctionItem(
                 command.OldItemName,
                 command.NewItemName,
@@ -59,7 +58,7 @@ namespace Auction.Buddy.Core.Auctions.Commands
                 command.Quantity
             );
 
-            await _gateway.CommitAsync(auction);
+            await auction.CommitAsync(_eventStore);
             return new CommandResult();
         }
     }

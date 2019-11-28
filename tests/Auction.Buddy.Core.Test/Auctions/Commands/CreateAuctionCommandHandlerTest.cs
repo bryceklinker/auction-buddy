@@ -1,41 +1,42 @@
 using System;
 using System.Threading.Tasks;
-using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
-using Auction.Buddy.Core.Test.Support.Gateways;
+using Auction.Buddy.Core.Auctions.Events;
+using Auction.Buddy.Core.Test.Support.Storage;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Commands
 {
     public class CreateAuctionCommandHandlerTest
     {
-        private readonly InMemoryAggregateGateway<Core.Auctions.Auction, AuctionId> _gateway;
+        private readonly InMemoryEventStore _eventStore;
         private readonly CreateAuctionCommandHandler _handler;
 
         public CreateAuctionCommandHandlerTest()
         {
-            _gateway = new InMemoryAggregateGateway<Core.Auctions.Auction, AuctionId>();
+            _eventStore = new InMemoryEventStore();
             
-            _handler = new CreateAuctionCommandHandler(_gateway);
+            _handler = new CreateAuctionCommandHandler(_eventStore);
         }
 
         [Fact]
         public async Task WhenCreateAuctionCommandIsHandledThenAuctionIsSaved()
         {
-            await _handler.HandleAsync(new CreateAuctionCommand("idk", DateTimeOffset.UtcNow));
+            var auctionDate = DateTimeOffset.UtcNow;
+            var result = await _handler.HandleAsync(new CreateAuctionCommand("idk", auctionDate));
 
-            Assert.Single(_gateway.Aggregates);
+            Assert.Single(_eventStore.GetEventsById(result.Result));
         }
 
         [Fact]
         public async Task WhenCreateAuctionCommandIsHandledThenAuctionIsPopulatedFromCommand()
         {
             var auctionDate = DateTimeOffset.UtcNow;
-            await _handler.HandleAsync(new CreateAuctionCommand("something", auctionDate));
+            var result = await _handler.HandleAsync(new CreateAuctionCommand("something", auctionDate));
 
-            var addedAuction = _gateway.Aggregates[0];
-            Assert.Equal("something", addedAuction.Name);
-            Assert.Equal(auctionDate, addedAuction.AuctionDate);
+            var createEvent = (AuctionCreatedEvent) _eventStore.GetEventsById(result.Result)[0];
+            Assert.Equal("something", createEvent.Name);
+            Assert.Equal(auctionDate, createEvent.AuctionDate);
         }
 
         [Fact]
@@ -44,15 +45,6 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             var result = await _handler.HandleAsync(new CreateAuctionCommand("idk", DateTimeOffset.UtcNow));
             
             Assert.True(result.WasSuccessful);
-        }
-
-        [Fact]
-        public async Task WhenCreateAuctionCommandIsHandledThenReturnsAuctionId()
-        {
-            var result = await _handler.HandleAsync(new CreateAuctionCommand("one", DateTimeOffset.UtcNow));
-
-            var auction = _gateway.Aggregates[0];
-            Assert.Equal(auction.Id, result.Result);
         }
 
         [Fact]

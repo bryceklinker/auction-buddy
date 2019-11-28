@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
 using Auction.Buddy.Core.Auctions.Validation;
-using Auction.Buddy.Core.Test.Support.Gateways;
+using Auction.Buddy.Core.Test.Support.Storage;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Validation
@@ -20,11 +19,11 @@ namespace Auction.Buddy.Core.Test.Auctions.Validation
             var auction = new AuctionAggregateFactory().Create("one", DateTimeOffset.UtcNow);
             auction.AddAuctionItem(new AuctionItem(ItemName, "donor"));
             _existingAuctionId = auction.Id;
+
+            var eventStore = new InMemoryEventStore();
+            eventStore.Commit(auction.Id, auction.Changes);
             
-            var gateway = new InMemoryAggregateGateway<Core.Auctions.Auction, AuctionId>();
-            gateway.Add(auction);
-            
-            _validator = new UpdateAuctionItemCommandValidator(gateway);
+            _validator = new UpdateAuctionItemCommandValidator(eventStore);
         }
 
         [Fact]
