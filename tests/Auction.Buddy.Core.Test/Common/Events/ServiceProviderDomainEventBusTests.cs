@@ -6,11 +6,11 @@ using Xunit;
 
 namespace Auction.Buddy.Core.Test.Common.Events
 {
-    public class ServiceProviderEventBusTests
+    public class ServiceProviderDomainEventBusTests
     {
         private readonly ServiceProviderDomainEventBus _bus;
 
-        public ServiceProviderEventBusTests()
+        public ServiceProviderDomainEventBusTests()
         {
             var provider = new ServiceCollection()
                 .AddAuctionBuddy()
