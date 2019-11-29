@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
 using Auction.Buddy.Core.Auctions.Events;
 using Auction.Buddy.Core.Test.Support.Storage;
@@ -9,18 +8,18 @@ using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Commands
 {
-    public class UpdateAuctionCommandHandlerTests
+    public class UpdateAuctionCommandHandlerTests : IAsyncLifetime
     {
-        private readonly InMemoryEventStore _eventStore;
-        private readonly Core.Auctions.Auction _auction;
-        private readonly UpdateAuctionCommandHandler _handler;
+        private InMemoryEventStore _eventStore;
+        private Core.Auctions.Auction _auction;
+        private UpdateAuctionCommandHandler _handler;
 
-        public UpdateAuctionCommandHandlerTests()
+        public async Task InitializeAsync()
         {
-            _auction = new AuctionAggregateFactory().Create("one", DateTimeOffset.UtcNow);
+            _auction = new Core.Auctions.Auction("one", DateTimeOffset.UtcNow);
             
             _eventStore = new InMemoryEventStore();
-            _eventStore.Commit(_auction.Id, _auction.Changes);
+            await _auction.CommitAsync(_eventStore);
 
             _handler = new UpdateAuctionCommandHandler(_eventStore);
         }
@@ -48,6 +47,11 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             var @event = (AuctionUpdatedEvent) _eventStore.GetEventsById(_auction.Id).Last();
             Assert.Equal("something", @event.Name);
             Assert.Equal(auctionDate, @event.AuctionDate);
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

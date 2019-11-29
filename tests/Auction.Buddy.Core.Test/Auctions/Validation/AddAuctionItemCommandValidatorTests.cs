@@ -8,16 +8,17 @@ using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Validation
 {
-    public class AddAuctionItemCommandValidatorTests
+    public class AddAuctionItemCommandValidatorTests : IAsyncLifetime
     {
-        private readonly AuctionId _existingAuctionId;
-        private readonly AddAuctionItemCommandValidator _validator;
+        private AuctionId _existingAuctionId;
+        private AddAuctionItemCommandValidator _validator;
 
-        public AddAuctionItemCommandValidatorTests()
+        public async Task InitializeAsync()
         {
-            var auction = new AuctionAggregateFactory().Create("some", DateTimeOffset.UtcNow);
+            var auction = new Core.Auctions.Auction("some", DateTimeOffset.UtcNow);
             
             var eventStore = new InMemoryEventStore();
+            await auction.CommitAsync(eventStore);
             
             _existingAuctionId = auction.Id;
             
@@ -49,6 +50,11 @@ namespace Auction.Buddy.Core.Test.Auctions.Validation
             var result = await _validator.ValidateAsync(command);
 
             Assert.False(result.IsValid);
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

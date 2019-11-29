@@ -9,10 +9,7 @@ namespace Auction.Buddy.Core.Common
         where TId : Identity
     {
         TId Id { get; }
-        DomainEvent<TId>[] Changes { get; }
-
         Task CommitAsync(EventStore eventStore);
-
         Task LoadAsync(EventStore eventStore);
     }
     
@@ -22,17 +19,15 @@ namespace Auction.Buddy.Core.Common
         private readonly List<DomainEvent<TId>> _changes;
         public TId Id { get; }
 
-        public DomainEvent<TId>[] Changes => _changes.ToArray();
-
         public async Task CommitAsync(EventStore eventStore)
         {
-            await eventStore.CommitAsync(Id, Changes)
+            await eventStore.CommitAsync(Id, _changes)
                 .ConfigureAwait(false);
         }
 
         public async Task LoadAsync(EventStore eventStore)
         {
-            var events = await eventStore.GetEventsByIdAsync(Id);
+            var events = await eventStore.GetEventsByIdAsync(Id).ConfigureAwait(false);
             foreach (var @event in events) 
                 Apply(@event);
         }

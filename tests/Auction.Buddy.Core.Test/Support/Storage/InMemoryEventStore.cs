@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Common;
 using Auction.Buddy.Core.Common.Events;
@@ -36,6 +37,12 @@ namespace Auction.Buddy.Core.Test.Support.Storage
             where TId : Identity
         {
             return GetSavedEventsById(id).ToArray();
+        }
+
+        public DomainEvent<TId> GetLastEvent<TId>(TId id) 
+            where TId : Identity
+        {
+            return GetEventsById(id).Last();
         }
 
         public async Task<TAggregate> LoadAggregateAsync<TAggregate, TId>(TId id) 

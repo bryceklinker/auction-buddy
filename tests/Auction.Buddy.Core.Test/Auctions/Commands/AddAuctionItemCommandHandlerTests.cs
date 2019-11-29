@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
@@ -8,17 +7,17 @@ using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Commands
 {
-    public class AddAuctionItemCommandHandlerTests
+    public class AddAuctionItemCommandHandlerTests : IAsyncLifetime
     {
-        private readonly InMemoryEventStore _eventStore;
-        private readonly Core.Auctions.Auction _auction;
-        private readonly AddAuctionItemCommandHandler _handler;
+        private InMemoryEventStore _eventStore;
+        private Core.Auctions.Auction _auction;
+        private AddAuctionItemCommandHandler _handler;
 
-        public AddAuctionItemCommandHandlerTests()
+        public async Task InitializeAsync()
         {
-            _auction = new AuctionAggregateFactory().Create("one", DateTimeOffset.UtcNow);
+            _auction = new Core.Auctions.Auction("one", DateTimeOffset.UtcNow);
             _eventStore = new InMemoryEventStore();
-            _eventStore.Commit(_auction.Id, _auction.Changes.ToArray());
+            await _auction.CommitAsync(_eventStore);
             
             _handler = new AddAuctionItemCommandHandler(_eventStore);
         }
@@ -49,6 +48,11 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             var result = await _handler.HandleAsync(new AddAuctionItemCommand(_auction.Id, auctionItem));
 
             Assert.False(result.WasSuccessful);
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

@@ -11,97 +11,78 @@ namespace Auction.Buddy.Core.Test.Auctions
 {
     public class AuctionTest
     {
-        private readonly AuctionFactory _auctionFactory = new AuctionAggregateFactory();
         private readonly InMemoryEventStore _eventStore;
+        private readonly Core.Auctions.Auction _auction;
 
         public AuctionTest()
         {
+            _auction = new Core.Auctions.Auction("one", DateTimeOffset.UtcNow);
             _eventStore = new InMemoryEventStore();
         }
         
         [Fact]
-        public void WhenCreatedThenCreatedEventIsInChanges()
+        public void WhenCreatedThenCreatedEventIsSaved()
         {
-            var auctionDate = DateTimeOffset.UtcNow;
-            var auction = _auctionFactory.Create("one", auctionDate);
+            _auction.CommitAsync(_eventStore);
 
-            var changes = auction.Changes.ToArray();
-            Assert.Single(changes);
-
-            var domainEvent = (AuctionCreatedEvent)changes[0];
+            var domainEvent = (AuctionCreatedEvent) _eventStore.GetLastEvent(_auction.Id);
             Assert.Equal("one", domainEvent.Name);
-            Assert.Equal(auctionDate, domainEvent.AuctionDate);
+            Assert.Equal(_auction.AuctionDate, domainEvent.AuctionDate);
         }
 
         [Fact]
         public void WhenCreatedThenAuctionIsPopulated()
         {
             var auctionDate = DateTimeOffset.UtcNow;
-            var auction = _auctionFactory.Create("one", auctionDate);
+            var auction = new Core.Auctions.Auction("one", auctionDate);
 
             Assert.Equal("one", auction.Name);
             Assert.Equal(auctionDate, auction.AuctionDate);
         }
 
         [Fact]
-        public async Task WhenItemAddedThenAuctionItemAddedIsInChanges()
+        public async Task WhenItemAddedThenAuctionItemAddedEventIsSaved()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow));
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
+            await _auction.CommitAsync(_eventStore);
 
             var auctionItem = new AuctionItem("Name", "donor","Description", 3);
-            auction.AddAuctionItem(auctionItem);
+            _auction.AddAuctionItem(auctionItem);
+            await _auction.CommitAsync(_eventStore);
 
-            Assert.Single(auction.Changes);
-            
-            var addedEvent = (AuctionItemAddedEvent)auction.Changes.Single();
-            Assert.Equal(id, addedEvent.AggregateId);
+            var addedEvent = (AuctionItemAddedEvent) _eventStore.GetLastEvent(_auction.Id);
+            Assert.Equal(_auction.Id, addedEvent.AggregateId);
             Assert.Equal(auctionItem, addedEvent.Item);
         }
 
         [Fact]
-        public async Task WhenItemAddedThenItemIsInTheAuctionsItems()
+        public void WhenItemAddedThenItemIsInTheAuctionsItems()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow));
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
-
             var auctionItem = new AuctionItem("Name", "donor", "Description", 3);
-            auction.AddAuctionItem(auctionItem);
+            _auction.AddAuctionItem(auctionItem);
 
-            Assert.Contains(auctionItem, auction.Items);
+            Assert.Contains(auctionItem, _auction.Items);
         }
 
         [Fact]
         public async Task WhenItemWithTheSameNameIsAddedThenThrowsDuplicateItemException()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow),
-                new AuctionItemAddedEvent(id, new AuctionItem("one", "Bill", quantity: 4))
-            );
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
+            _auction.AddAuctionItem(new AuctionItem("one", "Bill", quantity: 4));
+            await _auction.CommitAsync(_eventStore);
             
             var auctionItem = new AuctionItem("one", "bob");
-            Assert.Throws<DuplicateAuctionItemException>(() => auction.AddAuctionItem(auctionItem));
+            Assert.Throws<DuplicateAuctionItemException>(() => _auction.AddAuctionItem(auctionItem));
         }
 
         [Fact]
         public async Task WhenItemIsUpdatedThenAuctionHasAuctionItemUpdatedEvent()
         {
-            var id = new AuctionId(); 
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow),
-                new AuctionItemAddedEvent(id, new AuctionItem("one", "Bill", quantity: 4)));
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
+            _auction.AddAuctionItem(new AuctionItem("one", "Bill", quantity: 4));
             
-            auction.UpdateAuctionItem("one", "three", "jack", "desc", 5);
+            _auction.UpdateAuctionItem("one", "three", "jack", "desc", 5);
+            await _auction.CommitAsync(_eventStore);
 
-            Assert.Single(auction.Changes);
-            
-            var addedEvent = (AuctionItemUpdatedEvent)auction.Changes.Single();
-            Assert.Equal(id, addedEvent.AggregateId);
+            var addedEvent = (AuctionItemUpdatedEvent) _eventStore.GetLastEvent(_auction.Id);
+            Assert.Equal(_auction.Id, addedEvent.AggregateId);
             Assert.Equal("one", addedEvent.OldName);
             Assert.Equal("three", addedEvent.NewName);
             Assert.Equal("jack", addedEvent.NewDonor);
@@ -110,18 +91,12 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
         
         [Fact]
-        public async Task WhenItemQuantityIsUpdatedThenItemHasQuantityAdjusted()
+        public void WhenItemQuantityIsUpdatedThenItemHasQuantityAdjusted()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow),
-                new AuctionItemAddedEvent(id, new AuctionItem("one", "Bill", quantity: 4)));
+            _auction.AddAuctionItem(new AuctionItem("one", "Bill", quantity: 4));
+            _auction.UpdateAuctionItem("one", "other", "Sue", "simple", 50);
 
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
-
-            auction.UpdateAuctionItem("one", "other", "Sue", "simple", 50);
-
-            var updatedItem = auction.Items.First();
+            var updatedItem = _auction.Items.First();
             Assert.Equal("other", updatedItem.Name);
             Assert.Equal("Sue", updatedItem.Donor);
             Assert.Equal("simple", updatedItem.Description);
@@ -129,111 +104,74 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
 
         [Fact]
-        public async Task WhenMissingItemQuantityIsUpdatedThenMissingItemExceptionIsThrown()
+        public void WhenMissingItemQuantityIsUpdatedThenMissingItemExceptionIsThrown()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow),
-                new AuctionItemAddedEvent(id, new AuctionItem("one", "Bill", quantity: 4)));
+            _auction.AddAuctionItem(new AuctionItem("one", "Bill", quantity: 4));
 
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
-
-            Assert.Throws<MissingAuctionItemException>(() => auction.UpdateAuctionItem("three", "idk"));
+            Assert.Throws<MissingAuctionItemException>(() => _auction.UpdateAuctionItem("three", "idk"));
         }
 
         [Fact]
         public async Task WhenUpdatingAuctionThenAuctionUpdatedEventIsInChanges()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow));
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
-
             var auctionDate = new DateTimeOffset(2019, 3, 26, 8, 2, 12, 0, TimeSpan.Zero);
-            auction.UpdateAuction("three", auctionDate);
+            _auction.UpdateAuction("three", auctionDate);
+            await _auction.CommitAsync(_eventStore);
 
-            Assert.Single(auction.Changes);
-
-            var @event = (AuctionUpdatedEvent) auction.Changes.Single();
-            Assert.Equal(id, @event.AggregateId);
+            var @event = (AuctionUpdatedEvent) _eventStore.GetLastEvent(_auction.Id);
+            Assert.Equal(_auction.Id, @event.AggregateId);
             Assert.Equal("three", @event.Name);
             Assert.Equal(auctionDate, @event.AuctionDate);
         }
 
         [Fact]
-        public async Task WhenAuctionUpdatedThenAuctionInformationReflectsChange()
+        public void WhenAuctionUpdatedThenAuctionInformationReflectsChange()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow));
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
-
             var auctionDate = new DateTimeOffset(2019, 3, 26, 8, 2, 12, 0, TimeSpan.Zero);
-            auction.UpdateAuction("three", auctionDate);
+            _auction.UpdateAuction("three", auctionDate);
 
-            Assert.Equal("three", auction.Name);
-            Assert.Equal(auctionDate, auction.AuctionDate);
+            Assert.Equal("three", _auction.Name);
+            Assert.Equal(auctionDate, _auction.AuctionDate);
         }
 
         [Fact]
         public async Task WhenAuctionItemRemovedThenAuctionItemRemovedIsInChanges()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow),
-                new AuctionItemAddedEvent(id, new AuctionItem("some", "bill"))
-            );
+            _auction.AddAuctionItem(new AuctionItem("some", "Bill", quantity: 4));
 
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
+            _auction.RemoveAuctionItem("some");
+            await _auction.CommitAsync(_eventStore);
 
-            auction.RemoveAuctionItem("some");
-
-            Assert.Single(auction.Changes);
-
-            var @event = (AuctionItemRemovedEvent) auction.Changes.Single();
-            Assert.Equal(id, @event.AggregateId);
+            var @event = (AuctionItemRemovedEvent) _eventStore.GetLastEvent(_auction.Id);
+            Assert.Equal(_auction.Id, @event.AggregateId);
             Assert.Equal("some", @event.Name);
         }
 
         [Fact]
-        public async Task WhenAuctionItemRemovedThenAuctionItemIsNoLongerInAuctionItems()
+        public void WhenAuctionItemRemovedThenAuctionItemIsNoLongerInAuctionItems()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow),
-                new AuctionItemAddedEvent(id, new AuctionItem("some", "bill"))
-            );
+            _auction.AddAuctionItem(new AuctionItem("some", "Bill", quantity: 4));
 
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
+            _auction.RemoveAuctionItem("some");
 
-            auction.RemoveAuctionItem("some");
-
-            Assert.Empty(auction.Items);
+            Assert.Empty(_auction.Items);
         }
 
         [Fact]
-        public async Task WhenMissingItemIsRemovedThenMissingAuctionItemIsThrown()
+        public void WhenMissingItemIsRemovedThenMissingAuctionItemIsThrown()
         {
-            var id = new AuctionId();
-            _eventStore.Commit(id, 
-                new AuctionCreatedEvent(id, "one", DateTimeOffset.UtcNow)
-            );
-
-            var auction = await _eventStore.LoadAggregateAsync<Core.Auctions.Auction, AuctionId>(id);
-            
-            Assert.Throws<MissingAuctionItemException>(() => auction.RemoveAuctionItem("blah"));
+            Assert.Throws<MissingAuctionItemException>(() => _auction.RemoveAuctionItem("blah"));
         }
 
         [Fact]
         public async Task WhenCommittedThenChangesAreAddedToEventStore()
         {
-            
-            
-            var auction = _auctionFactory.Create("one", DateTimeOffset.UtcNow);
-            auction.AddAuctionItem(new AuctionItem("some", "bill"));
-            auction.AddAuctionItem(new AuctionItem("jack", "bill"));
+            _auction.AddAuctionItem(new AuctionItem("some", "bill"));
+            _auction.AddAuctionItem(new AuctionItem("jack", "bill"));
 
-            await auction.CommitAsync(_eventStore);
+            await _auction.CommitAsync(_eventStore);
 
-            var events = _eventStore.GetEventsById(auction.Id);
+            var events = _eventStore.GetEventsById(_auction.Id);
             Assert.Equal(3, events.Length);
         }
     }

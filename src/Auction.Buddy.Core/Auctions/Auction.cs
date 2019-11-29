@@ -22,10 +22,10 @@ namespace Auction.Buddy.Core.Auctions
         public DateTimeOffset AuctionDate { get; private set; }
         public IReadOnlyCollection<AuctionItem> Items => _items;
 
-        public Auction(AuctionId id, string name, in DateTimeOffset auctionDate) 
-            : base(id)
+        public Auction(string name, in DateTimeOffset auctionDate) 
+            : base(new AuctionId())
         {
-            Emit(new AuctionCreatedEvent(id, name, auctionDate));
+            Emit(new AuctionCreatedEvent(Id, name, auctionDate));
         }
 
         public Auction(AuctionId id)

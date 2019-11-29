@@ -22,13 +22,11 @@ namespace Auction.Buddy.Core.Auctions.Commands
     public class CreateAuctionCommandHandler : CommandHandler<CreateAuctionCommand, AuctionId>
     {
         private readonly EventStore _eventStore;
-        private readonly AuctionFactory _auctionFactory;
         private readonly IValidator<CreateAuctionCommand> _validator;
 
         public CreateAuctionCommandHandler(EventStore eventStore)
         {
             _eventStore = eventStore;
-            _auctionFactory = new AuctionAggregateFactory();
             _validator = new CreateAuctionCommandValidator();
         }
 
@@ -38,7 +36,7 @@ namespace Auction.Buddy.Core.Auctions.Commands
             if (validationResult.HasErrors())
                 return new CommandResult<AuctionId>(validationResult);
             
-            var auction = _auctionFactory.Create(command.Name, command.AuctionDate);
+            var auction = new Auction(command.Name, command.AuctionDate);
             await auction.CommitAsync(_eventStore);
             return new CommandResult<AuctionId>(auction.Id);
         }
