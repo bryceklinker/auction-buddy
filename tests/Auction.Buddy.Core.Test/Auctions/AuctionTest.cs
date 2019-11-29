@@ -21,7 +21,7 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
         
         [Fact]
-        public void WhenCreatedThenCreatedEventIsSaved()
+        public void WhenCreatedThenCreatedEventIsStored()
         {
             _auction.CommitAsync(_eventStore);
 
@@ -41,7 +41,7 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
 
         [Fact]
-        public async Task WhenItemAddedThenAuctionItemAddedEventIsSaved()
+        public async Task WhenItemAddedThenAuctionItemAddedEventIsStored()
         {
             await _auction.CommitAsync(_eventStore);
 
@@ -74,7 +74,7 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
 
         [Fact]
-        public async Task WhenItemIsUpdatedThenAuctionHasAuctionItemUpdatedEvent()
+        public async Task WhenItemIsUpdatedThenAuctionItemUpdatedEventIsStored()
         {
             _auction.AddAuctionItem(new AuctionItem("one", "Bill", quantity: 4));
             
@@ -112,7 +112,7 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
 
         [Fact]
-        public async Task WhenUpdatingAuctionThenAuctionUpdatedEventIsInChanges()
+        public async Task WhenUpdatingAuctionThenAuctionUpdatedEventIsStored()
         {
             var auctionDate = new DateTimeOffset(2019, 3, 26, 8, 2, 12, 0, TimeSpan.Zero);
             _auction.UpdateAuction("three", auctionDate);
@@ -135,7 +135,7 @@ namespace Auction.Buddy.Core.Test.Auctions
         }
 
         [Fact]
-        public async Task WhenAuctionItemRemovedThenAuctionItemRemovedIsInChanges()
+        public async Task WhenAuctionItemRemovedThenAuctionItemRemovedEventIsStored()
         {
             _auction.AddAuctionItem(new AuctionItem("some", "Bill", quantity: 4));
 
