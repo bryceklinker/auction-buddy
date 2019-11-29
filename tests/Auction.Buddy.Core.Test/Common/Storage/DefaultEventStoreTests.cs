@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Events;
 using Auction.Buddy.Core.Common.Storage;
+using Auction.Buddy.Core.Test.Support.Events;
 using Auction.Buddy.Core.Test.Support.Storage;
 using Xunit;
 
@@ -11,13 +12,15 @@ namespace Auction.Buddy.Core.Test.Common.Storage
 {
     public class DefaultEventStoreTests
     {
+        private readonly InMemoryDomainEventBus _eventBus;
         private readonly DefaultEventStore _eventStore;
         private readonly InMemoryEventPersistence _eventPersistence;
 
         public DefaultEventStoreTests()
         {
+            _eventBus = new InMemoryDomainEventBus();
             _eventPersistence = new InMemoryEventPersistence();
-            _eventStore = new DefaultEventStore(_eventPersistence);
+            _eventStore = new DefaultEventStore(_eventPersistence, _eventBus);
         }
 
         [Fact]
@@ -28,6 +31,18 @@ namespace Auction.Buddy.Core.Test.Common.Storage
 
             var persistedEvents = await _eventPersistence.LoadEventsAsync(auction.Id);
             Assert.Single(persistedEvents);
+        }
+
+        [Fact]
+        public async Task WhenCommittingEventsThenEachEventIsPublished()
+        {
+            var auction = new Core.Auctions.Auction("one", DateTimeOffset.UtcNow);
+            auction.AddAuctionItem(new AuctionItem("computer", "jack"));
+            auction.AddAuctionItem(new AuctionItem("bob", "jack"));
+            await auction.CommitAsync(_eventStore);
+
+            Assert.Single(_eventBus.GetPublishedEvent<AuctionCreatedEvent, AuctionId>());
+            Assert.Equal(2, _eventBus.GetPublishedEvent<AuctionItemAddedEvent, AuctionId>().Length);
         }
 
         [Fact]

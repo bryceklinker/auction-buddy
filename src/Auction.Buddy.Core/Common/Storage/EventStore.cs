@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Events;
 using Newtonsoft.Json;
@@ -22,26 +23,38 @@ namespace Auction.Buddy.Core.Common.Storage
     
     public class DefaultEventStore : EventStore
     {
+        private static readonly MethodInfo PublishMethod = typeof(DomainEventBus)
+            .GetMethod(nameof(DomainEventBus.PublishAsync));
         private readonly EventPersistence _persistence;
+        private readonly DomainEventBus _domainEventBus;
         private readonly DomainEventSerializer _serializer;
 
-        public DefaultEventStore(EventPersistence persistence)
-            : this(persistence, new JsonDomainEventSerializer())
+        public DefaultEventStore(EventPersistence persistence, DomainEventBus domainEventBus)
+            : this(persistence, domainEventBus, new JsonDomainEventSerializer())
         {
             
         }
         
-        public DefaultEventStore(EventPersistence persistence, DomainEventSerializer serializer)
+        public DefaultEventStore(EventPersistence persistence, 
+            DomainEventBus domainEventBus,
+            DomainEventSerializer serializer)
         {
             _persistence = persistence;
+            _domainEventBus = domainEventBus;
             _serializer = serializer;
         }
         
         public async Task CommitAsync<TId>(TId id, IEnumerable<DomainEvent<TId>> events) 
             where TId : Identity
         {
-            var persistenceEvents = events.Select(e => e.ToPersistenceEvent(_serializer)).ToArray();
+            var domainEvents = events.ToArray();
+            var persistenceEvents = domainEvents.Select(e => e.ToPersistenceEvent(_serializer)).ToArray();
             await _persistence.PersistAsync(id, persistenceEvents).ConfigureAwait(false);
+            foreach (var @event in domainEvents)
+            {
+                PublishMethod.MakeGenericMethod(@event.GetType(), typeof(TId))
+                    .Invoke(_domainEventBus, new object[]{@event});
+            }
         }
 
         public async Task<DomainEvent<TId>[]> GetEventsByIdAsync<TId>(TId id) 
