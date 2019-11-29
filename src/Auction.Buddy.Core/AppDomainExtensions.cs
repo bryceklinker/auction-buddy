@@ -4,6 +4,7 @@ using System.Linq;
 using Auction.Buddy.Core.Common.Commands;
 using Auction.Buddy.Core.Common.DependencyInjection;
 using Auction.Buddy.Core.Common.Events;
+using Auction.Buddy.Core.Common.Queries;
 
 namespace Auction.Buddy.Core
 {
@@ -13,7 +14,8 @@ namespace Auction.Buddy.Core
         {
             return appDomain.GetServiceRegistrations(typeof(CommandHandler<>))
                 .Concat(appDomain.GetServiceRegistrations(typeof(CommandHandler<,>)))
-                .Concat(appDomain.GetServiceRegistrations(typeof(DomainEventHandler<,>)));
+                .Concat(appDomain.GetServiceRegistrations(typeof(DomainEventHandler<,>)))
+                .Concat(appDomain.GetServiceRegistrations(typeof(QueryHandler<,>)));
         }
 
         private static IEnumerable<ServiceRegistration> GetServiceRegistrations(this AppDomain appDomain,

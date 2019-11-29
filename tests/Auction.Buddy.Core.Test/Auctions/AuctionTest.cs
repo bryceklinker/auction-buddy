@@ -171,7 +171,7 @@ namespace Auction.Buddy.Core.Test.Auctions
 
             await _auction.CommitAsync(_eventStore);
 
-            var events = _eventStore.GetEventsById(_auction.Id);
+            var events = await _eventStore.GetEventsByIdAsync(_auction.Id);
             Assert.Equal(3, events.Length);
         }
     }

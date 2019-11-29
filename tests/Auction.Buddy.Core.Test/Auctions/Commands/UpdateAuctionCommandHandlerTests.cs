@@ -42,9 +42,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
 
             await _handler.HandleAsync(command);
 
-            Assert.Equal(2, _eventStore.GetEventsById(_auction.Id).Length);
-
-            var @event = (AuctionUpdatedEvent) _eventStore.GetEventsById(_auction.Id).Last();
+            var @event = (AuctionUpdatedEvent) _eventStore.GetLastEvent(_auction.Id);
             Assert.Equal("something", @event.Name);
             Assert.Equal(auctionDate, @event.AuctionDate);
         }

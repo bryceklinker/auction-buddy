@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Events;
 
@@ -8,7 +9,7 @@ namespace Auction.Buddy.Core.Test.Support.Events
         public int TimesHandled { get; private set; }
 
         public TestingMultipleHandlersDomainEvent(TestingId aggregateId) 
-            : base(aggregateId)
+            : base(aggregateId, DateTimeOffset.UtcNow)
         {
         }
 

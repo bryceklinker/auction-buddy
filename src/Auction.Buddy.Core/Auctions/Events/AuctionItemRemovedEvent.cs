@@ -1,3 +1,4 @@
+using System;
 using Auction.Buddy.Core.Common.Events;
 
 namespace Auction.Buddy.Core.Auctions.Events
@@ -6,8 +7,8 @@ namespace Auction.Buddy.Core.Auctions.Events
     {
         public string Name { get; }
         
-        public AuctionItemRemovedEvent(AuctionId aggregateId, string name) 
-            : base(aggregateId)
+        public AuctionItemRemovedEvent(AuctionId aggregateId, string name, DateTimeOffset? timestamp = null) 
+            : base(aggregateId, timestamp)
         {
             Name = name;
         }

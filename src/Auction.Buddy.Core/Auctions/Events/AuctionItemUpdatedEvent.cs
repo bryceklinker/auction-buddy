@@ -1,3 +1,4 @@
+using System;
 using Auction.Buddy.Core.Common.Events;
 
 namespace Auction.Buddy.Core.Auctions.Events
@@ -10,8 +11,8 @@ namespace Auction.Buddy.Core.Auctions.Events
         public string NewDescription { get; }
         public int? NewQuantity { get; }
         
-        public AuctionItemUpdatedEvent(AuctionId aggregateId, string oldName, string newName = null, string newDonor = null, string newDescription = null, int? newQuantity = null) 
-            : base(aggregateId)
+        public AuctionItemUpdatedEvent(AuctionId aggregateId, string oldName, string newName = null, string newDonor = null, string newDescription = null, int? newQuantity = null, DateTimeOffset? timestamp = null) 
+            : base(aggregateId, timestamp)
         {
             OldName = oldName;
             NewName = newName;

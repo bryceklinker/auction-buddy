@@ -8,8 +8,8 @@ namespace Auction.Buddy.Core.Auctions.Events
         public string Name { get; }
         public DateTimeOffset AuctionDate { get; }
         
-        public AuctionCreatedEvent(AuctionId aggregateId, string name, DateTimeOffset auctionDate) 
-            : base(aggregateId)
+        public AuctionCreatedEvent(AuctionId aggregateId, string name, DateTimeOffset auctionDate, DateTimeOffset? timestamp = null) 
+            : base(aggregateId, timestamp)
         {
             Name = name;
             AuctionDate = auctionDate;

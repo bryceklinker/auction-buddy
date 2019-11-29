@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
@@ -49,9 +48,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             );
             await _handler.HandleAsync(command);
 
-            Assert.Equal(3, _eventStore.GetEventsById(_auctionId).Length);
-
-            var updateEvent = (AuctionItemUpdatedEvent) _eventStore.GetEventsById(_auctionId).Last();
+            var updateEvent = (AuctionItemUpdatedEvent) _eventStore.GetLastEvent(_auctionId);
             Assert.Equal("name", updateEvent.NewName);
             Assert.Equal("jack", updateEvent.NewDonor);
             Assert.Equal("this description", updateEvent.NewDescription);

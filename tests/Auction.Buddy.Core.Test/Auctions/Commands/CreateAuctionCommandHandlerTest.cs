@@ -25,7 +25,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             var auctionDate = DateTimeOffset.UtcNow;
             var result = await _handler.HandleAsync(new CreateAuctionCommand("idk", auctionDate));
 
-            Assert.Single(_eventStore.GetEventsById(result.Result));
+            Assert.Single(await _eventStore.GetEventsByIdAsync(result.Result));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Commands
             var auctionDate = DateTimeOffset.UtcNow;
             var result = await _handler.HandleAsync(new CreateAuctionCommand("something", auctionDate));
 
-            var createEvent = (AuctionCreatedEvent) _eventStore.GetEventsById(result.Result)[0];
+            var createEvent = (AuctionCreatedEvent) _eventStore.GetLastEvent(result.Result);
             Assert.Equal("something", createEvent.Name);
             Assert.Equal(auctionDate, createEvent.AuctionDate);
         }
