@@ -42,5 +42,10 @@ namespace Auction.Buddy.Core.Common
                 return ((Prefix != null ? Prefix.GetHashCode() : 0) * 397) ^ (Id != null ? Id.GetHashCode() : 0);
             }
         }
+
+        public static implicit operator string(IdentityBase identity)
+        {
+            return identity.ToString();
+        }
     }
 }

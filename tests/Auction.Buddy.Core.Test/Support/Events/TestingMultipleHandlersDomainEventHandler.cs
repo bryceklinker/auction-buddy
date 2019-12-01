@@ -21,7 +21,7 @@ namespace Auction.Buddy.Core.Test.Support.Events
     
     public class FirstTestingMultipleHandlersDomainEvent : DomainEventHandler<TestingMultipleHandlersDomainEvent, TestingId>
     {
-        public Task Handle(TestingMultipleHandlersDomainEvent @event)
+        public Task HandleAsync(TestingMultipleHandlersDomainEvent @event)
         {
             @event.Handle();
             return Task.CompletedTask;
@@ -30,7 +30,7 @@ namespace Auction.Buddy.Core.Test.Support.Events
     
     public class SecondTestingMultipleHandlersDomainEvent : DomainEventHandler<TestingMultipleHandlersDomainEvent, TestingId>
     {
-        public Task Handle(TestingMultipleHandlersDomainEvent @event)
+        public Task HandleAsync(TestingMultipleHandlersDomainEvent @event)
         {
             @event.Handle();
             return Task.CompletedTask;
@@ -39,7 +39,7 @@ namespace Auction.Buddy.Core.Test.Support.Events
     
     public class ThirdTestingMultipleHandlersDomainEvent : DomainEventHandler<TestingMultipleHandlersDomainEvent, TestingId>
     {
-        public Task Handle(TestingMultipleHandlersDomainEvent @event)
+        public Task HandleAsync(TestingMultipleHandlersDomainEvent @event)
         {
             @event.Handle();
             return Task.CompletedTask;

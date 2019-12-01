@@ -26,7 +26,7 @@ namespace Auction.Buddy.Core.Common.Events
         {
             var handlers = _provider.GetServices<DomainEventHandler<TEvent, TId>>();
             foreach (var handler in handlers) 
-                await handler.Handle(@event).ConfigureAwait(false);
+                await handler.HandleAsync(@event).ConfigureAwait(false);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Auction.Buddy.Core.Test.Support.Events
     
     public class TestingDomainEventHandler : DomainEventHandler<TestingDomainEvent, TestingId>
     {
-        public Task Handle(TestingDomainEvent @event)
+        public Task HandleAsync(TestingDomainEvent @event)
         {
             @event.Handle();
             return Task.CompletedTask;

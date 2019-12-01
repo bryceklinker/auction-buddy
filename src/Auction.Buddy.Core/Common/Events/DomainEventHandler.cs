@@ -6,6 +6,6 @@ namespace Auction.Buddy.Core.Common.Events
         where TId : Identity
         where TEvent : DomainEvent<TId>
     {
-        Task Handle(TEvent @event);
+        Task HandleAsync(TEvent @event);
     }
 }
