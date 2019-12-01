@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Events;
@@ -15,16 +14,11 @@ namespace Auction.Buddy.Core.Test.Auctions.Events
 
         public AuctionItemRemovedEventHandlerTests()
         {
-            _readStore = new InMemoryReadStore();
             _auctionId = new AuctionId();
-            _readStore.Add(new AuctionReadModel
-            {
-                Id = _auctionId,
-                Name = "something",
-                AuctionDate = DateTimeOffset.UtcNow
-            });
-            AddItemToAuction("idk");
-            _readStore.SaveChanges();
+            
+            _readStore = new InMemoryReadStore();
+            _readStore.AddAuction(_auctionId, "something");
+            _readStore.AddAuctionItem(_auctionId, "idk");
             
             _handler = new AuctionItemRemovedEventHandler(_readStore);
         }
@@ -42,23 +36,13 @@ namespace Auction.Buddy.Core.Test.Auctions.Events
         [Fact]
         public async Task WhenAuctionItemRemovedThenOnlyTheCorrectAuctionItemIsRemoved()
         {
-            AddItemToAuction("something else");
+            _readStore.AddAuctionItem(_auctionId, "something else");
 
             var @event = new AuctionItemRemovedEvent(_auctionId, "something else");
 
             await _handler.HandleAsync(@event);
 
             Assert.Single(_readStore.GetAll<AuctionItemReadModel>());
-        }
-
-        private void AddItemToAuction(string somethingElse)
-        {
-            _readStore.Add(new AuctionItemReadModel
-            {
-                AuctionId = _auctionId,
-                Name = somethingElse
-            });
-            _readStore.SaveChanges();
         }
     }
 }

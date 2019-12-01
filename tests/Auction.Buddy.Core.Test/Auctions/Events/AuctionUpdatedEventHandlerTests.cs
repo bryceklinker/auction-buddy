@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
@@ -19,15 +18,10 @@ namespace Auction.Buddy.Core.Test.Auctions.Events
         public AuctionUpdatedEventHandlerTests()
         {
             _auctionId = new AuctionId();
-            _readStore = new InMemoryReadStore();
             _originalAuctionDate = DateTimeOffset.UtcNow;
-            _readStore.Add(new AuctionReadModel
-            {
-                Id = _auctionId,
-                Name = "bob",
-                AuctionDate = _originalAuctionDate
-            });
-            _readStore.SaveChanges();
+            
+            _readStore = new InMemoryReadStore();
+            _readStore.AddAuction(_auctionId, "bob", _originalAuctionDate);
             
             _handler = new AuctionUpdatedEventHandler(_readStore);
         }

@@ -15,7 +15,7 @@ namespace Auction.Buddy.Core.Auctions.Events
 
         public async Task HandleAsync(AuctionItemUpdatedEvent @event)
         {
-            var item = _readStore.GetAuctionItem(@event.AggregateId, @event.OldName);
+            var item = await _readStore.GetAuctionItemAsync(@event.AggregateId, @event.OldName);
 
             item.Name = @event.NewName ?? item.Name;
             item.Description = @event.NewDescription ?? item.Description;

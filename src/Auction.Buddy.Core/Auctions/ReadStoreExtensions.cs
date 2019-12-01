@@ -1,16 +1,24 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Storage;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Buddy.Core.Auctions
 {
     public static class ReadStoreExtensions
     {
-        public static AuctionItemReadModel GetAuctionItem(this ReadStore source,
+        public static async Task<AuctionReadModel> GetAuctionAsync(this ReadStore store, string auctionId)
+        {
+            return await store.GetAll<AuctionReadModel>()
+                .SingleAsync(a => a.Id == auctionId);
+        } 
+        
+        public static async Task<AuctionItemReadModel> GetAuctionItemAsync(this ReadStore store,
             string auctionId, string name)
         {
-            return source.GetAll<AuctionItemReadModel>()
+            return await store.GetAll<AuctionItemReadModel>()
                 .Where(i => i.AuctionId == auctionId)
-                .Single(i => i.Name == name);
+                .SingleAsync(i => i.Name == name);
         }
     }
 }

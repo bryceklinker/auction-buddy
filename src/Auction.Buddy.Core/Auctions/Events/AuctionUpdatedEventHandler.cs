@@ -16,7 +16,7 @@ namespace Auction.Buddy.Core.Auctions.Events
 
         public async Task HandleAsync(AuctionUpdatedEvent @event)
         {
-            var auction = _readStore.GetAll<AuctionReadModel>().Single(a => a.Id == @event.AggregateId);
+            var auction = await _readStore.GetAuctionAsync(@event.AggregateId);
             auction.Name = @event.Name ?? auction.Name;
             auction.AuctionDate = @event.AuctionDate ?? auction.AuctionDate;
             

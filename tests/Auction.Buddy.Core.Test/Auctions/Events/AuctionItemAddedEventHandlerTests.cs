@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
@@ -18,13 +17,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Events
         {
             _readStore = new InMemoryReadStore();
             _auctionId = new AuctionId();
-            _readStore.Add(new AuctionReadModel
-            {
-                Id = _auctionId.ToString(),
-                Name = "New",
-                AuctionDate = DateTimeOffset.UtcNow
-            });
-            _readStore.SaveChanges();
+            _readStore.AddAuction(_auctionId, "New");
             
             _handler = new AuctionItemAddedEventHandler(_readStore);
         }

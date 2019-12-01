@@ -15,7 +15,7 @@ namespace Auction.Buddy.Core.Auctions.Events
 
         public async Task HandleAsync(AuctionItemRemovedEvent @event)
         {
-            var item = _readStore.GetAuctionItem(@event.AggregateId, @event.Name);
+            var item = await _readStore.GetAuctionItemAsync(@event.AggregateId, @event.Name);
             _readStore.Remove(item);
             await _readStore.SaveAsync();
         }
