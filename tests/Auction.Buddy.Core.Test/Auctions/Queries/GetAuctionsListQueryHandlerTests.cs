@@ -6,15 +6,15 @@ using Xunit;
 
 namespace Auction.Buddy.Core.Test.Auctions.Queries
 {
-    public class AuctionListQueryHandlerTests
+    public class GetAuctionsListQueryHandlerTests
     {
         private readonly InMemoryReadStore _readStore;
-        private readonly AuctionListQueryHandler _handler;
+        private readonly GetAuctionsListQueryHandler _handler;
 
-        public AuctionListQueryHandlerTests()
+        public GetAuctionsListQueryHandlerTests()
         {
             _readStore = new InMemoryReadStore();
-            _handler = new AuctionListQueryHandler(_readStore);
+            _handler = new GetAuctionsListQueryHandler(_readStore);
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Queries
             _readStore.AddAuction();
             _readStore.AddAuction();
 
-            var viewModel = await _handler.HandleAsync(new AuctionListQuery());
+            var viewModel = await _handler.HandleAsync(new GetAuctionsListQuery());
 
             Assert.Equal(3, viewModel.Items.Length);
         }
@@ -38,7 +38,7 @@ namespace Auction.Buddy.Core.Test.Auctions.Queries
             _readStore.AddAuctionItem(auctionId, "three");
             _readStore.AddAuctionItem(auctionId, "one");
 
-            var viewModel = await _handler.HandleAsync(new AuctionListQuery());
+            var viewModel = await _handler.HandleAsync(new GetAuctionsListQuery());
 
             var auctionListItem = viewModel.Items[0];
             Assert.Equal(auction.Id, auctionListItem.Id);

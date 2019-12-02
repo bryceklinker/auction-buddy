@@ -11,8 +11,9 @@ When(/^I create a new auction$/, () => {
 Then(/^I should see my newly created auction$/, () => {
     AuctionBuddyApi.getAuctions()
         .then(response => {
-            expect(response.body).to.have.length(1);
-            expect(response.body[0]).to.have.property('name', 'Some Auction');
-            expect(response.body[0]).to.have.property('auctionDate', AUCTION_DATE.toISOString());
+            const items = response.body.items;
+            expect(items).to.have.length(1);
+            expect(items[0]).to.have.property('name', 'Some Auction');
+            expect(items[0]).to.have.property('auctionDate', AUCTION_DATE.toISOString());
         });
 });

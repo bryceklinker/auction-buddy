@@ -6,11 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="8.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(EFVersion)" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EFVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Auction.Buddy.Core\Auction.Buddy.Core.csproj" />
   </ItemGroup>
 
 </Project>

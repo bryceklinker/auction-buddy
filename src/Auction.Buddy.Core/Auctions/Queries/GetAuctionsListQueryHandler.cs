@@ -8,20 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Buddy.Core.Auctions.Queries
 {
-    public class AuctionListQuery
+    public class GetAuctionsListQuery
     {
     }
 
-    public class AuctionListQueryHandler : QueryHandler<AuctionListQuery, ListViewModel<AuctionListItemViewModel>>
+    public class GetAuctionsListQueryHandler : QueryHandler<GetAuctionsListQuery, ListViewModel<AuctionListItemViewModel>>
     {
         private readonly ReadStore _readStore;
 
-        public AuctionListQueryHandler(ReadStore readStore)
+        public GetAuctionsListQueryHandler(ReadStore readStore)
         {
             _readStore = readStore;
         }
 
-        public async Task<ListViewModel<AuctionListItemViewModel>> HandleAsync(AuctionListQuery query)
+        public async Task<ListViewModel<AuctionListItemViewModel>> HandleAsync(GetAuctionsListQuery query)
         {
             var auctions = await _readStore.GetAll<AuctionReadModel>()
                 .Include(a => a.Items)

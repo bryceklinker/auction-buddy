@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <EFVersion>3.0.0</EFVersion>
+    </PropertyGroup>
+</Project>

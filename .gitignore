@@ -337,3 +337,5 @@ wwwroot/
 **/appsettings.Development.json
 screenshots/
 videos/
+
+*.db
