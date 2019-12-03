@@ -33,11 +33,8 @@ namespace Auction.Buddy.Core.Auctions.Queries
                     ItemCount = a.Items.Count
                 })
                 .ToArrayAsync();
-            
-            return new ListViewModel<AuctionListItemViewModel>
-            {
-                Items = auctions
-            };
+
+            return new ListViewModel<AuctionListItemViewModel>(auctions);
         }
     }
 }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Auction.Buddy.Core\Auction.Buddy.Core.csproj" />
+    <ProjectReference Include="..\..\src\Auction.Buddy.Persistence\Auction.Buddy.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

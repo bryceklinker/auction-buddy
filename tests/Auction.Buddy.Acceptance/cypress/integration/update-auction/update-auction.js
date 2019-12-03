@@ -1,5 +1,9 @@
-import {Given,When, Then} from 'cypress-cucumber-preprocessor/steps';
+import {Given, When, Then, Before} from 'cypress-cucumber-preprocessor/steps';
 import {AuctionBuddyApi} from '../../support/auction-buddy-api';
+
+Before(() => {
+    AuctionBuddyApi.clearAll();
+});
 
 Given(/^an existing auction$/, () => {
    AuctionBuddyApi.createAuction(); 

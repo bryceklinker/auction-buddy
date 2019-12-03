@@ -1,8 +1,12 @@
-import {When, Then} from 'cypress-cucumber-preprocessor/steps';
+import {When, Then, Before} from 'cypress-cucumber-preprocessor/steps';
 import {AuctionBuddyApi} from '../../support/auction-buddy-api';
 
 const FIVE_DAYS_IN_MILLISECONDS = 5 * 24 * 60 * 60 * 1000;
 const AUCTION_DATE = new Date(new Date().getTime() + FIVE_DAYS_IN_MILLISECONDS);
+
+Before(() => {
+    AuctionBuddyApi.clearAll();
+});
 
 When(/^I create a new auction$/, () => {
     AuctionBuddyApi.createAuction({name: 'Some Auction', auctionDate: AUCTION_DATE});

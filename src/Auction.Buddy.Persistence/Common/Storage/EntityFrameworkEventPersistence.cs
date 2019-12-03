@@ -30,6 +30,9 @@ namespace Auction.Buddy.Persistence.Common.Storage
 
         public async Task<bool> ExistsAsync(Identity identity)
         {
+            if (identity == null)
+                return false;
+            
             return await Set<PersistenceEvent>()
                 .AnyAsync(e => e.AggregateId == identity.ToString());
         }

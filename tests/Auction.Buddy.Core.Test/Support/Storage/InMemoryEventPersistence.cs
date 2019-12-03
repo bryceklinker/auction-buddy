@@ -1,39 +1,16 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Auction.Buddy.Core.Common;
-using Auction.Buddy.Core.Common.Storage;
+using System;
+using Auction.Buddy.Persistence.Common.Storage;
+using Microsoft.EntityFrameworkCore;
 
 namespace Auction.Buddy.Core.Test.Support.Storage
 {
-    public class InMemoryEventPersistence : EventPersistence
+    public class InMemoryEventPersistence : EntityFrameworkEventPersistence
     {
-        private readonly Dictionary<Identity, List<PersistenceEvent>> _storedEvents 
-            = new Dictionary<Identity, List<PersistenceEvent>>();
-        
-        public Task PersistAsync(Identity identity, IEnumerable<PersistenceEvent> events)
+        public InMemoryEventPersistence() 
+            : base(new DbContextOptionsBuilder<EntityFrameworkEventPersistence>()
+                .UseInMemoryDatabase($"{Guid.NewGuid()}")
+                .Options)
         {
-            var existing = GetEventsByIdentity(identity);
-            existing.AddRange(events);
-            return Task.CompletedTask;
-        }
-
-        public Task<PersistenceEvent[]> LoadEventsAsync(Identity identity)
-        {
-            return Task.FromResult(GetEventsByIdentity(identity).ToArray());
-        }
-
-        public Task<bool> ExistsAsync(Identity identity)
-        {
-            var exists = identity != null && _storedEvents.ContainsKey(identity);
-            return Task.FromResult(exists);
-        }
-
-        private List<PersistenceEvent> GetEventsByIdentity(Identity identity)
-        {
-            if (_storedEvents.ContainsKey(identity))
-                return _storedEvents[identity];
-            
-            return _storedEvents[identity] = new List<PersistenceEvent>();
         }
     }
 }
