@@ -6,7 +6,7 @@
   "scripts": {
     "preapi:build": "rimraf ./dist",
     "api:build": "cd ../../src/Auction.Buddy.Api && dotnet publish --configuration Release --output ../../tests/Auction.Buddy.Acceptance/dist/api",
-    "api:start": "cd ./dist/api && cross-env ASPNETCORE_ENVIRONMENT=Acceptance dotnet Auction.Buddy.Api.dll",
+    "api:start": "cd ./dist/api && cross-env ASPNETCORE_ENVIRONMENT=Acceptance dotnet Auction.Buddy.Api.dll || true",
     "api:stop": "kill -9 $(lsof -t -i:5001 -sTCP:LISTEN) || true",
     "api:wait": "wait-on tcp:5001",
     "cypress:run": "cypress run",
