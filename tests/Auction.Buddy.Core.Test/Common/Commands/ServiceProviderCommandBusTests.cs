@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Commands;
 using Auction.Buddy.Core.Test.Support.Commands;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Common.Commands
@@ -17,7 +18,7 @@ namespace Auction.Buddy.Core.Test.Common.Commands
                 .AddAuctionBuddy()
                 .BuildServiceProvider();
             
-            _commandBus = new ServiceProviderCommandBus(provider);
+            _commandBus = new ServiceProviderCommandBus(provider, new NullLoggerFactory());
         }
 
         [Fact]

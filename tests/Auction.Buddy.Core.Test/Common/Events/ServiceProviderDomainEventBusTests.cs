@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Events;
 using Auction.Buddy.Core.Test.Support.Events;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Common.Events
@@ -16,7 +17,7 @@ namespace Auction.Buddy.Core.Test.Common.Events
                 .AddAuctionBuddy()
                 .BuildServiceProvider();
             
-            _bus = new ServiceProviderDomainEventBus(provider);
+            _bus = new ServiceProviderDomainEventBus(provider, new NullLoggerFactory());
         }
 
         [Fact]

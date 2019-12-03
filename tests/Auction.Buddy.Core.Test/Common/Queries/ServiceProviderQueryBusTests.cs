@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Auction.Buddy.Core.Common.Queries;
 using Auction.Buddy.Core.Test.Support.Queries;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace Auction.Buddy.Core.Test.Common.Queries
@@ -16,7 +17,7 @@ namespace Auction.Buddy.Core.Test.Common.Queries
             var provider = new ServiceCollection()
                 .AddAuctionBuddy()
                 .BuildServiceProvider();
-            _bus = new ServiceProviderQueryBus(provider);
+            _bus = new ServiceProviderQueryBus(provider, new NullLoggerFactory());
         }
 
         [Fact]
