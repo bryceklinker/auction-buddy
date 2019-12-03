@@ -2,7 +2,8 @@ const BASE_URL = 'https://localhost:5001';
 
 const ALIASES = {
     CREATE_AUCTION: 'createAuction',
-    GET_AUCTIONS: 'getAuctions'
+    GET_AUCTIONS: 'getAuctions',
+    UPDATE_AUCTION: 'updateAuction'
 };
 
 function createAuction({name = 'IDK Auction', auctionDate = new Date()} = {}) {
@@ -14,9 +15,19 @@ function createAuction({name = 'IDK Auction', auctionDate = new Date()} = {}) {
         .as(ALIASES.CREATE_AUCTION);
 }
 
+function updateAuction({auctionId, name = null, auctionDate = null} = {}) {
+    const body = {
+        name, 
+        auctionDate
+    };
+    
+    return cy.request('PUT', `${BASE_URL}/auctions/${auctionId}`, body)
+        .as(ALIASES.UPDATE_AUCTION);
+}
+
 function getAuctions() {
     return cy.request('GET', `${BASE_URL}/auctions`)
         .as(ALIASES.GET_AUCTIONS);
 }
 
-export const AuctionBuddyApi = {createAuction, getAuctions, ALIASES};
+export const AuctionBuddyApi = {createAuction, getAuctions, updateAuction, ALIASES};

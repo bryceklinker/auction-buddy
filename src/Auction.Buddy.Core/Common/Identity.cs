@@ -1,3 +1,5 @@
+using System;
+
 namespace Auction.Buddy.Core.Common
 {
     public interface Identity
@@ -17,6 +19,12 @@ namespace Auction.Buddy.Core.Common
             Id = id;
         }
 
+        public static T FromExistingId<T>(string id)
+            where T : IdentityBase
+        {
+            return (T) Activator.CreateInstance(typeof(T), RemovePrefixFromId(id));
+        }
+        
         public override string ToString()
         {
             return $"{Prefix}-{Id}";
@@ -47,5 +55,11 @@ namespace Auction.Buddy.Core.Common
         {
             return identity.ToString();
         }
+
+        private static string RemovePrefixFromId(string id)
+        {
+            var prefix = id.Split('-')[0];
+            return id.Replace($"{prefix}-", "");
+        } 
     }
 }

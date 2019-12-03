@@ -10,7 +10,7 @@ When(/^I create a new auction$/, () => {
 
 Then(/^I should see my newly created auction$/, () => {
     AuctionBuddyApi.getAuctions()
-        .then(response => {
+        .should(response => {
             const items = response.body.items;
             expect(items).to.have.length(1);
             expect(items[0]).to.have.property('name', 'Some Auction');
