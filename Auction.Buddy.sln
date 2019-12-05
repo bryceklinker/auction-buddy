@@ -32,6 +32,7 @@ ProjectSection(SolutionItems) = preProject
 	azure-pipelines.yml = azure-pipelines.yml
 	osx-install-dotnet.sh = osx-install-dotnet.sh
 	ubuntu-install-dotnet.sh = ubuntu-install-dotnet.sh
+	global.json = global.json
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{46F473DD-6F09-464B-B997-78868AFE2FB8}"
