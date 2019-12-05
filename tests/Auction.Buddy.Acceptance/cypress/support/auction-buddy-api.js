@@ -7,7 +7,8 @@ const ALIASES = {
     ADD_AUCTION_ITEM: 'addAuctionItem',
     GET_AUCTION_ITEMS: 'getAuctionItems',
     CLEAR_ALL: 'clearAll',
-    REMOVE_AUCTION_ITEM: 'removeAuctionItem'
+    REMOVE_AUCTION_ITEM: 'removeAuctionItem',
+    UPDATE_AUCTION_ITEM: 'updateAuctionItem'
 };
 
 function createAuction({name = 'IDK Auction', auctionDate = new Date()} = {}) {
@@ -49,6 +50,19 @@ function removeAuctionItem({auctionId, itemName} = {}) {
         .as(ALIASES.REMOVE_AUCTION_ITEM);
 }
 
+function updateAuctionItem({auctionId, itemName, newName, newQuantity, newDescription, newDonor} = {}) {
+    const body = {
+        newName,
+        newDescription,
+        newQuantity,
+        newDonor
+    };
+
+    const encodedName = encodeURIComponent(itemName);
+    return cy.request('PUT', `${BASE_URL}/auctions/${auctionId}/items/${encodedName}`, body)
+        .as(ALIASES.UPDATE_AUCTION_ITEM)
+} 
+
 function getAuctionItems({auctionId} = {}) {
     return cy.request('GET', `${BASE_URL}/auctions/${auctionId}/items`)
         .as(ALIASES.GET_AUCTION_ITEMS)
@@ -66,6 +80,7 @@ export const AuctionBuddyApi = {
     updateAuction, 
     addAuctionItem,
     removeAuctionItem,
+    updateAuctionItem,
     getAuctionItems, 
     ALIASES
 };

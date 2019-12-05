@@ -12,7 +12,7 @@ Given(/^an auction with one item$/, () => {
     AuctionBuddyApi.createAuction().then(res => {
         auctionId = res.headers['location'].split('/').pop();
         AuctionBuddyApi.addAuctionItem({auctionId, name: ITEM_NAME, donor: 'billy' });
-    })
+    });
 });
 
 When(/^I remove an item from the auction$/, () => {

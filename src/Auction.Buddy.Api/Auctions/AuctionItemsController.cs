@@ -51,5 +51,24 @@ namespace Auction.Buddy.Api.Auctions
             await _commandBus.ExecuteAsync(command);
             return NoContent();
         }
+
+        [HttpPut("{itemName}")]
+        public async Task<IActionResult> UpdateItem(
+            [FromRoute] string auctionId, 
+            [FromRoute] string itemName,
+            [FromBody] UpdateAuctionItemViewModel viewModel)
+        {
+            var id = IdentityBase.FromExistingId<AuctionId>(auctionId);
+            var command = new UpdateAuctionItemCommand(
+                id,
+                itemName,
+                viewModel.NewName,
+                viewModel.NewDonor,
+                viewModel.NewDescription,
+                viewModel.NewQuantity);
+
+            await _commandBus.ExecuteAsync(command);
+            return NoContent();
+        }
     }
 }
