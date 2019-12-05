@@ -61,7 +61,8 @@ stages:
             workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Api
             
           - script: ./deploy-infrastructure.sh
-            workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Infrastructure
+            displayName: Deploy Infrastructure
+            workingDirectory: $(Build.SourcesDirectory)/infrastructure/Auction.Buddy.Infrastructure
             env:
               TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
               TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
