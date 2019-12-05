@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.12.7/terraform_0.12.7_linux_amd64.zip"
+TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.12.17/terraform_0.12.17_linux_amd64.zip"
 
 sudo apt-get update
 
