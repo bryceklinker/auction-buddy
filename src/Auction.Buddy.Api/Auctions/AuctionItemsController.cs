@@ -42,5 +42,14 @@ namespace Auction.Buddy.Api.Auctions
             var viewModel = await _queryBus.ExecuteAsync<GetAuctionItemsListQuery, ListViewModel<AuctionItemListItemViewModel>>(query);
             return Ok(viewModel);
         }
+
+        [HttpDelete("{itemName}")]
+        public async Task<IActionResult> RemoveItem([FromRoute] string auctionId, [FromRoute] string itemName)
+        {
+            var id = IdentityBase.FromExistingId<AuctionId>(auctionId);
+            var command = new RemoveAuctionItemCommand(id, itemName);
+            await _commandBus.ExecuteAsync(command);
+            return NoContent();
+        }
     }
 }

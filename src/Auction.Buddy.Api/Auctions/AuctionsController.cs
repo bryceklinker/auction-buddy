@@ -1,5 +1,4 @@
 using System;
-using System.Security.Permissions;
 using System.Threading.Tasks;
 using Auction.Buddy.Core.Auctions;
 using Auction.Buddy.Core.Auctions.Commands;
