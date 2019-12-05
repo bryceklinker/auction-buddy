@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/bryceklinker/Harvest%20Home/_apis/build/status/bryceklinker.auction-buddy?branchName=master)](https://dev.azure.com/bryceklinker/Harvest%20Home/_build/latest?definitionId=6&branchName=master)
+
 # Generating Migrations
 
 ## Event Persistence
