@@ -47,9 +47,9 @@ stages:
           vmImage: 'ubuntu-18.04'
         steps:
           - task: UseDotNet@2
-              inputs:
-                packageType: 'sdk'
-                useGlobalJson: true
+            inputs:
+              packageType: 'sdk'
+              useGlobalJson: true
             
           - script: dotnet restore
             displayName: Restore NuGet Packages
