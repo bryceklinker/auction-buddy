@@ -43,6 +43,8 @@ stages:
     jobs:
       - job: deploy
         displayName: Deploy
+        variables:
+          group: auction-buddy-terraform
         pool:
           vmImage: 'ubuntu-18.04'
         steps:
