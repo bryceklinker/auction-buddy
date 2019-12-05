@@ -60,7 +60,7 @@ stages:
             displayName: Publish Auction Buddy Api
             workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Api
             
-          - script: ./deploy-infrastructure.sh
+          - bash: ./deploy-infrastructure.sh
             displayName: Deploy Infrastructure
             workingDirectory: $(Build.SourcesDirectory)/infrastructure/Auction.Buddy.Infrastructure
             env:
