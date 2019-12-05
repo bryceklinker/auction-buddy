@@ -8,6 +8,9 @@ stages:
         pool:
           vmImage: 'macOS-10.14'
         steps:
+          - script: $(Build.SourcesDirectory)/osx-install-dotnet.sh
+            displayName: Install .NET Core 3.1 
+            
           - script: dotnet restore
             displayName: Restore NuGet Packages
 
@@ -39,8 +42,11 @@ stages:
       - job: deploy
         displayName: Deploy
         pool:
-          vmImage: 'ubuntu-16.04'
+          vmImage: 'ubuntu-18.04'
         steps:
+          - script: $(Build.SourcesDirectory)/ubuntu-install-dotnet.sh
+            displayName: Install .NET Core 3.1
+            
           - script: dotnet restore
             displayName: Restore NuGet Packages
 
