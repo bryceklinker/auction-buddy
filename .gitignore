@@ -332,6 +332,9 @@ ASALocalRun/
 # Mac
 **/.DS_Store
 
+# Terraform
+.terraform/
+
 dist/
 wwwroot/
 **/appsettings.Development.json
