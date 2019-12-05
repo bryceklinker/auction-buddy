@@ -1,6 +1,6 @@
 name: $(Build.BuildId)
 variables:
-  group: auction-buddy-terraform
+- group: auction-buddy-terraform
 stages:
   - stage: build_and_test
     displayName: Build and Test
