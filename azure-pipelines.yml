@@ -59,3 +59,11 @@ stages:
           - script: dotnet publish --configuration Release --output $(Build.ArtifactStagingDirectory)/auciton-buddy
             displayName: Publish Auction Buddy Api
             workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Api
+            
+          - script: ./deploy-infrastructure.sh
+            workingDirectory: $(Build.SourcesDirectory)/src/Auction.Buddy.Infrastructure
+            env:
+              TF_VAR_ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+              TF_VAR_ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+              TF_VAR_ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+              TF_VAR_ARM_TENANT_ID: $(ARM_TENANT_ID)
