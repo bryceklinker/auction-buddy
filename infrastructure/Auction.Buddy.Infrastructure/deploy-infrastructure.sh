@@ -16,6 +16,11 @@ sudo mv terraform /usr/local/bin/
 
 pushd ./prod
 
+echo "Client ID: ${ARM_CLIENT_ID}"
+echo "Client Secret: ${ARM_CLIENT_SECRET}"
+echo "Subscription ID: ${ARM_SUBSCRIPTION_ID}"
+echo "Tenant ID: ${ARM_TENANT_ID}"
+
 terraform init
 terraform plan -out=./tfplan.plan
 
