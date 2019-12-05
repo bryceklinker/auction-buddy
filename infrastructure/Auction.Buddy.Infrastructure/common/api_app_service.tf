@@ -17,7 +17,7 @@ resource "azurerm_app_service" "api_service" {
   name = local.app_service_name
   resource_group_name = local.resource_group_name
   
-  app_settings {
+  app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY = azurerm_application_insights.insights.instrumentation_key
   }
   
@@ -26,8 +26,8 @@ resource "azurerm_app_service" "api_service" {
     websockets_enabled = true
     
     cors {
-      allowed_origins = "*"
-      support_credentials = "*"
+      allowed_origins = ["*"]
+      support_credentials = true
     }
   }
 
