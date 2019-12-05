@@ -29,6 +29,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{CDCD2B16-7216-49A3-8C16-E1E90B5E9984}"
 ProjectSection(SolutionItems) = preProject
 	ef-dependency.xml = ef-dependency.xml
+	azure-pipelines.yml = azure-pipelines.yml
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{46F473DD-6F09-464B-B997-78868AFE2FB8}"
