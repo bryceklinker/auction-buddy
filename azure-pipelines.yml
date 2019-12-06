@@ -36,12 +36,12 @@ stages:
           - script: dotnet test --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults
             displayName: Run Dotnet Unit Tests
           
-          - script: yarn test
+          - script: yarn test --reporter junit --reporter-options "$(Build.ArtifactStagingDirectory)/TestResults/acceptance.xml"
             displayName: Run Acceptance Tests
             workingDirectory: $(Build.SourcesDirectory)/tests/Auction.Buddy.Acceptance
           
           - task: PublishTestResults@2
-            displayName: Publish Test Results
+            displayName: Publish Unit Test Results
             inputs:
               testResultsFormat: VSTest
               testResultsFiles: '**/*.trx' 
@@ -49,6 +49,15 @@ stages:
               mergeTestResults: true
               failTaskOnFailedTests: true
 
+          - task: PublishTestResults@2
+              displayName: Publish Acceptance Test Results
+              inputs:
+                testResultsFormat: JUnit
+                testResultsFiles: '**/*.xml'
+                searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
+                mergeTestResults: true
+                failTaskOnFailedTests: true
+          
   - stage: deploy_app
     displayName: Deploy Auction Buddy
     jobs:
