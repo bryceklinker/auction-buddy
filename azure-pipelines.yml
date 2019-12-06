@@ -33,7 +33,7 @@ stages:
           - script: dotnet dev-certs https --trust
             displayName: Trust Dev Certificates
 
-          - script: dotnet test --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults
+          - script: dotnet test --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults --collect:"XPlat Code Coverage"
             displayName: Run Dotnet Unit Tests
           
           - script: yarn test
@@ -48,6 +48,11 @@ stages:
               searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
               mergeTestResults: true
               failTaskOnFailedTests: true
+
+          - task: PublishCodeCoverageResults@1
+            inputs:
+              codeCoverageTool: 'Cobertura'
+              summaryFileLocation: $(Build.ArtifactStagingDirectory)/TestResults/**/coverage.cobertura.xml
 
           - task: PublishTestResults@2
             displayName: Publish Acceptance Test Results
