@@ -1,3 +1,7 @@
 {
-  "testFiles": "**/*.{feature,features}"
+  "testFiles": "**/*.{feature,features}",
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "test-results/test-results-[hash].xml"
+  }
 }

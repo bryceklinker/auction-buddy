@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "preapi:build": "rimraf ./dist",
+    "preapi:build": "rimraf ./dist ./test-results ./TestResults",
     "api:build": "cd ../../src/Auction.Buddy.Api && dotnet publish --configuration Release --output ../../tests/Auction.Buddy.Acceptance/dist/api",
     "api:start": "cd ./dist/api && cross-env ASPNETCORE_ENVIRONMENT=Acceptance dotnet Auction.Buddy.Api.dll || true",
     "api:stop": "kill -9 $(lsof -t -i:5001 -sTCP:LISTEN) || true",

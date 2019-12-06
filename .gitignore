@@ -340,5 +340,6 @@ wwwroot/
 **/appsettings.Development.json
 screenshots/
 videos/
+**/test-results/
 
 *.db

@@ -36,7 +36,7 @@ stages:
           - script: dotnet test --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults
             displayName: Run Dotnet Unit Tests
           
-          - script: yarn test --reporter junit --reporter-options "$(Build.ArtifactStagingDirectory)/TestResults/acceptance.xml"
+          - script: yarn test
             displayName: Run Acceptance Tests
             workingDirectory: $(Build.SourcesDirectory)/tests/Auction.Buddy.Acceptance
           
@@ -45,7 +45,7 @@ stages:
             inputs:
               testResultsFormat: VSTest
               testResultsFiles: '**/*.trx' 
-              searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
+              searchFolder: $(Build.SourcesDirectory)/tests/Auction.Buddy.Acceptance/test-results
               mergeTestResults: true
               failTaskOnFailedTests: true
 
