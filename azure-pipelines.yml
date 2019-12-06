@@ -45,7 +45,7 @@ stages:
             inputs:
               testResultsFormat: VSTest
               testResultsFiles: '**/*.trx' 
-              searchFolder: $(Build.SourcesDirectory)/tests/Auction.Buddy.Acceptance/test-results
+              searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
               mergeTestResults: true
               failTaskOnFailedTests: true
 
@@ -54,7 +54,7 @@ stages:
             inputs:
               testResultsFormat: JUnit
               testResultsFiles: '**/*.xml'
-              searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
+              searchFolder: $(Build.SourcesDirectory)/tests/Auction.Buddy.Acceptance/test-results
               mergeTestResults: true
               failTaskOnFailedTests: true
           
