@@ -50,13 +50,13 @@ stages:
               failTaskOnFailedTests: true
 
           - task: PublishTestResults@2
-              displayName: Publish Acceptance Test Results
-              inputs:
-                testResultsFormat: JUnit
-                testResultsFiles: '**/*.xml'
-                searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
-                mergeTestResults: true
-                failTaskOnFailedTests: true
+            displayName: Publish Acceptance Test Results
+            inputs:
+              testResultsFormat: JUnit
+              testResultsFiles: '**/*.xml'
+              searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
+              mergeTestResults: true
+              failTaskOnFailedTests: true
           
   - stage: deploy_app
     displayName: Deploy Auction Buddy
