@@ -33,12 +33,21 @@ stages:
           - script: dotnet dev-certs https --trust
             displayName: Trust Dev Certificates
 
-          - script: dotnet test
+          - script: dotnet test --logger trx --results-directory $(Build.ArtifactStagingDirectory)/TestResults
             displayName: Run Dotnet Unit Tests
           
           - script: yarn test
             displayName: Run Acceptance Tests
             workingDirectory: $(Build.SourcesDirectory)/tests/Auction.Buddy.Acceptance
+          
+          - task: PublishTestResults@2
+            displayName: Publish Test Results
+            inputs:
+              testResultsFormat: VSTest
+              testResultsFiles: '**/*.trx' 
+              searchFolder: $(Build.ArtifactStagingDirectory)/TestResults
+              mergeTestResults: true
+              failTaskOnFailedTests: true
 
   - stage: deploy_app
     displayName: Deploy Auction Buddy
