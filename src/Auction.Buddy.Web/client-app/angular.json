@@ -112,6 +112,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "auction-buddy-web"
+    }
+  },
+  "defaultProject": "auction-buddy-web",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

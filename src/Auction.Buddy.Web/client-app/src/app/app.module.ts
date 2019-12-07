@@ -12,6 +12,7 @@ import { AppEffects } from './app.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EntityDataModule } from '@ngrx/data';
 import { entityConfig } from './entity-metadata';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { entityConfig } from './entity-metadata';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     EffectsModule.forRoot([AppEffects]),
     StoreRouterConnectingModule.forRoot(),
-    EntityDataModule.forRoot(entityConfig)
+    EntityDataModule.forRoot(entityConfig),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
