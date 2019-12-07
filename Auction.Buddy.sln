@@ -27,16 +27,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Buddy.Persistence", "src\Auction.Buddy.Persistence\Auction.Buddy.Persistence.csproj", "{F637141C-A88F-485E-AEEF-2E3DE854256E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{CDCD2B16-7216-49A3-8C16-E1E90B5E9984}"
-ProjectSection(SolutionItems) = preProject
-	ef-dependency.xml = ef-dependency.xml
-	azure-pipelines.yml = azure-pipelines.yml
-	global.json = global.json
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		ef-dependency.xml = ef-dependency.xml
+		azure-pipelines.yml = azure-pipelines.yml
+		global.json = global.json
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{46F473DD-6F09-464B-B997-78868AFE2FB8}"
-ProjectSection(SolutionItems) = preProject
-	readme.md = readme.md
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Buddy.Web", "src\Auction.Buddy.Web\Auction.Buddy.Web.csproj", "{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +125,18 @@ Global
 		{F637141C-A88F-485E-AEEF-2E3DE854256E}.Release|x64.Build.0 = Release|Any CPU
 		{F637141C-A88F-485E-AEEF-2E3DE854256E}.Release|x86.ActiveCfg = Release|Any CPU
 		{F637141C-A88F-485E-AEEF-2E3DE854256E}.Release|x86.Build.0 = Release|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Debug|x64.Build.0 = Debug|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Debug|x86.Build.0 = Debug|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Release|x64.ActiveCfg = Release|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Release|x64.Build.0 = Release|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6B9E2CB5-5614-4029-ACEA-C8974ACA79CD} = {23AE586E-C2DC-4C6B-98CF-9FFF8BF58EC1}
@@ -131,5 +145,6 @@ Global
 		{2DC1F5C8-6302-4287-B970-EAF9545BD329} = {19263CB8-B4AB-4898-8F59-C4A90F825F59}
 		{8BD6A16C-4B38-4708-A27A-CD8A0953510C} = {56343812-E284-48DE-94A6-638B9C766D1C}
 		{F637141C-A88F-485E-AEEF-2E3DE854256E} = {23AE586E-C2DC-4C6B-98CF-9FFF8BF58EC1}
+		{EACFCC69-3FC1-410B-BAFC-9B6D96AA5B0B} = {23AE586E-C2DC-4C6B-98CF-9FFF8BF58EC1}
 	EndGlobalSection
 EndGlobal
