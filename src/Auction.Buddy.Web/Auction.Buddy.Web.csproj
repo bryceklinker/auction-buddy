@@ -8,8 +8,9 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="client-app\src\app\auctions\reducers" />
-  </ItemGroup>
-
+  <Target Name="AngularPublish" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
+    <Message Text="* * * * * * Building Angular App * * * * * *" Importance="high" />
+    <Exec Command="yarn build" WorkingDirectory="./client-app" />
+    <Message Text="* * * * * * End Angular Build App * * * * * *" Importance="high" />
+  </Target>
 </Project>

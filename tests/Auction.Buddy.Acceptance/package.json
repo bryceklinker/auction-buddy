@@ -4,16 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "preapi:build": "rimraf ./dist ./test-results ./TestResults",
+    "clean": "rimraf ./dist ./test-results ./TestResults",
     "api:build": "cd ../../src/Auction.Buddy.Api && dotnet publish --configuration Release --output ../../tests/Auction.Buddy.Acceptance/dist/api",
-    "api:start": "cd ./dist/api && cross-env ASPNETCORE_ENVIRONMENT=Acceptance dotnet Auction.Buddy.Api.dll || true",
+    "api:start": "cd ./dist/api && cross-env ASPNETCORE_ENVIRONMENT=Acceptance ASPNETCORE_URLS=\"https://localhost:5001\" dotnet Auction.Buddy.Api.dll || true",
     "api:stop": "kill -9 $(lsof -t -i:5001 -sTCP:LISTEN) || true",
     "api:wait": "wait-on tcp:5001",
+    "web:build": "cd ../../src/Auction.Buddy.Web && dotnet publish --configuration Release --output ../../tests/Auction.Buddy.Acceptance/dist/web",
+    "web:start": "cd ./dist/web && cross-env ASPNETCORE_ENVIRONMENT=Acceptance ASPNETCORE_URLS=\"https://localhost:5003\" dotnet Auction.Buddy.Web.dll || true",
+    "web:stop": "kill -9 $(lsof -t -i:5003 -sTCP:LISTEN) || true",
+    "web:wait": "wait-on tcp:5003",
+    "preapp:build": "yarn clean",
+    "app:build": "yarn api:build && yarn web:build",
+    "app:start": "concurrently \"yarn api:start\" \"yarn web:start\" ",
+    "app:stop": "yarn api:stop && yarn web:stop",
+    "app:wait": "yarn api:wait && yarn web:wait",
     "cypress:run": "cypress run",
     "pretest:dev": "yarn api:build",
     "test:dev": "cypress open",
     "pretest": "yarn api:build",
-    "test": "concurrently \"yarn api:start\" \"yarn api:wait && yarn cypress:run && yarn api:stop || (yarn api:stop && false)\""
+    "test": "concurrently \"yarn app:start\" \"yarn app:wait && yarn cypress:run && yarn app:stop || (yarn app:stop && false)\""
   },
   "devDependencies": {
     "concurrently": "5.0.0",

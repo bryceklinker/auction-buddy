@@ -1,0 +1,17 @@
+<mat-toolbar>
+  <button mat-icon-button data-testId="toggle-sidenav" (click)="toggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <h1 class="mat-display-1">Harvest Home</h1>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav class="sidenav" data-testId="sidenav" [opened]="isSidenavOpen$ | async" (closed)="closeSidenav()">
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

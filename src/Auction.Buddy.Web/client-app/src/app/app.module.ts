@@ -1,40 +1,41 @@
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
-import { reducers, metaReducers } from './reducers';
+import { NgModule } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
-import { AppEffects } from './app.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EntityDataModule } from '@ngrx/data';
-import { entityConfig } from './entity-metadata';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AppRoutingModule } from './app-routing.module';
+import { environment } from '../environments/environment';
+import { entityConfig } from './entity-metadata';
+import { MaterialModule } from './material.module';
+import { rootReducers } from './root.reducer';
+import { SHELL_EFFECTS, SHELL_COMPONENTS, SHELL_ENTRY_COMPONENTS } from './shell';
+
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [...SHELL_COMPONENTS],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
+    StoreModule.forRoot(rootReducers, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true
       }
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    EffectsModule.forRoot([AppEffects]),
+    EffectsModule.forRoot([...SHELL_EFFECTS]),
     StoreRouterConnectingModule.forRoot(),
     EntityDataModule.forRoot(entityConfig),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MaterialModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [...SHELL_ENTRY_COMPONENTS]
 })
-export class AppModule { }
+export class AppModule {
+}
