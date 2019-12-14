@@ -30,9 +30,9 @@ jobs:
         working-directory: ./tests/Auction.Buddy.Acceptance
         
       - name: Install Web Node Packages
-          run: yarn
-          shell: bash
-          working-directory: ./src/Auction.Buddy.Web
+        run: yarn
+        shell: bash
+        working-directory: ./src/Auction.Buddy.Web
       
       - name: Install DotNet Dev Certificates
         run: dotnet dev-certs https --trust
