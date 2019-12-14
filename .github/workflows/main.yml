@@ -1,0 +1,75 @@
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup DotNet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.100'
+          
+      - name: Install Node 10
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      
+      - name: Restore NuGet Packages
+        run: dotnet restore
+        shell: bash
+        
+      - name: Install Yarn
+        run: npm install yarn --global
+        shell: bash
+        
+      - name: Install Node Packages
+        run: yarn
+        shell: bash
+        working-directory: ./tests/Auction.Buddy.Acceptance
+      
+      - name: Install DotNet Dev Certificates
+        run: dotnet dev-certs https --trust
+        shell: bash
+        
+      - name: Run DotNet Unit Tests
+        run: dotnet test --logger trx --results-directory ../../TestResults --collect:"XPlat Code Coverage"
+        shell: bash
+        
+      - name: Run Acceptance Tests
+        run: yarn test
+        shell: bash
+        working-directory: ./tests/Auction.Buddy.Acceptance
+          
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@master
+
+      - name: Setup DotNet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.100' 
+
+      - name: Restore DotNet Packages
+        run: dotnet restore
+        shell: bash
+
+      - name: Publish DotNet Application
+        run: dotnet publish --configuration Release --output ../../auciton-buddy-api
+        shell: bash
+        working-directory: ./src/Auction.Buddy.Api
+      
+      - name: Deploy Infrastructure
+        run: ./deploy-infrastructure.sh
+        shell: bash
+        working-directory: ./infrastructure/Auction.Buddy.Infrastructure
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}

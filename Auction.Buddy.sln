@@ -31,6 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{CDCD2B
 		ef-dependency.xml = ef-dependency.xml
 		azure-pipelines.yml = azure-pipelines.yml
 		global.json = global.json
+		.github\workflows\main.yml = .github\workflows\main.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docs", ".docs", "{46F473DD-6F09-464B-B997-78868AFE2FB8}"
