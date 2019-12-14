@@ -24,10 +24,15 @@ jobs:
         run: npm install yarn --global
         shell: bash
         
-      - name: Install Node Packages
+      - name: Install Acceptance Test Node Packages
         run: yarn
         shell: bash
         working-directory: ./tests/Auction.Buddy.Acceptance
+        
+      - name: Install Web Node Packages
+          run: yarn
+          shell: bash
+          working-directory: ./src/Auction.Buddy.Web
       
       - name: Install DotNet Dev Certificates
         run: dotnet dev-certs https --trust
