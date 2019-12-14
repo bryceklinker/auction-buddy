@@ -21,7 +21,7 @@
     "cypress:run": "cypress run",
     "pretest:dev": "yarn api:build",
     "test:dev": "cypress open",
-    "pretest": "yarn api:build",
+    "pretest": "yarn app:build",
     "test": "concurrently \"yarn app:start\" \"yarn app:wait && yarn cypress:run && yarn app:stop || (yarn app:stop && false)\""
   },
   "devDependencies": {
